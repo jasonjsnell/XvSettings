@@ -17,6 +17,7 @@ open class XvDefaultsAccessors {
     
     public init(){}
     
+    
     //MARK: - CONSTANTS -
     
     fileprivate let EMPTY_STRING:String = "empty_string"
