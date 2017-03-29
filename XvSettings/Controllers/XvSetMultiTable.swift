@@ -448,10 +448,6 @@ open class XvSetMultiTable: XvSetTable {
             //set cell data's default value to uiswitch value
             toggleCellData.defaultValue = fromSwitch.isOn
             
-            //TODO: DM or notification?
-            
-            
-            print("MUTLI TABLE set default notifiy")
             Utils.postNotification(
                 name: XvSetConstants.kSettingsPanelDefaultChanged,
                 userInfo: ["key" : toggleCellData.key, "value" : fromSwitch.isOn as Any])
@@ -474,18 +470,20 @@ open class XvSetMultiTable: XvSetTable {
             //grab index path from sender (SetCell's data obj)
             if let indexPath:IndexPath = getIndexPath(fromSwitch: fromSwitch) {
                 
-                //grab targets array
-                if let visibilityTargetSections:[Int] = dataSource!.sections[indexPath.section].visibilityTargets {
+                print("xvsetmultitable indexpath", indexPath)
+                
+                //grab targets array, if not nil
+                if let visibilityTargets:[Int] = dataSource!.sections[indexPath.section].cells[indexPath.row].visibilityTargets {
                     
                     //... then cycle through them and change their visibility bool in the data
-                    for section in visibilityTargetSections {
+                    for target in visibilityTargets {
                         
-                        dataSource!.sections[section].isVisible = fromSwitch.isOn
+                        dataSource!.sections[target].isVisible = fromSwitch.isOn
                         
                     }
                     
                     //create index set from targets
-                    let indexSet:IndexSet = IndexSet(visibilityTargetSections)
+                    let indexSet:IndexSet = IndexSet(visibilityTargets)
                     
                     //reload with anim
                     tableView.reloadSections(indexSet, with: .fade)

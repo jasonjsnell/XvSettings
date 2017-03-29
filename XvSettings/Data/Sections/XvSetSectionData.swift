@@ -25,7 +25,7 @@ public class XvSetSectionData {
     
     //visibility
     internal var isVisible:Bool = true
-    internal var visibilityTargets:[Int]?
+    
     
     public init(
         
@@ -35,8 +35,7 @@ public class XvSetSectionData {
         footerLink:String?,
         footerHeight:CGFloat,
         cells:[XvSetCellData],
-        isVisible:Bool,
-        visibilityTargets:[Int]?
+        isVisible:Bool
         ){
     
         
@@ -47,7 +46,6 @@ public class XvSetSectionData {
         self.footerHeight = footerHeight
         self.cells = cells
         self.isVisible = isVisible
-        self.visibilityTargets = visibilityTargets
         
     }
     

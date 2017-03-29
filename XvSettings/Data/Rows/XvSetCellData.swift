@@ -23,6 +23,8 @@ public class XvSetCellData {
     //position
     internal var indexPath:IndexPath?
     
+    internal var visibilityTargets:[Int]?
+    
     //defaults
     internal var defaultValue:Any?
     
@@ -44,6 +46,11 @@ public class XvSetCellData {
         self.displayType = displayType
         self.defaultValue = defaultValue
 
+    }
+    
+    //visibility targets are rare, so it has its own setter
+    public func set(visibilityTargets:[Int]){
+        self.visibilityTargets = visibilityTargets
     }
             
 }
