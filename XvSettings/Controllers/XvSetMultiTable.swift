@@ -470,8 +470,6 @@ open class XvSetMultiTable: XvSetTable {
             //grab index path from sender (SetCell's data obj)
             if let indexPath:IndexPath = getIndexPath(fromSwitch: fromSwitch) {
                 
-                print("xvsetmultitable indexpath", indexPath)
-                
                 //grab targets array, if not nil
                 if let visibilityTargets:[Int] = dataSource!.sections[indexPath.section].cells[indexPath.row].visibilityTargets {
                     

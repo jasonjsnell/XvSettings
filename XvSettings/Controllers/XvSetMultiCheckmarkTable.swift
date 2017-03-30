@@ -80,9 +80,6 @@ public class XvSetMultiCheckmarkTable: XvSetCheckmarkTable {
             print("SETTINGS: Select row", (indexPath as NSIndexPath).row)
         }
         
-        //turn off all checkmarks
-        //self.resetCheckmarks()
-        
         //confirm cell is a checkmark cell
         if let cell:XvSetCheckmarkCell = tableView.cellForRow(at: indexPath) as? XvSetCheckmarkCell {
             
