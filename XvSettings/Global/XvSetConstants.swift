@@ -1,6 +1,4 @@
 //
-//  DefaultDataTypes.swift
-//  RF Settings
 //
 //  Created by Jason Snell on 10/23/16.
 //  Copyright © 2016 Jason J. Snell. All rights reserved.
