@@ -24,12 +24,15 @@ public class XvSetConstants {
     public static let TYPE_NONE:String = "none"
     
     //cells types
+    public static let DISPLAY_TYPE_NONE:String = "displayTypeNone"
     public static let DISPLAY_TYPE_BUTTON:String = "displayTypeButton"
+    public static let DISPLAY_TYPE_CHECKMARK:String = "displayTypeCheckmark"
     public static let DISPLAY_TYPE_SWITCH:String = "displayTypeSwitch"
     public static let DISPLAY_TYPE_DISCLOSURE:String = "displayTypeDisclosure"
     public static let DISPLAY_TYPE_DISCLOSURE_MULTI:String = "displayTypeDisclosureMulti"
-    public static let DISPLAY_TYPE_CHECKMARK:String = "displayTypeCheckmark"
-    public static let DISPLAY_TYPE_NONE:String = "displayTypeNone"
+    public static let DISPLAY_TYPE_MULTI_TABLE:String = "displayTypeMultiTable"
+    
+    
     
     //footer types
     public static let FOOTER_TYPE_NORMAL:String = "footerNormal"
