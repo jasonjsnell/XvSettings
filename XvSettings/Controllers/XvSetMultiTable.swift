@@ -18,7 +18,8 @@ open class XvSetMultiTable: XvSetTable {
     //MARK:- VARS
     internal var sectionFooterViews:[SetFooter?]?
     
-    //MARK:- OPEN API -
+    //MARK: - OPEN API
+    //MARK:   BUILD -
     
     override open func viewDidLoad() {
         
@@ -41,8 +42,7 @@ open class XvSetMultiTable: XvSetTable {
         
     }
     
-    //MARK:-
-    //MARK:ROWS
+    //MARK:- ROWS -
     //number of rows in each section
     override open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -92,8 +92,6 @@ open class XvSetMultiTable: XvSetTable {
         
     }
     
-    
-    //MARK: build rows
     override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if (dataSource != nil){
@@ -105,7 +103,7 @@ open class XvSetMultiTable: XvSetTable {
             //example: toggle switch requires it to set isSectionVisible bool in data class
             cellDataObj.indexPath = indexPath
             
-            //toggle switch
+            
             if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_SWITCH){
                 
                 //create toggle cell
@@ -130,16 +128,28 @@ open class XvSetMultiTable: XvSetTable {
                     reuseIdentifier: cellDataObj.key,
                     data: cellDataObj)
                 
-                //disclosure - leads to subview
+                
+            } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_CHECKMARK){
+                
+                return XvSetCheckmarkCell(
+                    style: .default,
+                    reuseIdentifier: cellDataObj.key,
+                    data: cellDataObj as! XvSetCheckmarkCellData)
+                                
+                
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_DISCLOSURE){
+                
+                //disclosure - leads to subview
                 
                 return XvSetDisclosureCell(
                     style: .value1,
                     reuseIdentifier: cellDataObj.key,
                     data: cellDataObj as! XvSetDisclosureCellData)
                 
-                //disclosure multi - leads to subview where multi items can be selected
+                
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_DISCLOSURE_MULTI){
+                
+                //disclosure multi - leads to subview where multi items can be selected
                 
                 return XvSetDisclosureMultiCell(
                     style: .value1,
@@ -159,8 +169,7 @@ open class XvSetMultiTable: XvSetTable {
         
     }
     
-    //MARK:-
-    //MARK:HEADERS
+    //MARK:- HEADERS
     //title text and their heights in each section
     override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
@@ -211,8 +220,7 @@ open class XvSetMultiTable: XvSetTable {
         
     }
     
-    //MARK:-
-    //MARK:FOOTERS
+    //MARK:- FOOTERS
     //footer views and their heights in each section
     override open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
@@ -262,6 +270,136 @@ open class XvSetMultiTable: XvSetTable {
         }
         
     }
+
+    //MARK: - OPEN API
+    //MARK:   USER INPUT -
+    
+    //MARK: ROWS
+    
+    //called by SetMain
+    
+    // when user selects a row, do the error checking then call the more usable rowSelected funcs that are specific to each row type (a disclosure cell, a checkmark cell, a button cell, etc...)
+    
+    override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //is data valid?
+        if (dataSource != nil){
+            
+            let displayType:String = getDisplayType(dataSource:dataSource!, indexPath:indexPath)
+            
+            if (displayType == XvSetConstants.DISPLAY_TYPE_DISCLOSURE){
+                
+                //MARK: Disclosure cells
+                
+                if let cell:XvSetDisclosureCell = getDisclosureCell(indexPath: indexPath){
+                    
+                    //get the key
+                    if let key:String = getKey(fromCell: cell) {
+                        
+                        disclosureRowSelected(cell: cell, key: key)
+                        
+                    } else {
+                        print("SETTINGS: Disclosure cell data key could not be found")
+                    }
+                    
+                    
+                } else {
+                    print("SETTINGS: This index does not have a valid disclosure cell")
+                }
+                
+            } else if (displayType == XvSetConstants.DISPLAY_TYPE_DISCLOSURE_MULTI){
+                
+                //MARK: Disclosure multi cells
+                
+                if let cell:XvSetDisclosureMultiCell = getDisclosureMultiCell(indexPath: indexPath){
+                    
+                    if let key:String = getKey(fromCell: cell) {
+                        
+                        multiDisclosureRowSelected(cell: cell, key: key)
+                        
+                    } else {
+                        print("SETTINGS: Multi disclosure cell data key could not be found")
+                    }
+                    
+                } else {
+                    print("SETTINGS: This index does not have a valid multi disclosure cell")
+                }
+                
+            } else if (displayType == XvSetConstants.DISPLAY_TYPE_CHECKMARK){
+                
+                //MARK: Checkmark cells
+                
+                if let cell:XvSetCheckmarkCell = getCheckmarkCell(indexPath: indexPath) {
+                    
+                    if let key:String = getKey(fromCell: cell) {
+                        
+                        //deselect row so the grey background flashes
+                        tableView.deselectRow(at: indexPath, animated: true)
+                        
+                        
+                        
+                        _checkmarkRowSelected(cell: cell, section: indexPath.section)
+                        
+                        checkmarkRowSelected(cell: cell, key: key)
+                        
+                        
+                        
+                    } else {
+                        print("SETTINGS: Checkmark cell data key could not be found")
+                    }
+                    
+                } else {
+                    print("SETTINGS: This index does not have a valid checkmark cell")
+                }
+                
+            } else if (displayType == XvSetConstants.DISPLAY_TYPE_BUTTON){
+                
+                //MARK: Button cells
+                
+                if let cell:XvSetButtonCell = getButtonCell(indexPath: indexPath){
+                    
+                    if let key:String = getKey(fromCell: cell) {
+                        
+                        buttonRowSelected(cell: cell, key: key)
+                        
+                        //deselect row so the grey background flashes
+                        tableView.deselectRow(at: indexPath, animated: true)
+                        
+                    } else {
+                        print("SETTINGS: Button cell data key could not be found")
+                    }
+                    
+                } else {
+                    print("SETTINGS: This index does not have a valid button cell")
+                }
+                
+            } else {
+                print("SETTINGS: Error connecting to data source for SetMain didSelectRowAt")
+            }
+            
+        }
+        
+    }
+    
+    //override by app settings classes, which check for app specific keys and execute app specific commands
+    open func disclosureRowSelected(cell:XvSetDisclosureCell, key:String){
+        
+    }
+    
+    open func multiDisclosureRowSelected(cell:XvSetDisclosureMultiCell, key:String){
+        
+    }
+    
+    open func checkmarkRowSelected(cell:XvSetCheckmarkCell, key:String) {
+        
+        
+        
+        
+    }
+    
+    open func buttonRowSelected(cell:XvSetButtonCell, key:String) {
+        
+    }
     
     //MARK: - TOGGLE SWITCH
     
@@ -270,7 +408,31 @@ open class XvSetMultiTable: XvSetTable {
         updateValues(fromSwitch: sender)
         refreshTableDisplay(fromSwitch: sender)
         
+        //is data valid?
+        if (dataSource != nil){
+            
+            if let key:String = getToggleCellKey(fromSwitch: sender) {
+                
+                toggleSelected(isOn: sender.isOn, key: key)
+                
+            } else {
+                print("SETTINGS: Error getting toggle cell key SetMain toggleSwitchChanged")
+            }
+            
+        } else {
+            
+            print("SETTINGS: Error connecting to data source for SetMain toggleSwitchChanged")
+            
+        }
+        
     }
+    
+    //override in app 
+    open func toggleSelected(isOn:Bool, key:String){
+        
+    }
+
+    
     
     
     //MARK: - PUBLIC API
@@ -291,13 +453,35 @@ open class XvSetMultiTable: XvSetTable {
         }
     }
     
-    //MARK: - ROW TAPS
-    //called by SetMain
     
+
+    //MARK: Row / cell getters
     public func getDisplayType(dataSource:XvSetMultiData, indexPath:IndexPath) -> String {
         
         return dataSource.sections[indexPath.section].cells[indexPath.row].displayType
     }
+    
+    fileprivate func getCells(inSection:Int) -> [UITableViewCell]? {
+        
+        var cells:[UITableViewCell] = []
+        for row in 0..<tableView.numberOfRows(inSection: inSection) {
+            
+            let newIndexPath:IndexPath = IndexPath(row: row, section: inSection)
+            if let cell:UITableViewCell = tableView.cellForRow(at: newIndexPath){
+                cells.append(cell)
+            }
+            
+        }
+        
+        if (cells.count > 0){
+            return cells
+        } else {
+            print("SETTINGS: No cells in section during getCells")
+            return nil
+        }
+        
+    }
+
     
     public func getDisclosureCell(indexPath: IndexPath) -> XvSetDisclosureCell? {
         
@@ -325,6 +509,46 @@ open class XvSetMultiTable: XvSetTable {
         
     }
     
+    public func getCheckmarkCell(indexPath: IndexPath) -> XvSetCheckmarkCell? {
+        
+        if let cell:XvSetCheckmarkCell = tableView.cellForRow(at: indexPath) as? XvSetCheckmarkCell {
+            
+            return cell
+            
+        } else {
+            print("SETTINGS: Error finding SetMultiTable SetCheckmarkCell")
+            return nil
+        }
+        
+        
+    }
+    
+    fileprivate func getCheckmarkCells(inSection:Int) -> [XvSetCheckmarkCell]? {
+        
+        if let cells:[UITableViewCell] = getCells(inSection: inSection) {
+            
+            var checkmarkCells:[XvSetCheckmarkCell] = []
+            
+            for cell in cells {
+                
+                if let checkmarkCell:XvSetCheckmarkCell = cell as? XvSetCheckmarkCell {
+                    checkmarkCells.append(checkmarkCell)
+                }
+            }
+            
+            if (checkmarkCells.count > 0){
+                return checkmarkCells
+            } else {
+                print("SETTINGS: Cell array contains no checkmark cells during getCheckmarkCells")
+                return nil
+            }
+            
+        } else {
+            return nil
+        }
+        
+    }
+    
     public func getButtonCell(indexPath: IndexPath) -> XvSetButtonCell? {
         
         if let cell:XvSetButtonCell = tableView.cellForRow(at: indexPath) as? XvSetButtonCell {
@@ -339,7 +563,7 @@ open class XvSetMultiTable: XvSetTable {
         
     }
     
-    public func getKey(fromCell: XvSetCell) -> String{
+    public func getKey(fromCell: XvSetCell) -> String? {
         
         if let cellData:XvSetCellData = fromCell.data {
             
@@ -347,14 +571,14 @@ open class XvSetMultiTable: XvSetTable {
             
         } else {
             print("SETTINGS: Error accessing SetMultiTable data key")
-            return ""
+            return nil
         }
         
     }
 
     
     
-    //MARK: - INTERNAL - 
+    //MARK: - INTERNAL -
     
     //build out footers
     internal func buildFooters(){
@@ -437,7 +661,54 @@ open class XvSetMultiTable: XvSetTable {
     
     //MARK: - PRIVATE -
     
-    //MARK: toggle helper funcs
+   
+    //MARK: Checkmark
+    
+    fileprivate func _checkmarkRowSelected(cell: XvSetCheckmarkCell, section: Int) {
+        
+        if let data:XvSetCheckmarkCellData = cell.data as? XvSetCheckmarkCellData {
+            
+            //if not a multi cell, uncheck all others
+            if (!data.multi){
+                _turnOffCheckmarks(inSection: section)
+            }
+            
+            //turn this cell on in view and data
+            cell.accessoryType = .checkmark
+            data.selected = true
+            
+            Utils.postNotification(
+                name: XvSetConstants.kSettingsPanelDefaultChanged,
+                userInfo: ["key" : data.key, "value" : data.value as Any])
+            
+        } else {
+            print("SETTINGS: Checkmark cell data is invalid")
+        }
+        
+    }
+    
+    fileprivate func _turnOffCheckmarks(inSection:Int){
+        
+        if let checkmarkCells:[XvSetCheckmarkCell] = getCheckmarkCells(inSection: inSection) {
+            
+            for cell in checkmarkCells {
+                
+                cell.accessoryType = .none
+                
+                if let data:XvSetCheckmarkCellData = cell.data as? XvSetCheckmarkCellData {
+                    data.selected = false
+                } else {
+                    print("SETTINGS: No data available in checkmark cell")
+                }
+            }
+            
+        }
+        
+    }
+    
+    
+    
+    //MARK: Toggle
     
     //update toggle cell's default value and the correspond user default
     fileprivate func updateValues(fromSwitch:UISwitch){
@@ -552,6 +823,8 @@ open class XvSetMultiTable: XvSetTable {
     
     }
     
+    
+    //MARK: - DEINT
     deinit {
         sectionFooterViews = nil
     }

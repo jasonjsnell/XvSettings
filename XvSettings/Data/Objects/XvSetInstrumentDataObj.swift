@@ -10,19 +10,23 @@ import Foundation
 
 public class XvSetInstrumentDataObj:NSObject, NSCoding {
     
-    internal var name:String
-    internal var filename:String?
+    public var name:String
+    public var filename:String?
     
-    internal var volume:Float
+    public var volume:Float
     
-    internal var quantization:Int32
-    internal var loopLength:Int32
-    internal var measuresUntilFadeOut:Int32
-    internal var midiChannel:Int32
+    public var quantization:Int32
+    public var loopLength:Int32
+    public var measuresUntilFadeOut:Int32
+    public var midiChannel:Int32
     
-    internal var regenerateAtBeginningOfPatten:Bool
-    internal var pitchVariesEachLoop:Bool
-    internal var volumeLock:Bool
+    public var regenerateAtBeginningOfPatten:Bool
+    public var pitchVariesEachLoop:Bool
+    public var volumeLock:Bool
+    public var midiEnabled:Bool
+    public var audioEnabled:Bool
+    
+    public var midiDestinations:[Any]
     
     public init(
         name:String,
@@ -34,7 +38,10 @@ public class XvSetInstrumentDataObj:NSObject, NSCoding {
         midiChannel:Int32,
         regenerateAtBeginningOfPatten:Bool,
         pitchVariesEachLoop:Bool,
-        volumeLock:Bool){
+        volumeLock:Bool,
+        midiEnabled:Bool,
+        audioEnabled:Bool,
+        midiDestinations:[Any]){
         
         self.name = name
         self.filename = filename
@@ -46,6 +53,9 @@ public class XvSetInstrumentDataObj:NSObject, NSCoding {
         self.regenerateAtBeginningOfPatten = regenerateAtBeginningOfPatten
         self.pitchVariesEachLoop = pitchVariesEachLoop
         self.volumeLock = volumeLock
+        self.midiEnabled = midiEnabled
+        self.audioEnabled = audioEnabled
+        self.midiDestinations = midiDestinations
         
     }
     
@@ -68,6 +78,11 @@ public class XvSetInstrumentDataObj:NSObject, NSCoding {
         self.regenerateAtBeginningOfPatten = decoder.decodeBool(forKey: "regenerateAtBeginningOfPatten")
         self.pitchVariesEachLoop = decoder.decodeBool(forKey: "pitchVariesEachLoop")
         self.volumeLock = decoder.decodeBool(forKey: "volumeLock")
+        self.midiEnabled = decoder.decodeBool(forKey: "midiEnabled")
+        self.audioEnabled = decoder.decodeBool(forKey: "audioEnabled")
+        
+        //arrays
+        self.midiDestinations = decoder.decodeObject(forKey: "midiDestinations") as? [Any] ?? []
         
     }
     
@@ -90,6 +105,11 @@ public class XvSetInstrumentDataObj:NSObject, NSCoding {
         coder.encode(regenerateAtBeginningOfPatten, forKey: "regenerateAtBeginningOfPatten")
         coder.encode(pitchVariesEachLoop, forKey: "pitchVariesEachLoop")
         coder.encode(volumeLock, forKey: "volumeLock")
+        coder.encode(midiEnabled, forKey: "midiEnabled")
+        coder.encode(audioEnabled, forKey: "audioEnabled")
+        
+        //arrays
+        coder.encode(midiDestinations, forKey: "midiDestinations")
         
     }
 }

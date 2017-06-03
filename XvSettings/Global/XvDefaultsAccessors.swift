@@ -15,58 +15,7 @@ public let defaults:UserDefaults = UserDefaults.standard
 
 open class XvDefaultsAccessors {
     
-    public init(){
-    
-        let userDefaults:UserDefaults = UserDefaults.standard
-        
-        let instrObj1:XvSetInstrumentDataObj = XvSetInstrumentDataObj(name: "test name", filename: "testfilename", volume: 0.1, quantization: 8, loopLength: 1, measuresUntilFadeOut: 16, midiChannel: 5, regenerateAtBeginningOfPatten: true, pitchVariesEachLoop: false, volumeLock: false)
-        
-        let instrObj2:XvSetInstrumentDataObj = XvSetInstrumentDataObj(name: "test name2", filename: "testfilename2", volume: 0.2, quantization: 8, loopLength: 1, measuresUntilFadeOut: 16, midiChannel: 5, regenerateAtBeginningOfPatten: true, pitchVariesEachLoop: false, volumeLock: false)
-        
-        let kitObj:XvSetKitDataObj = XvSetKitDataObj(id: "testKit", name: "Test Kit", instrumentArray: [instrObj1, instrObj2])
-        
-        let akey:String = "testKey"
-        
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: [kitObj])
-        
-        userDefaults.set(encodedData, forKey: akey)
-        
-        if let data = UserDefaults.standard.data(forKey: akey),
-            let kitDataObjArray:[XvSetKitDataObj] = NSKeyedUnarchiver.unarchiveObject(with: data) as? [XvSetKitDataObj] {
-            
-            
-            for kitDataObj in kitDataObjArray {
-                print(kitDataObj.name)
-                print(kitDataObj.id)
-                let instrumentDataObjArr:[XvSetInstrumentDataObj] = kitDataObj.instrumentArray
-                
-                for instrumentDataObj in instrumentDataObjArr {
-                    
-                    print("INSTRUMENT")
-                    print(instrumentDataObj.name)
-                    print(instrumentDataObj.filename ?? "")
-                    
-                    print(instrumentDataObj.volume)
-                    
-                    print(instrumentDataObj.quantization)
-                    print(instrumentDataObj.loopLength)
-                    print(instrumentDataObj.measuresUntilFadeOut)
-                    print(instrumentDataObj.midiChannel)
-                    
-                    print(instrumentDataObj.regenerateAtBeginningOfPatten)
-                    print(instrumentDataObj.pitchVariesEachLoop)
-                    print(instrumentDataObj.volumeLock)
-                }
-            }
-        
-        } else {
-            print("There is an issue")
-        }
-
-        
-        
-        
-    }
+    public init(){}
     
     
     //MARK: - CONSTANTS -

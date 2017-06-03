@@ -16,16 +16,19 @@ public class XvSetCheckmarkCellData:XvSetCellData {
     
     internal var value:Any = ""
     internal var selected:Bool = false
+    internal var multi:Bool = true
     
     //MARK:-
     //MARK:INIT
     public init(
-        key:String,
-        value:Any,
-        selected:Bool,
-        label:String,
-        dataType:String,
-        displayType:String){
+        key:String,         // the key of the default. In disclosures, this is the key of the parent, disclosure cell
+        value:Any,          // the value that gets assign to the key, like the string "kitLake" to the default kSelectedKit
+        selected:Bool,      // is the checkmark on or off
+        multi:Bool,         // does selecting this checkmark unselect others of the same key?
+        label:String,       // the visual text in the cell
+        dataType:String,    // string / bool, etc...
+        displayType:String) // type = checkmark
+    {
         
         //the key in this class is the parent key, the key that these values assign to
         super.init(
@@ -36,12 +39,10 @@ public class XvSetCheckmarkCellData:XvSetCellData {
             defaultValue: nil
         )
         
-        
         self.value = value
         self.selected = selected
+        self.multi = multi
         
     }
-    
-
     
 }

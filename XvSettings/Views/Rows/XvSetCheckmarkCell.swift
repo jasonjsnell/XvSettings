@@ -8,7 +8,7 @@
 
 import UIKit
 
-class XvSetCheckmarkCell: XvSetCell {
+public class XvSetCheckmarkCell: XvSetCell {
     
     init(style: UITableViewCellStyle, reuseIdentifier: String?, data:XvSetCheckmarkCellData){
         
@@ -24,7 +24,7 @@ class XvSetCheckmarkCell: XvSetCell {
         
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
     

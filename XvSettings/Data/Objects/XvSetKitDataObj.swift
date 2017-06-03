@@ -10,9 +10,9 @@ import Foundation
 
 public class XvSetKitDataObj: NSObject, NSCoding {
     
-    internal var id:String
-    internal var name:String
-    internal var instrumentArray:[XvSetInstrumentDataObj]
+    public var id:String
+    public var name:String
+    public var instrumentArray:[XvSetInstrumentDataObj]
     
     public init(id:String, name:String, instrumentArray:[XvSetInstrumentDataObj]){
         self.id = id

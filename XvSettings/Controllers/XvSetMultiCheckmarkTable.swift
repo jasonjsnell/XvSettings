@@ -48,6 +48,7 @@ public class XvSetMultiCheckmarkTable: XvSetCheckmarkTable {
                 key: parentCellKey,
                 value: cellValue,
                 selected: cellSelected,
+                multi: true,
                 label: cellLabel,
                 dataType: parentCellDataType,
                 displayType: XvSetConstants.DISPLAY_TYPE_CHECKMARK
