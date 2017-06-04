@@ -8,9 +8,11 @@
 
 import Foundation
 
-open class XvSetMultiData {
+open class XvSetTableData {
     
+    public var title:String = ""
     public var sections:[XvSetSectionData] = []
+    
     
     public init() {}
     

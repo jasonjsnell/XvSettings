@@ -10,7 +10,11 @@ import UIKit
 
 public class XvSetDisclosureCell: XvSetCell {
     
-    public init(style: UITableViewCellStyle, reuseIdentifier: String?, data:XvSetDisclosureCellData){
+    public init(
+        style: UITableViewCellStyle,
+        reuseIdentifier: String?,
+        data:XvSetDisclosureCellData
+    ){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
     
@@ -25,18 +29,8 @@ public class XvSetDisclosureCell: XvSetCell {
     }
     
     //updates text back on the disclosure cell display that opened the new table
-    internal func updateDefaultLabel(){
-        self.detailTextLabel?.text = (data as! XvSetDisclosureCellData).defaultLabel
-    }
-    
-    //called by SetMain when programmatically forcing a new default (such as when selected ABL Link and forcing MIDI Sync to none)
-    public func forceSetNewDefaultLabel(newIndex: Int){
-        
-        if (data != nil){
-            (data as! XvSetDisclosureCellData).setNewDefault(newIndex: newIndex)
-            let lastLabel:String = (data as! XvSetDisclosureCellData).subLabels[newIndex]
-            detailTextLabel?.text = lastLabel
-        }
+    public func set(label:String){
+        self.detailTextLabel?.text = label
     }
     
     

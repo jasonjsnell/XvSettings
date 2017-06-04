@@ -10,7 +10,11 @@ import UIKit
 
 public class XvSetCheckmarkCell: XvSetCell {
     
-    init(style: UITableViewCellStyle, reuseIdentifier: String?, data:XvSetCheckmarkCellData){
+    init(
+        style: UITableViewCellStyle,
+        reuseIdentifier: String?,
+        data:XvSetCheckmarkCellData
+    ){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
         
