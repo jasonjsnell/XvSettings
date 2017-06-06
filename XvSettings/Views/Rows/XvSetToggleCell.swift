@@ -20,7 +20,7 @@ class XvSetToggleCell: XvSetCell {
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
     
         //set the toggle based on the data
-        toggleSwitch.isOn = data.defaultValue as! Bool
+        toggleSwitch.isOn = data.value as! Bool
         
         //add the switch to the row cell
         self.accessoryView = UIView(frame:toggleSwitch.frame)

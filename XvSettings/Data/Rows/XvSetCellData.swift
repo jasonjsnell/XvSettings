@@ -14,39 +14,47 @@ public class XvSetCellData {
     //MARK:VARIABLES
     
    
-    //basics
-    internal var key:String = ""
-    internal var label:String = ""
-    internal var dataType:String = ""
-    internal var displayType:String = ""
+    // the key of the default. In disclosures, this is the key of the parent disclosure cell.
+    // Example: kMidiSync
+    internal var key:String
     
+    // value of the default. 
+    // Example midi_clock_receive
+    internal var value:Any
+    
+    // the text on the left side the cell
+    internal var textLabel:String
+    
+    //checkmark, toggle, disclosure, button
+    internal var displayType:String
+    
+
     //position
     internal var indexPath:IndexPath?
     
     internal var visibilityTargets:[Int]?
     
-    //defaults
-    internal var defaultValue:Any?
-    
     internal let debug:Bool = false
     
     //MARK:-
     //MARK:INIT
+    
+    
     public init(
         key:String,
-        label:String,
-        dataType:String,
-        displayType:String,
-        defaultValue:Any?){
+        value:Any,
+        textLabel:String,
+        displayType:String){
         
         //record incoming vars
         self.key = key
-        self.label = label
-        self.dataType = dataType
+        self.value = value
+        self.textLabel = textLabel
         self.displayType = displayType
-        self.defaultValue = defaultValue
+        
 
     }
+    
     
     //visibility targets are rare, so it has its own setter
     public func set(visibilityTargets:[Int]){

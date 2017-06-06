@@ -9,32 +9,67 @@
 import Foundation
 
 public class XvSetDisclosureCellData:XvSetCellData {
+   
+    //MARK: - VARIABLES
     
-    //MARK:-
-    //MARK:VARIABLES
-
-    //defaults
-    internal var defaultLabel:String = ""
+    //text on the right side of the cell, which indicates which variable is selected inside the sub-table
+    internal var detailTextLabel:String
+    internal var detailTextLabels:[String]
     
-    //MARK:- INIT
+    //data for the sub table that gets launched
+    internal var checkmarkTableDataSource:XvSetCheckmarkTableData?
     
+    //MARK: - INIT
     
-    override public init(
-        key:String,
-        label:String,
-        dataType:String,
-        displayType:String,
-        defaultValue:Any?){
+    public init(key:String, value:Any, textLabel:String){
+        
+        detailTextLabel = ""
+        detailTextLabels = []
         
         super.init(
             key: key,
-            label: label,
-            dataType: dataType,
-            displayType: displayType,
-            defaultValue: defaultValue
+            value: value,
+            textLabel: textLabel,
+            displayType: XvSetConstants.DISPLAY_TYPE_DISCLOSURE
         )
         
     }
     
+    //init by data class, for simpler disclosure cells that launch non-checkmark tables
+    public convenience init (key:String, textLabel:String){
+        
+        self.init(
+            key: key,
+            value: "",
+            textLabel: textLabel
+        )
+    }
+    
+    
+    // init with data class, unpack it to get the vars
+    // called by table that wants to create a checkmark table launched from a disclosure cell tap
+    public convenience init(withCheckmarkTableDataSource: XvSetCheckmarkTableData){
+        
+        //init with data from table data source
+        self.init(
+            key: withCheckmarkTableDataSource.getKey(),
+            value: withCheckmarkTableDataSource.getValue(),
+            textLabel: withCheckmarkTableDataSource.getTextLabel()
+        )
+        
+        //retain table data so checkmark table can be launched with this data object (via its cell)
+        self.checkmarkTableDataSource = withCheckmarkTableDataSource
+        
+        //grab other data from table data source
+        self.detailTextLabel = withCheckmarkTableDataSource.getDetailTextLabel()
+        self.detailTextLabels = withCheckmarkTableDataSource.getDetailTextLabels()
+        
+    }
+    
+    // called when checkmark cell is tapped inside a disclosure table
+    public func updateDetailTextLabel(withRow:Int){
+        detailTextLabel = detailTextLabels[withRow]
+    }
+
     
 }

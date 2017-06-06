@@ -18,8 +18,6 @@ open class XvSetTable: UITableViewController {
     //table data
     public var dataSource:XvSetTableData?
     
-    //parent cell that launched this table
-    public var parentCell:XvSetCell?
     
     internal var nav:UINavigationController?
     internal let debug:Bool = false
@@ -30,19 +28,17 @@ open class XvSetTable: UITableViewController {
     //MARK: - OPEN API
     //MARK:   BUILD -
     
-    open func load(dataSource:XvSetTableData){
+    open func load(withDataSource:XvSetTableData){
         
         if (debug){
-            print("SETTINGS TABLE: Load data source", dataSource)
+            print("SETTINGS TABLE: Load data source", withDataSource)
         }
         
-        self.dataSource = dataSource
-        title = dataSource.title
+        self.dataSource = withDataSource
+        title = withDataSource.title
     }
     
-    open func set(parentCell:XvSetCell){
-        self.parentCell = parentCell
-    }
+    
     
     override open func viewDidLoad() {
         
@@ -580,6 +576,33 @@ open class XvSetTable: UITableViewController {
         }
         
     }
+    
+    public func getCell(fromKey:String) -> XvSetCell? {
+        
+        for section:Int in 0..<tableView.numberOfSections {
+            
+            for row:Int in 0..<tableView.numberOfRows(inSection: section) {
+                
+                let indexPath:IndexPath = IndexPath(row: row, section: section)
+                
+                //if cell can be cast as SetCell object
+                if let cell:XvSetCell = tableView.cellForRow(at: indexPath) as? XvSetCell {
+                    
+                    //if data is valid
+                    if let data:XvSetCellData = cell.data {
+                        
+                        if (data.key == fromKey){
+                            return cell
+                        }
+                    }
+                }
+            }
+        }
+        
+        print("SETTINGS: Found no cell with key", fromKey, "during getCell")
+        return nil
+        
+    }
 
     
     
@@ -680,16 +703,10 @@ open class XvSetTable: UITableViewController {
             
         }
     }
-
     
-    
-    
-    //MARK: - PRIVATE -
-    
-   
     //MARK: Checkmark
-    
-    fileprivate func _checkmarkRowSelected(cell: XvSetCheckmarkCell, indexPath:IndexPath) {
+    //overridden in checkmark table class
+    internal func _checkmarkRowSelected(cell: XvSetCheckmarkCell, indexPath:IndexPath) {
         
         if let data:XvSetCheckmarkCellData = cell.data as? XvSetCheckmarkCellData {
             
@@ -702,28 +719,6 @@ open class XvSetTable: UITableViewController {
             cell.accessoryType = .checkmark
             data.selected = true
             
-            //if there is a parent cell... (main table has no parent cell)
-            
-            if (parentCell != nil){
-                
-                //attempt to cast as disclosure cell...
-                if let parentDisclosureCell:XvSetDisclosureCell = parentCell as? XvSetDisclosureCell {
-                    
-                    //if data is valid...
-                    if let data:XvSetDisclosureCellData = parentDisclosureCell.data as? XvSetDisclosureCellData {
-                        
-                        
-                        //update view
-                        parentDisclosureCell.set(label: data.label)
-                        
-                    } else {
-                        print("SETTINGS: Parent cell data is invalid during _checkmarkRowSelected")
-                    }
-                    
-                }
-                
-            }
-            
             Utils.postNotification(
                 name: XvSetConstants.kSettingsPanelDefaultChanged,
                 userInfo: ["key" : data.key, "value" : data.value as Any])
@@ -733,6 +728,12 @@ open class XvSetTable: UITableViewController {
         }
         
     }
+
+    
+    
+    
+    //MARK: - PRIVATE -
+    //MARK: Checkmark
     
     fileprivate func _turnOffCheckmarks(inSection:Int){
         
@@ -764,7 +765,7 @@ open class XvSetTable: UITableViewController {
         if let toggleCellData:XvSetCellData = getToggleCellData(fromSwitch: fromSwitch) {
             
             //set cell data's default value to uiswitch value
-            toggleCellData.defaultValue = fromSwitch.isOn
+            toggleCellData.value = fromSwitch.isOn
             
             Utils.postNotification(
                 name: XvSetConstants.kSettingsPanelDefaultChanged,

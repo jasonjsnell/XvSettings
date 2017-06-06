@@ -20,7 +20,7 @@ public class XvSetDisclosureCell: XvSetCell {
     
         self.accessoryType = .disclosureIndicator
         self.selectionStyle = .none
-        self.detailTextLabel?.text = data.defaultLabel
+        self.detailTextLabel?.text = data.detailTextLabel
         
     }
     

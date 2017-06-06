@@ -22,7 +22,7 @@ public class XvSetCell: UITableViewCell {
         
         self.data = data as XvSetCellData
         
-        self.textLabel?.text = data.label
+        self.textLabel?.text = data.textLabel
         
     }
     
