@@ -9,6 +9,35 @@ import Foundation
 
 public class XvSetConstants {
     
+    //core data keys
+    public static let kAppEntity:String = "App"
+    
+    public static let kKitEntity:String = "Kit"
+    public static let kKitId:String = "id"
+    public static let kKitName:String = "name"
+    public static let kKitInstruments:String = "instruments"
+    
+    
+    public static let kInstrumentEntity:String = "Instrument"
+    public static let kInstrumentName:String = "name"
+    public static let kInstrumentAudioEnabled:String = "audioEnabled"
+    public static let kInstrumentKit:String = "kit"
+    public static let kInstrumentLifetimeNoteTally = "lifetimeNoteTally"
+    public static let kInstrumentLoopLength:String = "loopLength"
+    public static let kInstrumentMeasuresUntilFadeOut:String = "measuresUntilFadeOut"
+    public static let kInstrumentMidiChannel:String = "midiChannel"
+    public static let kInstrumentMidiDestinations:String = "midiDestinations"
+    public static let kInstrumentMidiEnabled:String = "midiEnabled"
+    public static let kInstrumentPitchEnabled:String = "pitchEnabled"
+    public static let kInstrumentPosition:String = "position"
+    public static let kInstrumentQuantization:String = "quantization"
+    public static let kInstrumentRandomizedPitch:String = "randomizedPitch"
+    public static let kInstrumentRegenerateAtBeginningOfPattern:String = "regenerateAtBeginningOfPattern"
+    public static let kInstrumentVolume:String = "volume"
+    public static let kInstrumentVolumeLock:String = "volumeLock"
+  
+    
+    
     //notifications
     public static let kSettingsPanelDefaultChanged:String = "kSettingsPanelDefaultChanged"
     

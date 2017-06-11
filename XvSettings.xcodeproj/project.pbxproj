@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		96230EBC1EE0D61500A50E68 /* XvSetKitDataObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96230EBB1EE0D61500A50E68 /* XvSetKitDataObj.swift */; };
-		96230EBE1EE0D63000A50E68 /* XvSetInstrumentDataObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96230EBD1EE0D63000A50E68 /* XvSetInstrumentDataObj.swift */; };
 		966F4A2A1E84BD6800154669 /* XvSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 966F4A281E84BD6800154669 /* XvSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		966F4A361E84BD8D00154669 /* XvSetTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A321E84BD8D00154669 /* XvSetTable.swift */; };
 		966F4A401E84BDD300154669 /* XvSetTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A3E1E84BDD300154669 /* XvSetTableData.swift */; };
@@ -16,7 +14,7 @@
 		966F4A471E84BDE200154669 /* XvSetCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A431E84BDE200154669 /* XvSetCellData.swift */; };
 		966F4A481E84BDE200154669 /* XvSetCheckmarkCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A441E84BDE200154669 /* XvSetCheckmarkCellData.swift */; };
 		966F4A491E84BDE200154669 /* XvSetDisclosureCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A451E84BDE200154669 /* XvSetDisclosureCellData.swift */; };
-		966F4A4D1E84BE0B00154669 /* XvDefaultsAccessors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A4B1E84BE0B00154669 /* XvDefaultsAccessors.swift */; };
+		966F4A4D1E84BE0B00154669 /* XvCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A4B1E84BE0B00154669 /* XvCoreDataManager.swift */; };
 		966F4A4E1E84BE0B00154669 /* XvSetConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A4C1E84BE0B00154669 /* XvSetConstants.swift */; };
 		966F4A501E84BE1400154669 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A4F1E84BE1400154669 /* Utils.swift */; };
 		966F4A5B1E84BE3C00154669 /* XvSetButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A551E84BE3C00154669 /* XvSetButtonCell.swift */; };
@@ -29,11 +27,10 @@
 		96DC444F1EE592920032DC9C /* XvSetCheckmarkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC444E1EE592920032DC9C /* XvSetCheckmarkTable.swift */; };
 		96DC44511EE63B5F0032DC9C /* XvSetToggleCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44501EE63B5F0032DC9C /* XvSetToggleCellData.swift */; };
 		96DC44531EE64DFA0032DC9C /* XvSetButtonCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44521EE64DFA0032DC9C /* XvSetButtonCellData.swift */; };
+		96DC44551EE6F8DC0032DC9C /* XvSetKitTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44541EE6F8DC0032DC9C /* XvSetKitTableData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		96230EBB1EE0D61500A50E68 /* XvSetKitDataObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetKitDataObj.swift; path = XvSettings/Data/Objects/XvSetKitDataObj.swift; sourceTree = "<group>"; };
-		96230EBD1EE0D63000A50E68 /* XvSetInstrumentDataObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetInstrumentDataObj.swift; path = XvSettings/Data/Objects/XvSetInstrumentDataObj.swift; sourceTree = "<group>"; };
 		966F4A251E84BD6800154669 /* XvSettings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XvSettings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		966F4A281E84BD6800154669 /* XvSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XvSettings.h; sourceTree = "<group>"; };
 		966F4A291E84BD6800154669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -43,7 +40,7 @@
 		966F4A431E84BDE200154669 /* XvSetCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetCellData.swift; path = XvSettings/Data/Rows/XvSetCellData.swift; sourceTree = "<group>"; };
 		966F4A441E84BDE200154669 /* XvSetCheckmarkCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetCheckmarkCellData.swift; path = XvSettings/Data/Rows/XvSetCheckmarkCellData.swift; sourceTree = "<group>"; };
 		966F4A451E84BDE200154669 /* XvSetDisclosureCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetDisclosureCellData.swift; path = XvSettings/Data/Rows/XvSetDisclosureCellData.swift; sourceTree = "<group>"; };
-		966F4A4B1E84BE0B00154669 /* XvDefaultsAccessors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvDefaultsAccessors.swift; path = XvSettings/Global/XvDefaultsAccessors.swift; sourceTree = "<group>"; };
+		966F4A4B1E84BE0B00154669 /* XvCoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvCoreDataManager.swift; path = XvSettings/Global/XvCoreDataManager.swift; sourceTree = "<group>"; };
 		966F4A4C1E84BE0B00154669 /* XvSetConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetConstants.swift; path = XvSettings/Global/XvSetConstants.swift; sourceTree = "<group>"; };
 		966F4A4F1E84BE1400154669 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = XvSettings/Private/Utils.swift; sourceTree = "<group>"; };
 		966F4A551E84BE3C00154669 /* XvSetButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetButtonCell.swift; path = XvSettings/Views/Rows/XvSetButtonCell.swift; sourceTree = "<group>"; };
@@ -56,6 +53,7 @@
 		96DC444E1EE592920032DC9C /* XvSetCheckmarkTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetCheckmarkTable.swift; path = Controllers/XvSetCheckmarkTable.swift; sourceTree = "<group>"; };
 		96DC44501EE63B5F0032DC9C /* XvSetToggleCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetToggleCellData.swift; path = XvSettings/Data/Rows/XvSetToggleCellData.swift; sourceTree = "<group>"; };
 		96DC44521EE64DFA0032DC9C /* XvSetButtonCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetButtonCellData.swift; path = XvSettings/Data/Rows/XvSetButtonCellData.swift; sourceTree = "<group>"; };
+		96DC44541EE6F8DC0032DC9C /* XvSetKitTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetKitTableData.swift; path = XvSettings/Data/Tables/XvSetKitTableData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,19 +67,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		96230EBF1EE0D63600A50E68 /* Objects */ = {
-			isa = PBXGroup;
-			children = (
-				96230EBB1EE0D61500A50E68 /* XvSetKitDataObj.swift */,
-				96230EBD1EE0D63000A50E68 /* XvSetInstrumentDataObj.swift */,
-			);
-			name = Objects;
-			sourceTree = "<group>";
-		};
 		966F4A1B1E84BD6800154669 = {
 			isa = PBXGroup;
 			children = (
-				966F4A4B1E84BE0B00154669 /* XvDefaultsAccessors.swift */,
+				966F4A4B1E84BE0B00154669 /* XvCoreDataManager.swift */,
 				966F4A4C1E84BE0B00154669 /* XvSetConstants.swift */,
 				966F4A381E84BD9700154669 /* Controllers */,
 				966F4A391E84BDA600154669 /* Data */,
@@ -123,7 +112,6 @@
 				966F4A3C1E84BDC600154669 /* Tables */,
 				966F4A3B1E84BDBB00154669 /* Sections */,
 				966F4A3A1E84BDB300154669 /* Rows */,
-				96230EBF1EE0D63600A50E68 /* Objects */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -152,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				966F4A3E1E84BDD300154669 /* XvSetTableData.swift */,
+				96DC44541EE6F8DC0032DC9C /* XvSetKitTableData.swift */,
 				96DC444C1EE47F8D0032DC9C /* XvSetCheckmarkTableData.swift */,
 			);
 			name = Tables;
@@ -284,13 +273,12 @@
 				966F4A481E84BDE200154669 /* XvSetCheckmarkCellData.swift in Sources */,
 				966F4A501E84BE1400154669 /* Utils.swift in Sources */,
 				966F4A5C1E84BE3C00154669 /* XvSetCell.swift in Sources */,
-				96230EBE1EE0D63000A50E68 /* XvSetInstrumentDataObj.swift in Sources */,
+				96DC44551EE6F8DC0032DC9C /* XvSetKitTableData.swift in Sources */,
 				966F4A5B1E84BE3C00154669 /* XvSetButtonCell.swift in Sources */,
 				966F4A471E84BDE200154669 /* XvSetCellData.swift in Sources */,
 				966F4A5D1E84BE3C00154669 /* XvSetCheckmarkCell.swift in Sources */,
-				96230EBC1EE0D61500A50E68 /* XvSetKitDataObj.swift in Sources */,
 				966F4A5E1E84BE3C00154669 /* XvSetDisclosureCell.swift in Sources */,
-				966F4A4D1E84BE0B00154669 /* XvDefaultsAccessors.swift in Sources */,
+				966F4A4D1E84BE0B00154669 /* XvCoreDataManager.swift in Sources */,
 				96DC444F1EE592920032DC9C /* XvSetCheckmarkTable.swift in Sources */,
 				966F4A491E84BDE200154669 /* XvSetDisclosureCellData.swift in Sources */,
 				966F4A601E84BE3C00154669 /* XvSetToggleCell.swift in Sources */,
@@ -415,7 +403,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = XvSettings/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jasonjsnell.XvSettings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -437,7 +425,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = XvSettings/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jasonjsnell.XvSettings;
 				PRODUCT_NAME = "$(TARGET_NAME)";

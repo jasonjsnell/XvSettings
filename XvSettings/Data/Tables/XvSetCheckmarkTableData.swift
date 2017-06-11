@@ -10,20 +10,20 @@ import Foundation
 
 open class XvSetCheckmarkTableData:XvSetTableData {
     
-    //key
+    //key of the default this table is updating
     fileprivate var key:String
     
-    //data type (Bool, Int, etc..)
+    //Does checkmark selection update a String, Int, etc...?
     fileprivate var dataType:String
     
-    //values
+    //all the values and the currently selected value in the table
     fileprivate var value:Any // current value
     fileprivate var values:[Any] // all the possible values
     
     //labels
     fileprivate var textLabel:String //left-side text label
     fileprivate var detailTextLabel:String // curr right-side text label
-    fileprivate var detailTextLabels:[String] //all the possible right-side text labels
+    fileprivate var detailTextLabels:[String] //all the possible right-side text labels / name of checkmark cells in table
     
     //can multiple checkmarks be selected?
     fileprivate var multi:Bool
