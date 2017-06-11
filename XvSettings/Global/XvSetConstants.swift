@@ -22,7 +22,7 @@ public class XvSetConstants {
     public static let kInstrumentName:String = "name"
     public static let kInstrumentAudioEnabled:String = "audioEnabled"
     public static let kInstrumentKit:String = "kit"
-    public static let kInstrumentLifetimeNoteTally = "lifetimeNoteTally"
+    public static let kInstrumentLifetimeNoteTallies = "lifetimeNoteTallies"
     public static let kInstrumentLoopLength:String = "loopLength"
     public static let kInstrumentMeasuresUntilFadeOut:String = "measuresUntilFadeOut"
     public static let kInstrumentMidiChannel:String = "midiChannel"
