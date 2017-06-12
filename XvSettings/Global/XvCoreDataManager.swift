@@ -371,6 +371,7 @@ open class XvCoreDataManager {
         
         if let _app:NSManagedObject = getApp(){
             set(value: value, forKey: forKey, forObject: _app)
+            let _:Bool = save()
         } else {
             print("CDM: Unable to get app object during setAppValue")
         }
@@ -380,6 +381,7 @@ open class XvCoreDataManager {
     fileprivate func set(value:Any, forKey:String, forObject:NSManagedObject) {
         
         forObject.setValue(value, forKeyPath: forKey)
+        let _:Bool = save()
         if (debug){
             print("CDM: Set", forKey, "to", value)
         }
