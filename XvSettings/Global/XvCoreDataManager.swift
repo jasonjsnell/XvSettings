@@ -138,15 +138,35 @@ open class XvCoreDataManager {
     
     // get instruments array from a kit objects relationship variable "instruments"
     
-    public func getInstruments(forKitObject:NSManagedObject) -> [NSManagedObject]? {
+    public func getInstruments(forKitObject:NSManagedObject) -> [NSManagedObject?]? {
         
         //cast as NSSet
         if let instrumentsSet:NSSet = forKitObject.value(forKey: XvSetConstants.kKitInstruments) as? NSSet {
             
             //cast as NSManagedObject array
-            if let instrumentObjArray:[NSManagedObject] = instrumentsSet.allObjects as? [NSManagedObject] {
+            if let unsortedInstrumentObjArray:[NSManagedObject] = instrumentsSet.allObjects as? [NSManagedObject] {
                 
-                return instrumentObjArray
+                //create blank array of nil objects
+                var sortedInstrumentObjArr = [NSManagedObject?](
+                    repeating: nil,
+                    count: unsortedInstrumentObjArray.count
+                )
+                
+                //go through unsorted object array
+                for unsortedObj in unsortedInstrumentObjArray {
+                    
+                    //grab position var
+                    if let position:Int = unsortedObj.value(forKey: XvSetConstants.kInstrumentPosition) as? Int {
+                        
+                        //and place content in that position in the sorted array
+                        sortedInstrumentObjArr[position] = unsortedObj
+                    } else {
+                        print("CDM: Error getting position from unsorted object during getInstruments")
+                    }
+                    
+                }
+                
+                return sortedInstrumentObjArr
                 
             } else {
                 print("CDM: Error getting instrument managed object array for kit", forKitObject)
