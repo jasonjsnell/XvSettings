@@ -394,17 +394,15 @@ open class XvCoreDataManager {
         } else {
             print("CDM: Unable to get app object during setAppValue")
         }
-        
     }
     
     public func set(value:Any, forKey:String, forObject:NSManagedObject) {
         
         forObject.setValue(value, forKeyPath: forKey)
-        let _:Bool = save()
-        if (debug){
-            print("CDM: Set", forKey, "to", value)
-        }
         
+        if (debug){
+            //print("CDM: Set", forKey, "to", value)
+        }
     }
     
     
@@ -416,6 +414,9 @@ open class XvCoreDataManager {
             do {
                 
                 try managedContext!.save()
+                if (debug){
+                    print("CDM: Data saved")
+                }
                 return true
                 
             } catch let error as NSError {
