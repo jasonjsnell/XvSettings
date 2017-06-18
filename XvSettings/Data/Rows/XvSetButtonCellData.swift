@@ -13,13 +13,15 @@ public class XvSetButtonCellData:XvSetCellData {
     //MARK:- INIT
     public init(
         key:String,
-        textLabel:String){
+        textLabel:String,
+        levelType:String){
         
         super.init(
             key: key,
             value: "",
             textLabel: textLabel,
-            displayType: XvSetConstants.DISPLAY_TYPE_BUTTON
+            displayType: XvSetConstants.DISPLAY_TYPE_BUTTON,
+            levelType: levelType
         )
         
     }

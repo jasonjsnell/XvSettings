@@ -28,6 +28,9 @@ public class XvSetCellData {
     //checkmark, toggle, disclosure, button
     internal var displayType:String
     
+    //level type, does the cell change a var on the app, kit, or instrument level
+    internal var levelType:String
+    
 
     //position
     internal var indexPath:IndexPath?
@@ -44,14 +47,15 @@ public class XvSetCellData {
         key:String,
         value:Any,
         textLabel:String,
-        displayType:String){
+        displayType:String,
+        levelType:String){
         
         //record incoming vars
         self.key = key
         self.value = value
         self.textLabel = textLabel
         self.displayType = displayType
-        
+        self.levelType = levelType
 
     }
     

@@ -9,11 +9,14 @@
 // a table of sections. Sections can have any kind of cells (button, checkmark, disclosure, toggle)
 
 import UIKit
+import CoreData
 
 open class XvSetTable: UITableViewController {
     
 
     //MARK: - VARIABLES -
+    
+    internal let xvcdm:XvCoreDataManager = XvCoreDataManager()
     
     //table data
     public var dataSource:XvSetTableData?
@@ -26,19 +29,7 @@ open class XvSetTable: UITableViewController {
     internal var sectionFooterViews:[SetFooter?]?
     
     //MARK: - OPEN API
-    //MARK:   BUILD -
-    
-    open func load(withDataSource:XvSetTableData){
-        
-        if (debug){
-            print("SETTINGS TABLE: Load data source", withDataSource)
-        }
-        
-        self.dataSource = withDataSource
-        title = withDataSource.title
-    }
-    
-    
+    //MARK:   LOAD -
     
     override open func viewDidLoad() {
         
@@ -56,7 +47,6 @@ open class XvSetTable: UITableViewController {
         buildFooters()
         
     }
-    
     
     //MARK: - SECTIONS
     // number of section(s)
@@ -354,8 +344,6 @@ open class XvSetTable: UITableViewController {
                         //deselect row so the grey background flashes
                         tableView.deselectRow(at: indexPath, animated: true)
                         
-                        
-                        
                         _checkmarkRowSelected(cell: cell, indexPath: indexPath)
                         
                         checkmarkRowSelected(cell: cell, key: key)
@@ -411,8 +399,21 @@ open class XvSetTable: UITableViewController {
         
     }
     
+    //MARK: - Buttons cells
     open func buttonRowSelected(cell:XvSetButtonCell, key:String) {
         
+        if (key == XvSetConstants.kKitArtificialIntelligence){
+            
+            Utils.postNotification(
+                name: XvSetConstants.kKitResetAIButtonTapped,
+                userInfo: nil)
+            
+        } else if (key == XvSetConstants.kKitFactorySettings){
+            
+            Utils.postNotification(
+                name: XvSetConstants.kKitRestoreFactorySettingsButtonTapped,
+                userInfo: nil)
+        }
     }
     
     //MARK: - TOGGLE SWITCH
@@ -449,7 +450,20 @@ open class XvSetTable: UITableViewController {
     
     
     
-    //MARK: - PUBLIC API
+    //MARK: - PUBLIC API -
+    
+    //MARK: LOAD
+    
+    public func load(withDataSource:XvSetTableData){
+        
+        if (debug){
+            print("SETTINGS TABLE: Load data source", withDataSource)
+        }
+        
+        self.dataSource = withDataSource
+        title = withDataSource.title
+    }
+    
     
     //MARK:- ACCESSORS
     public func setNav(nav: UINavigationController) {
@@ -461,14 +475,33 @@ open class XvSetTable: UITableViewController {
     }
     
     //MARK: - VC MANAGEMENT
+    
+    public func loadCheckmarkTable(fromCell:XvSetDisclosureCell) {
+        
+        let vc:XvSetCheckmarkTable = XvSetCheckmarkTable()
+        vc.load(withParentDisclosureCell: fromCell)
+        push(viewController: vc)
+        
+    }
+    
+    public func loadKitTable(fromDataObj: NSManagedObject) {
+        
+        let setKitTableData:XvSetKitTableData = XvSetKitTableData(kitDataObj: fromDataObj)
+        let vc:XvSetTable = XvSetTable()
+        vc.load(withDataSource: setKitTableData)
+        push(viewController: vc)
+        
+    }
+
+    
     public func push(viewController:UIViewController) {
         if (getNav() != nil){
             getNav()!.pushViewController(viewController, animated: true)
+        } else {
+            print("SETTINGS: Nav is nil during VC push")
         }
     }
     
-    
-
     //MARK: Row / cell getters
     public func getDisplayType(dataSource:XvSetTableData, indexPath:IndexPath) -> String {
         
@@ -721,7 +754,11 @@ open class XvSetTable: UITableViewController {
             
             Utils.postNotification(
                 name: XvSetConstants.kSettingsPanelDefaultChanged,
-                userInfo: ["key" : data.key, "value" : data.value as Any])
+                userInfo: [
+                    "key" : data.key,
+                    "value" : data.value as Any,
+                    "level" : data.levelType
+                ])
             
         } else {
             print("SETTINGS: Checkmark cell data is invalid")
@@ -769,7 +806,11 @@ open class XvSetTable: UITableViewController {
             
             Utils.postNotification(
                 name: XvSetConstants.kSettingsPanelDefaultChanged,
-                userInfo: ["key" : toggleCellData.key, "value" : fromSwitch.isOn as Any])
+                userInfo: [
+                    "key" : toggleCellData.key,
+                    "value" : fromSwitch.isOn as Any,
+                    "level" : toggleCellData.levelType
+                ])
             
         } else {
             
@@ -870,6 +911,27 @@ open class XvSetTable: UITableViewController {
         return nil
     
     }
+    
+    
+    //TODO: refresh midi destinations?
+    /*
+     fileprivate func _refreshMidiDestinations(withCellData:XvSetDisclosureCellData){
+     
+     //refresh midi destination data
+     XvMidi.sharedInstance.refreshMidiDestinations()
+     
+     //get names of currently available midi destinations
+     let midiDestinationNames:[String] = XvMidi.sharedInstance.getMidiDestinationNames()
+     
+     //get indexes of user selected destinations
+     let activeDestinationIndexes = XvMidi.sharedInstance.getActiveMidiDestinationIndexes()
+     
+     //init data obj with this up-to-date destination data
+     withCellData.initSubArrays(values: midiDestinationNames, labels: midiDestinationNames)
+     withCellData.setNewDefaults(newIndexes: activeDestinationIndexes)
+     
+     }
+     */
     
     
     //MARK: - DEINT

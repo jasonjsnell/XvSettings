@@ -45,7 +45,6 @@ open class XvCoreDataManager {
         
     }
     
-    
     //init a new managed object with entity name
     public func createNewObject(withEntityName:String) -> NSManagedObject? {
         
@@ -134,6 +133,34 @@ open class XvCoreDataManager {
             return nil
         }
         
+    }
+    
+    
+    public func getKit(withID:String) -> NSManagedObject? {
+        
+        if let kits:[NSManagedObject] = getKits() {
+            
+            for kit in kits {
+                
+                if let kitID:String = kit.value(forKey: XvSetConstants.kKitId) as? String {
+                    
+                    if (kitID == withID){
+                        return kit
+                    }
+                    
+                } else {
+                    print("CDM: Error finding kit ID during during getKit(withID)")
+                    return nil
+                }
+            }
+            
+            print("CDM: Error finding kit with id", withID)
+            return nil
+            
+        } else {
+            print("CDM: Error: Unable to get kits during getKit(withID)")
+            return nil
+        }
     }
     
     // get instruments array from a kit objects relationship variable "instruments"
@@ -401,7 +428,7 @@ open class XvCoreDataManager {
         forObject.setValue(value, forKeyPath: forKey)
         
         if (debug){
-            //print("CDM: Set", forKey, "to", value)
+            print("CDM: Set", forKey, "to", value)
         }
     }
     

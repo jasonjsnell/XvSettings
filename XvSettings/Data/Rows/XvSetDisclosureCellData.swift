@@ -30,7 +30,8 @@ public class XvSetDisclosureCellData:XvSetCellData {
             key: key,
             value: value,
             textLabel: textLabel,
-            displayType: XvSetConstants.DISPLAY_TYPE_DISCLOSURE
+            displayType: XvSetConstants.DISPLAY_TYPE_DISCLOSURE,
+            levelType: XvSetConstants.LEVEL_TYPE_NONE //disclosure leads to more panels, does not change vars
         )
         
     }

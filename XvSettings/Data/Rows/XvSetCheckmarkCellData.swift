@@ -27,14 +27,16 @@ public class XvSetCheckmarkCellData:XvSetCellData {
         textLabel:String,
         dataType:String,
         selected:Bool,
-        multi:Bool
+        multi:Bool,
+        levelType:String
     ){
         
         super.init(
             key: key,
             value: value,
             textLabel: textLabel,
-            displayType: XvSetConstants.DISPLAY_TYPE_CHECKMARK
+            displayType: XvSetConstants.DISPLAY_TYPE_CHECKMARK,
+            levelType: levelType
         )
         
         self.selected = selected

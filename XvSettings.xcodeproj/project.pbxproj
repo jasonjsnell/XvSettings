@@ -23,6 +23,10 @@
 		966F4A5E1E84BE3C00154669 /* XvSetDisclosureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A581E84BE3C00154669 /* XvSetDisclosureCell.swift */; };
 		966F4A601E84BE3C00154669 /* XvSetToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A5A1E84BE3C00154669 /* XvSetToggleCell.swift */; };
 		966F4A621E84BE4300154669 /* SetFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A611E84BE4300154669 /* SetFooter.swift */; };
+		96C30CE31EF6C2560058A64D /* XvMidiSyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE21EF6C2560058A64D /* XvMidiSyncData.swift */; };
+		96C30CE51EF6C4700058A64D /* XvMusicalScaleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE41EF6C4700058A64D /* XvMusicalScaleData.swift */; };
+		96C30CE81EF6CC460058A64D /* XvSetMainTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE71EF6CC460058A64D /* XvSetMainTable.swift */; };
+		96C30CEA1EF6CFB70058A64D /* XvSetMainTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE91EF6CFB70058A64D /* XvSetMainTableData.swift */; };
 		96DC444D1EE47F8D0032DC9C /* XvSetCheckmarkTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC444C1EE47F8D0032DC9C /* XvSetCheckmarkTableData.swift */; };
 		96DC444F1EE592920032DC9C /* XvSetCheckmarkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC444E1EE592920032DC9C /* XvSetCheckmarkTable.swift */; };
 		96DC44511EE63B5F0032DC9C /* XvSetToggleCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44501EE63B5F0032DC9C /* XvSetToggleCellData.swift */; };
@@ -49,6 +53,10 @@
 		966F4A581E84BE3C00154669 /* XvSetDisclosureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetDisclosureCell.swift; path = XvSettings/Views/Rows/XvSetDisclosureCell.swift; sourceTree = "<group>"; };
 		966F4A5A1E84BE3C00154669 /* XvSetToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetToggleCell.swift; path = XvSettings/Views/Rows/XvSetToggleCell.swift; sourceTree = "<group>"; };
 		966F4A611E84BE4300154669 /* SetFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetFooter.swift; path = XvSettings/Views/Footer/SetFooter.swift; sourceTree = "<group>"; };
+		96C30CE21EF6C2560058A64D /* XvMidiSyncData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvMidiSyncData.swift; path = XvSettings/Data/Tables/Instances/XvMidiSyncData.swift; sourceTree = "<group>"; };
+		96C30CE41EF6C4700058A64D /* XvMusicalScaleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvMusicalScaleData.swift; path = XvSettings/Data/Tables/Instances/XvMusicalScaleData.swift; sourceTree = "<group>"; };
+		96C30CE71EF6CC460058A64D /* XvSetMainTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetMainTable.swift; path = Controllers/Instances/XvSetMainTable.swift; sourceTree = "<group>"; };
+		96C30CE91EF6CFB70058A64D /* XvSetMainTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetMainTableData.swift; path = XvSettings/Data/Tables/Instances/XvSetMainTableData.swift; sourceTree = "<group>"; };
 		96DC444C1EE47F8D0032DC9C /* XvSetCheckmarkTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetCheckmarkTableData.swift; path = XvSettings/Data/Tables/XvSetCheckmarkTableData.swift; sourceTree = "<group>"; };
 		96DC444E1EE592920032DC9C /* XvSetCheckmarkTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetCheckmarkTable.swift; path = Controllers/XvSetCheckmarkTable.swift; sourceTree = "<group>"; };
 		96DC44501EE63B5F0032DC9C /* XvSetToggleCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetToggleCellData.swift; path = XvSettings/Data/Rows/XvSetToggleCellData.swift; sourceTree = "<group>"; };
@@ -101,6 +109,7 @@
 			children = (
 				966F4A321E84BD8D00154669 /* XvSetTable.swift */,
 				96DC444E1EE592920032DC9C /* XvSetCheckmarkTable.swift */,
+				96C30CE61EF6C90E0058A64D /* Instances */,
 			);
 			name = Controllers;
 			path = XvSettings;
@@ -142,6 +151,7 @@
 				966F4A3E1E84BDD300154669 /* XvSetTableData.swift */,
 				96DC44541EE6F8DC0032DC9C /* XvSetKitTableData.swift */,
 				96DC444C1EE47F8D0032DC9C /* XvSetCheckmarkTableData.swift */,
+				96C30CE11EF6C1F70058A64D /* Instances */,
 			);
 			name = Tables;
 			sourceTree = "<group>";
@@ -183,6 +193,24 @@
 				966F4A581E84BE3C00154669 /* XvSetDisclosureCell.swift */,
 			);
 			name = Rows;
+			sourceTree = "<group>";
+		};
+		96C30CE11EF6C1F70058A64D /* Instances */ = {
+			isa = PBXGroup;
+			children = (
+				96C30CE91EF6CFB70058A64D /* XvSetMainTableData.swift */,
+				96C30CE21EF6C2560058A64D /* XvMidiSyncData.swift */,
+				96C30CE41EF6C4700058A64D /* XvMusicalScaleData.swift */,
+			);
+			name = Instances;
+			sourceTree = "<group>";
+		};
+		96C30CE61EF6C90E0058A64D /* Instances */ = {
+			isa = PBXGroup;
+			children = (
+				96C30CE71EF6CC460058A64D /* XvSetMainTable.swift */,
+			);
+			name = Instances;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,18 +299,22 @@
 				966F4A401E84BDD300154669 /* XvSetTableData.swift in Sources */,
 				96DC444D1EE47F8D0032DC9C /* XvSetCheckmarkTableData.swift in Sources */,
 				966F4A481E84BDE200154669 /* XvSetCheckmarkCellData.swift in Sources */,
+				96C30CE51EF6C4700058A64D /* XvMusicalScaleData.swift in Sources */,
 				966F4A501E84BE1400154669 /* Utils.swift in Sources */,
 				966F4A5C1E84BE3C00154669 /* XvSetCell.swift in Sources */,
 				96DC44551EE6F8DC0032DC9C /* XvSetKitTableData.swift in Sources */,
 				966F4A5B1E84BE3C00154669 /* XvSetButtonCell.swift in Sources */,
 				966F4A471E84BDE200154669 /* XvSetCellData.swift in Sources */,
 				966F4A5D1E84BE3C00154669 /* XvSetCheckmarkCell.swift in Sources */,
+				96C30CE81EF6CC460058A64D /* XvSetMainTable.swift in Sources */,
 				966F4A5E1E84BE3C00154669 /* XvSetDisclosureCell.swift in Sources */,
 				966F4A4D1E84BE0B00154669 /* XvCoreDataManager.swift in Sources */,
 				96DC444F1EE592920032DC9C /* XvSetCheckmarkTable.swift in Sources */,
 				966F4A491E84BDE200154669 /* XvSetDisclosureCellData.swift in Sources */,
 				966F4A601E84BE3C00154669 /* XvSetToggleCell.swift in Sources */,
 				96DC44531EE64DFA0032DC9C /* XvSetButtonCellData.swift in Sources */,
+				96C30CE31EF6C2560058A64D /* XvMidiSyncData.swift in Sources */,
+				96C30CEA1EF6CFB70058A64D /* XvSetMainTableData.swift in Sources */,
 				966F4A361E84BD8D00154669 /* XvSetTable.swift in Sources */,
 				96DC44511EE63B5F0032DC9C /* XvSetToggleCellData.swift in Sources */,
 				966F4A4E1E84BE0B00154669 /* XvSetConstants.swift in Sources */,

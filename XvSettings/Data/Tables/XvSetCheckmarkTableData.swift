@@ -39,8 +39,9 @@ open class XvSetCheckmarkTableData:XvSetTableData {
         values:[Any],
         textLabel:String,
         detailTextLabels:[String],
-        multi:Bool
-        ) {
+        multi:Bool,
+        levelType:String
+        ){
     
         self.key = key
         self.dataType = dataType
@@ -68,7 +69,8 @@ open class XvSetCheckmarkTableData:XvSetTableData {
                 textLabel: detailTextLabels[i],
                 dataType: dataType,
                 selected: isSelected,
-                multi: multi
+                multi: multi,
+                levelType: levelType
             )
             
             cellDataArray.append(cellData)

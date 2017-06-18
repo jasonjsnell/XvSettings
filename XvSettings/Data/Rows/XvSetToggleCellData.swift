@@ -14,13 +14,15 @@ public class XvSetToggleCellData:XvSetCellData {
     public init(
         key:String,
         value:Any,
-        textLabel:String){
+        textLabel:String,
+        levelType:String){
         
         super.init(
             key: key,
             value: value,
             textLabel: textLabel,
-            displayType: XvSetConstants.DISPLAY_TYPE_SWITCH
+            displayType: XvSetConstants.DISPLAY_TYPE_SWITCH,
+            levelType: levelType
         )
         
     }

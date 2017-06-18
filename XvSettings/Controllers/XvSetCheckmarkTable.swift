@@ -8,8 +8,6 @@
 
 import UIKit
 
-import UIKit
-
 //check mark tables are launched with a parent disclosure cell, rather than a data class. The data for the class is inside the incoming cell
 
 open class XvSetCheckmarkTable: XvSetTable {
@@ -62,10 +60,6 @@ open class XvSetCheckmarkTable: XvSetTable {
             } else {
                 print("SETTINGS: Parent cell data is invalid during _checkmarkRowSelected")
             }
-            
         }
-        
     }
-
-    
 }
