@@ -11,9 +11,6 @@ import CoreData
 
 public class KitTableData:TableData {
     
-    //local copy
-    fileprivate var xvcdm:XvCoreDataManager = XvCoreDataManager()
-    
     public init(kitDataObj:NSManagedObject){
         //print("SETTINGS: Init kit table with data obj", kitDataObj)
         

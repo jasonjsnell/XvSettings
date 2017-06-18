@@ -8,7 +8,7 @@
 
 class MidiSyncData:CheckmarkTableData {
     
-    fileprivate let xvcdm:XvCoreDataManager = XvCoreDataManager()
+    fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
     public init(){
         
@@ -18,7 +18,7 @@ class MidiSyncData:CheckmarkTableData {
             
             key: key,
             dataType: XvSetConstants.DATA_TYPE_STRING,
-            value: xvcdm.getAppString(forKey: key),
+            value: _xvcdm.getAppString(forKey: key),
             values: [
                 XvSetConstants.MIDI_CLOCK_RECEIVE,
                 XvSetConstants.MIDI_CLOCK_SEND,

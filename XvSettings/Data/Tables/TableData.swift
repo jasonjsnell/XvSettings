@@ -11,6 +11,8 @@ import Foundation
 
 public class TableData {
     
+    internal let xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
+    
     public var title:String = ""
     public var sections:[SectionData] = []
     

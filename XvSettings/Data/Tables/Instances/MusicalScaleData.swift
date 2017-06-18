@@ -8,7 +8,7 @@
 
 class MusicalScaleData:CheckmarkTableData {
     
-    fileprivate let xvcdm:XvCoreDataManager = XvCoreDataManager()
+    fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
     public init(){
        
@@ -18,7 +18,7 @@ class MusicalScaleData:CheckmarkTableData {
             
             key: key,
             dataType: XvSetConstants.DATA_TYPE_STRING,
-            value: xvcdm.getAppString(forKey: key),
+            value: _xvcdm.getAppString(forKey: key),
             values: XvSetConstants.getMusicScaleValues(),
             textLabel: XvSetConstants.MUSIC_SCALE_LABEL,
             detailTextLabels: XvSetConstants.getMusicScaleLabels(),

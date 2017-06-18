@@ -15,7 +15,7 @@ public class TableVC: UITableViewController {
     
     //MARK: - VARIABLES -
     
-    internal let xvcdm:XvCoreDataManager = XvCoreDataManager()
+    internal let xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
     //table data
     public var dataSource:TableData?

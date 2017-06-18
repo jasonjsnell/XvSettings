@@ -30,6 +30,12 @@ open class XvCoreDataManager {
     
     //MARK: - INIT - 
     
+    //public init(){
+        //nothing here, because it gets called before app delegate init's
+    //}
+    
+    //singleton code
+    static public let sharedInstance = XvCoreDataManager()
     public init(){
         //nothing here, because it gets called before app delegate init's
     }
@@ -38,10 +44,11 @@ open class XvCoreDataManager {
     //ref to managedContext
     public func setup(withManagedContext:NSManagedObjectContext){
         
-        if (debug){
-            print("CDM: Setup")
-        }
         self.managedContext = withManagedContext
+        
+        if (debug){
+            print("XVCDM: Setup", self.managedContext as Any)
+        }
         
     }
     
@@ -56,7 +63,7 @@ open class XvCoreDataManager {
             
         } else {
             
-            print("CDM: Error: Managed context is nil during createNewObject")
+            print("XVCDM: Error: Managed context is nil during createNewObject")
             return nil
         }
         
@@ -84,7 +91,7 @@ open class XvCoreDataManager {
                     //if none, return nil
                     if (apps.count == 0){
                         
-                        print("CDM: No app object, returning nil")
+                        print("XVCDM: No app object, returning nil")
                         return nil
                         
                     } else {
@@ -100,14 +107,16 @@ open class XvCoreDataManager {
             }
             
         } else {
-            print("CDM: Error: Managed context is nil during getApp")
+            print("XVCDM: Error: Managed context is nil during getApp")
             return nil
         }
         
     }
     
-    
+    //TODO: managed context not showing up here
     public func getKits() -> [NSManagedObject]? {
+        
+        print("XVCDM: Get Kits")
         
         if (managedContext != nil){
             
@@ -129,7 +138,7 @@ open class XvCoreDataManager {
             }
             
         } else {
-            print("CDM: Error: Managed context is nil during getKits")
+            print("XVCDM: Error: Managed context is nil during getKits")
             return nil
         }
         
@@ -137,6 +146,8 @@ open class XvCoreDataManager {
     
     
     public func getKit(withID:String) -> NSManagedObject? {
+        
+        print("XVCDM: Get kit with ID", withID)
         
         if let kits:[NSManagedObject] = getKits() {
             
@@ -149,16 +160,16 @@ open class XvCoreDataManager {
                     }
                     
                 } else {
-                    print("CDM: Error finding kit ID during during getKit(withID)")
+                    print("XVCDM: Error finding kit ID during during getKit(withID)")
                     return nil
                 }
             }
             
-            print("CDM: Error finding kit with id", withID)
+            print("XVCDM: Error finding kit with id", withID)
             return nil
             
         } else {
-            print("CDM: Error: Unable to get kits during getKit(withID)")
+            print("XVCDM: Error: Unable to get kits during getKit(withID)")
             return nil
         }
     }
@@ -188,7 +199,7 @@ open class XvCoreDataManager {
                         //and place content in that position in the sorted array
                         sortedInstrumentObjArr[position] = unsortedObj
                     } else {
-                        print("CDM: Error getting position from unsorted object during getInstruments")
+                        print("XVCDM: Error getting position from unsorted object during getInstruments")
                     }
                     
                 }
@@ -196,15 +207,14 @@ open class XvCoreDataManager {
                 return sortedInstrumentObjArr
                 
             } else {
-                print("CDM: Error getting instrument managed object array for kit", forKitObject)
+                print("XVCDM: Error getting instrument managed object array for kit", forKitObject)
                 return nil
             }
             
         } else {
-            print("CDM: Error getting instruments NSSet for kit", forKitObject)
+            print("XVCDM: Error getting instruments NSSet for kit", forKitObject)
             return nil
         }
-        
     }
     
     //MARK: - ACCESSORS FOR APP LEVEL VARS
@@ -214,7 +224,7 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getBool(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Unable to get app object during getAppBool, returning false")
+            print("XVCDM: Error geting app object during getAppBool, returning false")
             return false
         }
         
@@ -225,7 +235,7 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getDouble(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Unable to get app object during getAppDouble, returning 0.0")
+            print("XVCDM: Error geting app object during getAppDouble, returning 0.0")
             return 0.0
         }
         
@@ -236,7 +246,7 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getFloat(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Unable to get app object during getAppFloat, returning 0.0")
+            print("XVCDM: Error geting app object during getAppFloat, returning 0.0")
             return 0.0
         }
         
@@ -247,7 +257,7 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getInteger(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Unable to get app object during getAppInterger, returning 0")
+            print("XVCDM: Error geting app object during getAppInterger, returning 0")
             return 0
         }
         
@@ -258,7 +268,7 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getString(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Unable to get app object during getAppString, returning blank string")
+            print("XVCDM: Error geting app object during getAppString, returning blank string")
             return ""
         }
         
@@ -280,7 +290,7 @@ open class XvCoreDataManager {
             return array
             
         } else {
-            print("CDM: Error getting array for key", forKey, ", returning []")
+            print("XVCDM: Error getting array for key", forKey, ", returning []")
             return []
         }
     }
@@ -292,7 +302,7 @@ open class XvCoreDataManager {
             return bool
             
         } else {
-            print("CDM: Error getting bool for key", forKey, ", returning false")
+            print("XVCDM: Error getting bool for key", forKey, ", returning false")
             return false
         }
     }
@@ -304,7 +314,7 @@ open class XvCoreDataManager {
             return double
             
         } else {
-            print("CDM: Error getting double for key", forKey, ", returning 0.0")
+            print("XVCDM: Error getting double for key", forKey, ", returning 0.0")
             return 0.0
         }
     }
@@ -316,7 +326,7 @@ open class XvCoreDataManager {
             return flt
             
         } else {
-            print("CDM: Error getting float for key", forKey, ", returning 0.0")
+            print("XVCDM: Error getting float for key", forKey, ", returning 0.0")
             return 0.0
         }
     }
@@ -328,7 +338,7 @@ open class XvCoreDataManager {
             return int
             
         } else {
-            print("CDM: Error getting integer for key", forKey, ", returning 0")
+            print("XVCDM: Error getting integer for key", forKey, ", returning 0")
             return 0
         }
     }
@@ -350,7 +360,7 @@ open class XvCoreDataManager {
             return str
             
         } else {
-            print("CDM: Error getting string for key", forKey, ", returning blank string")
+            print("XVCDM: Error getting string for key", forKey, ", returning blank string")
             return ""
         }
     }
@@ -390,14 +400,14 @@ open class XvCoreDataManager {
                 return objs
                 
             } catch _ as NSError {
-                print("CDM: Error, could not fetch objects during getManagedObjectArray")
+                print("XVCDM: Error, could not fetch objects during getManagedObjectArray")
                 return nil
             }
             
             
         } else {
             
-            print("CDM: Error: Managed context is nil during _getManagedObjectArray")
+            print("XVCDM: Error: Managed context is nil during _getManagedObjectArray")
             return nil
         
         }
@@ -419,7 +429,7 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             set(value: value, forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Unable to get app object during setAppValue")
+            print("XVCDM: Unable to get app object during setAppValue")
         }
     }
     
@@ -428,7 +438,7 @@ open class XvCoreDataManager {
         forObject.setValue(value, forKeyPath: forKey)
         
         if (debug){
-            print("CDM: Set", forKey, "to", value)
+            print("XVCDM: Set", forKey, "to", value)
         }
     }
     
@@ -442,19 +452,19 @@ open class XvCoreDataManager {
                 
                 try managedContext!.save()
                 if (debug){
-                    print("CDM: Data saved")
+                    print("XVCDM: Data saved")
                 }
                 return true
                 
             } catch let error as NSError {
                 
-                print("CDM: Error: Could not save managed context \(error), \(error.userInfo)")
+                print("XVCDM: Error: Could not save managed context \(error), \(error.userInfo)")
                 return false
                 
             }
             
         } else {
-            print("CDM: Error: Managed context is nil during save")
+            print("XVCDM: Error: Managed context is nil during save")
             return false
         }
         

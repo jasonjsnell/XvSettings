@@ -23,9 +23,6 @@ import CoreData
 
 public class XvSetMainTableData:TableData {
     
-    //ref
-    fileprivate let xvcdm:XvCoreDataManager = XvCoreDataManager()
-    
     //MARK:- INIT -
     //build cells and put them into sections
     
@@ -43,6 +40,8 @@ public class XvSetMainTableData:TableData {
         // Loop through the instrument kits and prep two sections
         // 1. Section to select the current kit
         // 2. Section to customize any kit
+        
+        print("XvSetMainTableData, getKits local")
         
         if let kits:[NSManagedObject] = xvcdm.getKits() {
             
