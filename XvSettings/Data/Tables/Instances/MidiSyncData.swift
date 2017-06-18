@@ -6,7 +6,7 @@
 //  Copyright © 2017 Jason J. Snell. All rights reserved.
 
 
-class XvMidiSyncData:XvSetCheckmarkTableData {
+class MidiSyncData:CheckmarkTableData {
     
     fileprivate let xvcdm:XvCoreDataManager = XvCoreDataManager()
     
@@ -35,7 +35,7 @@ class XvMidiSyncData:XvSetCheckmarkTableData {
             levelType: XvSetConstants.LEVEL_TYPE_APP
         )
         
-        let section:XvSetSectionData = XvSetSectionData(
+        let section:SectionData = SectionData(
             header: XvSetConstants.MIDI_SYNC_LABEL,
             footerType: XvSetConstants.FOOTER_TYPE_NONE,
             footerText: nil,

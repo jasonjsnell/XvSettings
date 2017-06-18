@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class XvSetButtonCellData:XvSetCellData {
+public class ButtonCellData:CellData {
     
     //MARK:- INIT
     public init(

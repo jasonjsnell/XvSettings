@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-open class XvSetKitTableData:XvSetTableData {
+public class KitTableData:TableData {
     
     //local copy
     fileprivate var xvcdm:XvCoreDataManager = XvCoreDataManager()
@@ -29,7 +29,7 @@ open class XvSetKitTableData:XvSetTableData {
         //try to get instruments data array from core data
         if let instrumentsDataObjs:[NSManagedObject] = xvcdm.getInstruments(forKitObject: kitDataObj) as? [NSManagedObject] {
             
-            var instrumentDisclosureCellDataArray:[XvSetDisclosureCellData] = []
+            var instrumentDisclosureCellDataArray:[DisclosureCellData] = []
             
             // loop through each instrument
             for instrumentsDataObj in instrumentsDataObjs {
@@ -39,7 +39,7 @@ open class XvSetKitTableData:XvSetTableData {
                     forObject: instrumentsDataObj
                 )
                 
-                let instrumentDisclosureCellData:XvSetDisclosureCellData = XvSetDisclosureCellData(
+                let instrumentDisclosureCellData:DisclosureCellData = DisclosureCellData(
                     key: "temp",
                     textLabel: name
                 )
@@ -50,7 +50,7 @@ open class XvSetKitTableData:XvSetTableData {
             
             
             
-            let instrumentsSection:XvSetSectionData = XvSetSectionData(
+            let instrumentsSection:SectionData = SectionData(
                 header: "Instruments",
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
@@ -66,18 +66,18 @@ open class XvSetKitTableData:XvSetTableData {
         
             
         } else {
-            print("SETTINGS: Unable to find instruments data array during XvSetKitTableData init")
+            print("SETTINGS: Unable to find instruments data array during KitTableData init")
         }
         
         //MARK: Artificial Intelligence
         
-        let artificialIntelligence:XvSetButtonCellData = XvSetButtonCellData(
+        let artificialIntelligence:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kKitArtificialIntelligence,
             textLabel: "Reset AI Memory",
             levelType: XvSetConstants.LEVEL_TYPE_KIT
         )
         
-        let artificialIntelligenceSection:XvSetSectionData = XvSetSectionData(
+        let artificialIntelligenceSection:SectionData = SectionData(
             header: "Artificial Intelligence",
             footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
             footerText: ["This clears and resets the AI memory for " + kitName + "."],
@@ -92,13 +92,13 @@ open class XvSetKitTableData:XvSetTableData {
         
         //MARK: Factory settings
         
-        let factorySettings:XvSetButtonCellData = XvSetButtonCellData(
+        let factorySettings:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kKitFactorySettings,
             textLabel: "Restore " + kitName,
             levelType: XvSetConstants.LEVEL_TYPE_KIT
         )
         
-        let factorySettingsSection:XvSetSectionData = XvSetSectionData(
+        let factorySettingsSection:SectionData = SectionData(
             header: "Factory Settings",
             footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
             footerText: ["This resets the " + kitName + " and its instruments to their factory settings."],
@@ -120,17 +120,17 @@ open class XvSetKitTableData:XvSetTableData {
         
         // Loop through instruments in kit
         
-        var instrumentDisclosureCellDataArray:[XvSetDisclosureCellData] = []
+        var instrumentDisclosureCellDataArray:[DisclosureCellData] = []
         
         for instrument in kitDataObj.instrumentArray {
             
-            let instrumentDisclosureCellData:XvSetDisclosureCellData = XvSetDisclosureCellData(key: "", textLabel: instrument.name)
+            let instrumentDisclosureCellData:DisclosureCellData = DisclosureCellData(key: "", textLabel: instrument.name)
             
             instrumentDisclosureCellDataArray.append(instrumentDisclosureCellData)
             
         }
         
-        let instrumentSelection:XvSetSectionData = XvSetSectionData(
+        let instrumentSelection:SectionData = SectionData(
             header: "Instruments",
             footerType: XvSetConstants.FOOTER_TYPE_NONE,
             footerText: nil,

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class XvSetDisclosureCellData:XvSetCellData {
+class DisclosureCellData:CellData {
    
     //MARK: - VARIABLES
     
@@ -17,11 +17,11 @@ public class XvSetDisclosureCellData:XvSetCellData {
     internal var detailTextLabels:[String]
     
     //data for the sub table that gets launched
-    internal var checkmarkTableDataSource:XvSetCheckmarkTableData?
+    internal var checkmarkTableDataSource:CheckmarkTableData?
     
     //MARK: - INIT
     
-    public init(key:String, value:Any, textLabel:String){
+    init(key:String, value:Any, textLabel:String){
         
         detailTextLabel = ""
         detailTextLabels = []
@@ -37,7 +37,7 @@ public class XvSetDisclosureCellData:XvSetCellData {
     }
     
     //init by data class, for simpler disclosure cells that launch non-checkmark tables
-    public convenience init (key:String, textLabel:String){
+    convenience init (key:String, textLabel:String){
         
         self.init(
             key: key,
@@ -49,7 +49,7 @@ public class XvSetDisclosureCellData:XvSetCellData {
     
     // init with data class, unpack it to get the vars
     // called by table that wants to create a checkmark table launched from a disclosure cell tap
-    public convenience init(withCheckmarkTableDataSource: XvSetCheckmarkTableData){
+    convenience init(withCheckmarkTableDataSource: CheckmarkTableData){
         
         //init with data from table data source
         self.init(

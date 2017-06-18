@@ -11,27 +11,26 @@
 import UIKit
 import CoreData
 
-open class XvSetTable: UITableViewController {
+public class TableVC: UITableViewController {
     
-
     //MARK: - VARIABLES -
     
     internal let xvcdm:XvCoreDataManager = XvCoreDataManager()
     
     //table data
-    public var dataSource:XvSetTableData?
+    public var dataSource:TableData?
     
     
     internal var nav:UINavigationController?
     internal let debug:Bool = false
 
     
-    internal var sectionFooterViews:[SetFooter?]?
+    internal var sectionFooterViews:[Footer?]?
     
-    //MARK: - OPEN API
+    //MARK: - PUBLIC API
     //MARK:   LOAD -
     
-    override open func viewDidLoad() {
+    override public func viewDidLoad() {
         
         super.viewDidLoad()
         
@@ -50,7 +49,7 @@ open class XvSetTable: UITableViewController {
     
     //MARK: - SECTIONS
     // number of section(s)
-    override open func numberOfSections(in tableView: UITableView) -> Int {
+    override public func numberOfSections(in tableView: UITableView) -> Int {
         
         if (dataSource != nil){
             return dataSource!.sections.count
@@ -63,7 +62,7 @@ open class XvSetTable: UITableViewController {
     
     //MARK:- ROWS -
     //number of rows in each section
-    override open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if (dataSource != nil){
             
@@ -87,7 +86,7 @@ open class XvSetTable: UITableViewController {
     }
     
     //height of rows in each section
-    override open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         
         if (dataSource != nil){
@@ -111,12 +110,12 @@ open class XvSetTable: UITableViewController {
         
     }
     
-    override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if (dataSource != nil){
             
             //get cell data
-            let cellDataObj:XvSetCellData = dataSource!.sections[indexPath.section].cells[indexPath.row]
+            let cellDataObj:CellData = dataSource!.sections[indexPath.section].cells[indexPath.row]
             
             //set the index path into the object so it can be referred to later
             //example: toggle switch requires it to set isSectionVisible bool in data class
@@ -126,7 +125,7 @@ open class XvSetTable: UITableViewController {
             if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_SWITCH){
                 
                 //create toggle cell
-                let toggleCell:XvSetToggleCell = XvSetToggleCell(
+                let toggleCell:ToggleCell = ToggleCell(
                     style: .default,
                     reuseIdentifier: cellDataObj.key,
                     data: cellDataObj)
@@ -142,7 +141,7 @@ open class XvSetTable: UITableViewController {
                 
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_BUTTON){
                 
-                return XvSetButtonCell(
+                return ButtonCell(
                     style: .default,
                     reuseIdentifier: cellDataObj.key,
                     data: cellDataObj)
@@ -150,20 +149,20 @@ open class XvSetTable: UITableViewController {
                 
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_CHECKMARK){
                 
-                return XvSetCheckmarkCell(
+                return CheckmarkCell(
                     style: .default,
                     reuseIdentifier: cellDataObj.key,
-                    data: cellDataObj as! XvSetCheckmarkCellData)
+                    data: cellDataObj as! CheckmarkCellData)
                                 
                 
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_DISCLOSURE){
                 
                 //disclosure - leads to subview
                 
-                return XvSetDisclosureCell(
+                return DisclosureCell(
                     style: .value1,
                     reuseIdentifier: cellDataObj.key,
-                    data: cellDataObj as! XvSetDisclosureCellData)
+                    data: cellDataObj as! DisclosureCellData)
                 
                 
             } else {
@@ -180,7 +179,7 @@ open class XvSetTable: UITableViewController {
     
     //MARK:- HEADERS
     //title text and their heights in each section
-    override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if (dataSource != nil){
             
@@ -205,7 +204,7 @@ open class XvSetTable: UITableViewController {
     }
     
     //title height
-    override open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         if (dataSource != nil){
             
@@ -231,7 +230,7 @@ open class XvSetTable: UITableViewController {
     
     //MARK:- FOOTERS
     //footer views and their heights in each section
-    override open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    override public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
         if (dataSource != nil){
             
@@ -256,7 +255,7 @@ open class XvSetTable: UITableViewController {
         
     }
     
-    override open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
         if (dataSource != nil){
             
@@ -280,17 +279,17 @@ open class XvSetTable: UITableViewController {
         
     }
 
-    //MARK: - OPEN API
+    //MARK: - PUBLIC API
     //MARK:   USER INPUT -
     
     //MARK: ROWS
     
     //prevents clicks on rows with toggle switches from firing
     //this fixes errors where toggle switches were getting stuck in one position
-    override open func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    override public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
-        let cell:XvSetCell = tableView.cellForRow(at: indexPath) as! XvSetCell
-        if let cellData:XvSetCellData = cell.data {
+        let cell:Cell = tableView.cellForRow(at: indexPath) as! Cell
+        if let cellData:CellData = cell.data {
             
             //return nil on toggle cells, making their background not clickable
             if (cellData.displayType == XvSetConstants.DISPLAY_TYPE_SWITCH){
@@ -306,7 +305,7 @@ open class XvSetTable: UITableViewController {
     
     // when user selects a row, do the error checking then call the more usable rowSelected funcs that are specific to each row type (a disclosure cell, a checkmark cell, a button cell, etc...)
     
-    override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //is data valid?
         if (dataSource != nil){
@@ -317,7 +316,7 @@ open class XvSetTable: UITableViewController {
                 
                 //MARK: Disclosure cells
                 
-                if let cell:XvSetDisclosureCell = getDisclosureCell(indexPath: indexPath){
+                if let cell:DisclosureCell = getDisclosureCell(indexPath: indexPath){
                     
                     //get the key
                     if let key:String = getKey(fromCell: cell) {
@@ -337,7 +336,7 @@ open class XvSetTable: UITableViewController {
                 
                 //MARK: Checkmark cells
                 
-                if let cell:XvSetCheckmarkCell = getCheckmarkCell(indexPath: indexPath) {
+                if let cell:CheckmarkCell = getCheckmarkCell(indexPath: indexPath) {
                     
                     if let key:String = getKey(fromCell: cell) {
                         
@@ -362,7 +361,7 @@ open class XvSetTable: UITableViewController {
                 
                 //MARK: Button cells
                 
-                if let cell:XvSetButtonCell = getButtonCell(indexPath: indexPath){
+                if let cell:ButtonCell = getButtonCell(indexPath: indexPath){
                     
                     if let key:String = getKey(fromCell: cell) {
                         
@@ -388,11 +387,11 @@ open class XvSetTable: UITableViewController {
     }
     
     //override by app settings classes, which check for app specific keys and execute app specific commands
-    open func disclosureRowSelected(cell:XvSetDisclosureCell, key:String){
+    internal func disclosureRowSelected(cell:DisclosureCell, key:String){
         
     }
     
-    open func checkmarkRowSelected(cell:XvSetCheckmarkCell, key:String) {
+    internal func checkmarkRowSelected(cell:CheckmarkCell, key:String) {
         
         
         
@@ -400,7 +399,7 @@ open class XvSetTable: UITableViewController {
     }
     
     //MARK: - Buttons cells
-    open func buttonRowSelected(cell:XvSetButtonCell, key:String) {
+    internal func buttonRowSelected(cell:ButtonCell, key:String) {
         
         if (key == XvSetConstants.kKitArtificialIntelligence){
             
@@ -418,7 +417,7 @@ open class XvSetTable: UITableViewController {
     
     //MARK: - TOGGLE SWITCH
     
-    open func toggleSwitchChanged(_ sender:UISwitch) {
+    internal func toggleSwitchChanged(_ sender:UISwitch) {
         
         updateValues(fromSwitch: sender)
         refreshTableDisplay(fromSwitch: sender)
@@ -443,7 +442,7 @@ open class XvSetTable: UITableViewController {
     }
     
     //override in app 
-    open func toggleSelected(isOn:Bool, key:String){
+    internal func toggleSelected(isOn:Bool, key:String){
         
     }
 
@@ -454,7 +453,7 @@ open class XvSetTable: UITableViewController {
     
     //MARK: LOAD
     
-    public func load(withDataSource:XvSetTableData){
+    public func load(withDataSource:TableData){
         
         if (debug){
             print("SETTINGS TABLE: Load data source", withDataSource)
@@ -470,30 +469,13 @@ open class XvSetTable: UITableViewController {
         self.nav = nav
     }
     
-    public func getNav() -> UINavigationController? {
+    internal func getNav() -> UINavigationController? {
         return nav
     }
     
     //MARK: - VC MANAGEMENT
     
-    public func loadCheckmarkTable(fromCell:XvSetDisclosureCell) {
-        
-        let vc:XvSetCheckmarkTable = XvSetCheckmarkTable()
-        vc.load(withParentDisclosureCell: fromCell)
-        push(viewController: vc)
-        
-    }
-    
-    public func loadKitTable(fromDataObj: NSManagedObject) {
-        
-        let setKitTableData:XvSetKitTableData = XvSetKitTableData(kitDataObj: fromDataObj)
-        let vc:XvSetTable = XvSetTable()
-        vc.load(withDataSource: setKitTableData)
-        push(viewController: vc)
-        
-    }
-
-    
+    //called internally and by settings helper
     public func push(viewController:UIViewController) {
         if (getNav() != nil){
             getNav()!.pushViewController(viewController, animated: true)
@@ -502,8 +484,27 @@ open class XvSetTable: UITableViewController {
         }
     }
     
+    internal func loadCheckmarkTable(fromCell:DisclosureCell) {
+        
+        let vc:CheckmarkTableVC = CheckmarkTableVC()
+        vc.load(withParentDisclosureCell: fromCell)
+        push(viewController: vc)
+        
+    }
+    
+    internal func loadKitTable(fromDataObj: NSManagedObject) {
+        
+        let setKitTableData:KitTableData = KitTableData(kitDataObj: fromDataObj)
+        let vc:TableVC = TableVC()
+        vc.load(withDataSource: setKitTableData)
+        push(viewController: vc)
+        
+    }
+
+    
+    
     //MARK: Row / cell getters
-    public func getDisplayType(dataSource:XvSetTableData, indexPath:IndexPath) -> String {
+    internal func getDisplayType(dataSource:TableData, indexPath:IndexPath) -> String {
         
         return dataSource.sections[indexPath.section].cells[indexPath.row].displayType
     }
@@ -530,9 +531,9 @@ open class XvSetTable: UITableViewController {
     }
 
     
-    public func getDisclosureCell(indexPath: IndexPath) -> XvSetDisclosureCell? {
+    internal func getDisclosureCell(indexPath: IndexPath) -> DisclosureCell? {
         
-        if let cell:XvSetDisclosureCell = tableView.cellForRow(at: indexPath) as? XvSetDisclosureCell {
+        if let cell:DisclosureCell = tableView.cellForRow(at: indexPath) as? DisclosureCell {
             
             return cell
             
@@ -543,9 +544,9 @@ open class XvSetTable: UITableViewController {
         
     }
     
-    public func getCheckmarkCell(indexPath: IndexPath) -> XvSetCheckmarkCell? {
+    internal func getCheckmarkCell(indexPath: IndexPath) -> CheckmarkCell? {
         
-        if let cell:XvSetCheckmarkCell = tableView.cellForRow(at: indexPath) as? XvSetCheckmarkCell {
+        if let cell:CheckmarkCell = tableView.cellForRow(at: indexPath) as? CheckmarkCell {
             
             return cell
             
@@ -557,15 +558,15 @@ open class XvSetTable: UITableViewController {
         
     }
     
-    fileprivate func getCheckmarkCells(inSection:Int) -> [XvSetCheckmarkCell]? {
+    fileprivate func getCheckmarkCells(inSection:Int) -> [CheckmarkCell]? {
         
         if let cells:[UITableViewCell] = getCells(inSection: inSection) {
             
-            var checkmarkCells:[XvSetCheckmarkCell] = []
+            var checkmarkCells:[CheckmarkCell] = []
             
             for cell in cells {
                 
-                if let checkmarkCell:XvSetCheckmarkCell = cell as? XvSetCheckmarkCell {
+                if let checkmarkCell:CheckmarkCell = cell as? CheckmarkCell {
                     checkmarkCells.append(checkmarkCell)
                 }
             }
@@ -583,9 +584,9 @@ open class XvSetTable: UITableViewController {
         
     }
     
-    public func getButtonCell(indexPath: IndexPath) -> XvSetButtonCell? {
+    public func getButtonCell(indexPath: IndexPath) -> ButtonCell? {
         
-        if let cell:XvSetButtonCell = tableView.cellForRow(at: indexPath) as? XvSetButtonCell {
+        if let cell:ButtonCell = tableView.cellForRow(at: indexPath) as? ButtonCell {
             
             return cell
             
@@ -597,9 +598,9 @@ open class XvSetTable: UITableViewController {
         
     }
     
-    public func getKey(fromCell: XvSetCell) -> String? {
+    public func getKey(fromCell: Cell) -> String? {
         
-        if let cellData:XvSetCellData = fromCell.data {
+        if let cellData:CellData = fromCell.data {
             
             return cellData.key
             
@@ -610,7 +611,7 @@ open class XvSetTable: UITableViewController {
         
     }
     
-    public func getCell(fromKey:String) -> XvSetCell? {
+    public func getCell(fromKey:String) -> Cell? {
         
         for section:Int in 0..<tableView.numberOfSections {
             
@@ -619,10 +620,10 @@ open class XvSetTable: UITableViewController {
                 let indexPath:IndexPath = IndexPath(row: row, section: section)
                 
                 //if cell can be cast as SetCell object
-                if let cell:XvSetCell = tableView.cellForRow(at: indexPath) as? XvSetCell {
+                if let cell:Cell = tableView.cellForRow(at: indexPath) as? Cell {
                     
                     //if data is valid
-                    if let data:XvSetCellData = cell.data {
+                    if let data:CellData = cell.data {
                         
                         if (data.key == fromKey){
                             return cell
@@ -651,7 +652,7 @@ open class XvSetTable: UITableViewController {
             
             for i in 0 ..< dataSource!.sections.count {
                 
-                var setFooter:SetFooter?
+                var setFooter:Footer?
                 let type:String = dataSource!.sections[i].footerType
                 let text:[String]? = dataSource!.sections[i].footerText
                 let link:String? = dataSource!.sections[i].footerLink
@@ -662,7 +663,7 @@ open class XvSetTable: UITableViewController {
                     if (text != nil){
                         
                         //... create footer
-                        setFooter = SetFooter(withText: text![0])
+                        setFooter = Footer(withText: text![0])
                         
                         //and append to object's array
                         sectionFooterViews!.append(setFooter)
@@ -679,7 +680,7 @@ open class XvSetTable: UITableViewController {
                     if (text != nil && link != nil){
                         
                         //... create footer
-                        setFooter = SetFooter(
+                        setFooter = Footer(
                             preText: text![0],
                             underlinedText: text![1],
                             postText: text![2],
@@ -721,7 +722,7 @@ open class XvSetTable: UITableViewController {
     //user taps link is settings footer
     internal func footerWithLinkWasTapped(sender:UITapGestureRecognizer){
         
-        if let footer:SetFooter = sender.view as? SetFooter {
+        if let footer:Footer = sender.view as? Footer {
             
             if (debug){
                 print("SETTINGS: Launch", footer.url)
@@ -739,9 +740,9 @@ open class XvSetTable: UITableViewController {
     
     //MARK: Checkmark
     //overridden in checkmark table class
-    internal func _checkmarkRowSelected(cell: XvSetCheckmarkCell, indexPath:IndexPath) {
+    internal func _checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
         
-        if let data:XvSetCheckmarkCellData = cell.data as? XvSetCheckmarkCellData {
+        if let data:CheckmarkCellData = cell.data as? CheckmarkCellData {
             
             //if not a multi cell, uncheck all others
             if (!data.multi){
@@ -774,13 +775,13 @@ open class XvSetTable: UITableViewController {
     
     fileprivate func _turnOffCheckmarks(inSection:Int){
         
-        if let checkmarkCells:[XvSetCheckmarkCell] = getCheckmarkCells(inSection: inSection) {
+        if let checkmarkCells:[CheckmarkCell] = getCheckmarkCells(inSection: inSection) {
             
             for cell in checkmarkCells {
                 
                 cell.accessoryType = .none
                 
-                if let data:XvSetCheckmarkCellData = cell.data as? XvSetCheckmarkCellData {
+                if let data:CheckmarkCellData = cell.data as? CheckmarkCellData {
                     data.selected = false
                 } else {
                     print("SETTINGS: No data available in checkmark cell")
@@ -799,7 +800,7 @@ open class XvSetTable: UITableViewController {
     fileprivate func updateValues(fromSwitch:UISwitch){
         
         //if cell data is valid...
-        if let toggleCellData:XvSetCellData = getToggleCellData(fromSwitch: fromSwitch) {
+        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
             
             //set cell data's default value to uiswitch value
             toggleCellData.value = fromSwitch.isOn
@@ -863,7 +864,7 @@ open class XvSetTable: UITableViewController {
     //general toggle switch accessors
     public func getToggleCellKey(fromSwitch:UISwitch) -> String?{
         
-        if let toggleCellData:XvSetCellData = getToggleCellData(fromSwitch: fromSwitch) {
+        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
             
             return toggleCellData.key
         
@@ -877,7 +878,7 @@ open class XvSetTable: UITableViewController {
     
     internal func getIndexPath(fromSwitch:UISwitch) -> IndexPath? {
         
-        if let toggleCellData:XvSetCellData = getToggleCellData(fromSwitch: fromSwitch) {
+        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
             
             return toggleCellData.indexPath
         
@@ -890,13 +891,13 @@ open class XvSetTable: UITableViewController {
         
     }
     
-    fileprivate func getToggleCellData(fromSwitch:UISwitch) -> XvSetCellData? {
+    fileprivate func getToggleCellData(fromSwitch:UISwitch) -> CellData? {
     
         //if toggle cell is valid
-        if let toggleCell:XvSetToggleCell = fromSwitch.superview!.superview as? XvSetToggleCell {
+        if let toggleCell:ToggleCell = fromSwitch.superview!.superview as? ToggleCell {
             
             //if data is valid
-            if let data:XvSetCellData = toggleCell.data {
+            if let data:CellData = toggleCell.data {
                 return data
             } else {
                 print("SETTINGS: SetMultiTable Toggle cell data could not be found during user toggle")
@@ -915,7 +916,7 @@ open class XvSetTable: UITableViewController {
     
     //TODO: refresh midi destinations?
     /*
-     fileprivate func _refreshMidiDestinations(withCellData:XvSetDisclosureCellData){
+     fileprivate func _refreshMidiDestinations(withCellData:DisclosureCellData){
      
      //refresh midi destination data
      XvMidi.sharedInstance.refreshMidiDestinations()

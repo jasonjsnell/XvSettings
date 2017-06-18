@@ -6,9 +6,7 @@
 //  Copyright © 2017 Jason J. Snell. All rights reserved.
 
 
-//TODO: can this be in framework?
-
-class XvMusicalScaleData:XvSetCheckmarkTableData {
+class MusicalScaleData:CheckmarkTableData {
     
     fileprivate let xvcdm:XvCoreDataManager = XvCoreDataManager()
     
@@ -29,7 +27,7 @@ class XvMusicalScaleData:XvSetCheckmarkTableData {
             
         )
         
-        let section:XvSetSectionData = XvSetSectionData(
+        let section:SectionData = SectionData(
             
             header: XvSetConstants.MUSIC_SCALE_LABEL,
             footerType: XvSetConstants.FOOTER_TYPE_NONE,

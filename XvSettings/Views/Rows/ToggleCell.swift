@@ -8,14 +8,14 @@
 
 import UIKit
 
-class XvSetToggleCell: XvSetCell {
+class ToggleCell: Cell {
     
     //MARK:INIT
     
     //create switch, accessible to tableview so listener can be added to detect value changes
     internal let toggleSwitch:UISwitch = UISwitch()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?, data:XvSetCellData){
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?, data:CellData){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
     

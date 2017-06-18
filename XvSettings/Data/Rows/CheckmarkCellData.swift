@@ -9,7 +9,7 @@
 
 import Foundation
 
-public class XvSetCheckmarkCellData:XvSetCellData {
+public class CheckmarkCellData:CellData {
     
     //MARK:- VARIABLES
     

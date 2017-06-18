@@ -6,13 +6,15 @@
 //  Copyright © 2017 Jason J. Snell. All rights reserved.
 //
 
+//this is the main settings table, launched from the root view controller
+
 import UIKit
 import CoreData
 
-public class XvSetMainTable:XvSetTable {
+public class XvSetMainTableVC:TableVC {
     
     //ref to midisync cell because it is automatically changed when ABL Link is enabled
-    fileprivate var midiSyncCell:XvSetDisclosureCell?
+    fileprivate var midiSyncCell:DisclosureCell?
     
     override public func viewWillAppear(_ animated: Bool) {
         
@@ -21,7 +23,7 @@ public class XvSetMainTable:XvSetTable {
         
         if (xvcdm.getAppBool(forKey: XvSetConstants.kAppAbletonLinkEnabled)){
             
-            if let _midiSyncCell:XvSetDisclosureCell = _getMidiSyncCell() {
+            if let _midiSyncCell:DisclosureCell = _getMidiSyncCell() {
                 _midiSyncCell.set(label: XvSetConstants.MIDI_CLOCK_NONE_LABEL)
             }
         }
@@ -31,7 +33,7 @@ public class XvSetMainTable:XvSetTable {
     }
     
     //override by app settings classes, which check for app specific keys and execute app specific commands
-    open override func disclosureRowSelected(cell:XvSetDisclosureCell, key:String){
+    override func disclosureRowSelected(cell:DisclosureCell, key:String){
         
         if (key == XvSetConstants.kAppMidiSync){
             
@@ -80,10 +82,10 @@ public class XvSetMainTable:XvSetTable {
     
     //MARK: Private
     
-    fileprivate func _getMidiSyncCell() -> XvSetDisclosureCell? {
+    fileprivate func _getMidiSyncCell() -> DisclosureCell? {
         
         if (midiSyncCell == nil){
-            midiSyncCell = getCell(fromKey: XvSetConstants.kAppMidiSync) as? XvSetDisclosureCell
+            midiSyncCell = getCell(fromKey: XvSetConstants.kAppMidiSync) as? DisclosureCell
             
         }
         

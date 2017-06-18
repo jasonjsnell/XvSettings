@@ -9,10 +9,10 @@
 
 import Foundation
 
-open class XvSetTableData {
+public class TableData {
     
     public var title:String = ""
-    public var sections:[XvSetSectionData] = []
+    public var sections:[SectionData] = []
     
     public init() {}
     

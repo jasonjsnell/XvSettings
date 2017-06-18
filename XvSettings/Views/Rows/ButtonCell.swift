@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class XvSetButtonCell: XvSetCell {
+public class ButtonCell: Cell {
     
     fileprivate let APPLE_BLUE:UIColor = UIColor.init(red: 14/255, green: 122/255, blue: 1, alpha: 1)
     
-    override public init(style: UITableViewCellStyle, reuseIdentifier: String?, data:XvSetCellData){
+    override public init(style: UITableViewCellStyle, reuseIdentifier: String?, data:CellData){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
       

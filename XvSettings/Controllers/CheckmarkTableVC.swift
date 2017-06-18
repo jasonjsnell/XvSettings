@@ -10,12 +10,12 @@ import UIKit
 
 //check mark tables are launched with a parent disclosure cell, rather than a data class. The data for the class is inside the incoming cell
 
-open class XvSetCheckmarkTable: XvSetTable {
+public class CheckmarkTableVC: TableVC {
 
     //parent cell that launched this table
-    public var parentDisclosureCell:XvSetDisclosureCell?
+    var parentDisclosureCell:DisclosureCell?
     
-    open func load(withParentDisclosureCell:XvSetDisclosureCell){
+    internal func load(withParentDisclosureCell:DisclosureCell){
         
         //retain parent cell for detailTextLabel updates during checkmark selections in the sub table
         self.parentDisclosureCell = withParentDisclosureCell
@@ -23,7 +23,7 @@ open class XvSetCheckmarkTable: XvSetTable {
         //load the super class with the data stored in the disclosure cell
         
         //if parent cell data is valid...
-        if let parentDisclosureCellData:XvSetDisclosureCellData = withParentDisclosureCell.data as? XvSetDisclosureCellData {
+        if let parentDisclosureCellData:DisclosureCellData = withParentDisclosureCell.data as? DisclosureCellData {
             
             //if table data is valid...
             if let checkmarkTableDataSource = parentDisclosureCellData.checkmarkTableDataSource {
@@ -41,7 +41,7 @@ open class XvSetCheckmarkTable: XvSetTable {
     }
     
     //when the local checkmark func is executed, update the parent cells detailTextLabel
-    override internal func _checkmarkRowSelected(cell: XvSetCheckmarkCell, indexPath:IndexPath) {
+    override internal func _checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
         
         super._checkmarkRowSelected(cell: cell, indexPath: indexPath)
         
@@ -49,7 +49,7 @@ open class XvSetCheckmarkTable: XvSetTable {
         if (parentDisclosureCell != nil){
             
             //if parent cell data is valid...
-            if let parentDisclosureCellData:XvSetDisclosureCellData = parentDisclosureCell!.data as? XvSetDisclosureCellData {
+            if let parentDisclosureCellData:DisclosureCellData = parentDisclosureCell!.data as? DisclosureCellData {
                 
                 //update detail text label
                 parentDisclosureCellData.updateDetailTextLabel(withRow: indexPath.row)

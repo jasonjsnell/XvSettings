@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class XvSetCellData {
+public class CellData {
     
     //MARK:-
     //MARK:VARIABLES

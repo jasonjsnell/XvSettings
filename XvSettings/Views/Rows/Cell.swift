@@ -8,19 +8,19 @@
 
 import UIKit
 
-public class XvSetCell: UITableViewCell {
+public class Cell: UITableViewCell {
     
     //MARK:VARIABLES
     
-    public var data:XvSetCellData?
+    public var data:CellData?
     
     internal let debug:Bool = false
     
-    public init(style: UITableViewCellStyle, reuseIdentifier: String?, data:XvSetCellData){
+    public init(style: UITableViewCellStyle, reuseIdentifier: String?, data:CellData){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier)
         
-        self.data = data as XvSetCellData
+        self.data = data as CellData
         
         self.textLabel?.text = data.textLabel
         

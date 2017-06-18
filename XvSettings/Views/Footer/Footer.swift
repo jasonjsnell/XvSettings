@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SetFooter:UILabel {
+class Footer:UILabel {
     
     //MARK:VARS
     internal var url:String = ""

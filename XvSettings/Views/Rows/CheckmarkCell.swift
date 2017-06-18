@@ -8,12 +8,12 @@
 
 import UIKit
 
-public class XvSetCheckmarkCell: XvSetCell {
+public class CheckmarkCell: Cell {
     
     init(
         style: UITableViewCellStyle,
         reuseIdentifier: String?,
-        data:XvSetCheckmarkCellData
+        data:CheckmarkCellData
     ){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)

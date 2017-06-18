@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class XvSetToggleCellData:XvSetCellData {
+public class ToggleCellData:CellData {
 
     //MARK:- INIT
     public init(

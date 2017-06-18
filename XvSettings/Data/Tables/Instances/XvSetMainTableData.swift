@@ -6,6 +6,9 @@
 //  Copyright © 2016 Jason J. Snell. All rights reserved.
 //
 
+
+//this is the main table data class, launched from the root view controller
+
 /*
  Basic data flow:
  1. At launch, pull info from core data to instrument classes
@@ -18,7 +21,7 @@
 import Foundation
 import CoreData
 
-public class XvSetMainTableData:XvSetTableData {
+public class XvSetMainTableData:TableData {
     
     //ref
     fileprivate let xvcdm:XvCoreDataManager = XvCoreDataManager()
@@ -34,8 +37,8 @@ public class XvSetMainTableData:XvSetTableData {
         
         //MARK: Kits
         
-        var kitCheckmarkCellDataArray:[XvSetCheckmarkCellData] = []
-        var kitDisclosureCellDataArray:[XvSetDisclosureCellData] = []
+        var kitCheckmarkCellDataArray:[CheckmarkCellData] = []
+        var kitDisclosureCellDataArray:[DisclosureCellData] = []
         
         // Loop through the instrument kits and prep two sections
         // 1. Section to select the current kit
@@ -52,7 +55,7 @@ public class XvSetMainTableData:XvSetTableData {
                     isSelected = true
                 }
                 
-                let instrumentKitCheckmarkCellData:XvSetCheckmarkCellData = XvSetCheckmarkCellData(
+                let instrumentKitCheckmarkCellData:CheckmarkCellData = CheckmarkCellData(
                     key: XvSetConstants.kSelectedKit,
                     value: id,
                     textLabel: name,
@@ -64,7 +67,7 @@ public class XvSetMainTableData:XvSetTableData {
                 
                 kitCheckmarkCellDataArray.append(instrumentKitCheckmarkCellData)
                 
-                let instrumentKitDisclosureCellData:XvSetDisclosureCellData = XvSetDisclosureCellData(
+                let instrumentKitDisclosureCellData:DisclosureCellData = DisclosureCellData(
                     key: id,
                     textLabel: name
                 )
@@ -73,7 +76,7 @@ public class XvSetMainTableData:XvSetTableData {
                 
             }
             
-            let instrumentKitSelection:XvSetSectionData = XvSetSectionData(
+            let instrumentKitSelection:SectionData = SectionData(
                 header: "Selected Kit",
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
@@ -87,7 +90,7 @@ public class XvSetMainTableData:XvSetTableData {
             
             //MARK: Customize
             
-            let customizeSection:XvSetSectionData = XvSetSectionData(
+            let customizeSection:SectionData = SectionData(
                 header: "Kit Customization",
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
@@ -113,16 +116,16 @@ public class XvSetMainTableData:XvSetTableData {
         //label for visual name
         
         
-        let abletonLink:XvSetDisclosureCellData = XvSetDisclosureCellData(
+        let abletonLink:DisclosureCellData = DisclosureCellData(
             key: XvSetConstants.kAppAbletonLinkEnabled,
             textLabel: "Ableton Link"
         )
         
-        let midiSync:XvSetDisclosureCellData = XvSetDisclosureCellData(
-            withCheckmarkTableDataSource: XvMidiSyncData()
+        let midiSync:DisclosureCellData = DisclosureCellData(
+            withCheckmarkTableDataSource: MidiSyncData()
         )
         
-        let syncSection:XvSetSectionData = XvSetSectionData(
+        let syncSection:SectionData = SectionData(
             header: "Sync",
             footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
             footerText: ["MIDI sync cannot be used if Ableton Link is active."],
@@ -140,7 +143,7 @@ public class XvSetMainTableData:XvSetTableData {
         /*
          let midiInitialVisibility:Bool = dm.getBool(forKey: XvMidiConstants.kMidiSendEnabled)
          
-         let midiDestinations:XvSetDisclosureMultiCellData = XvSetDisclosureMultiCellData(
+         let midiDestinations:DisclosureMultiCellData = DisclosureMultiCellData(
          key: XvMidiConstants.kMidiDestinations,
          label: "MIDI Destinations",
          dataType: XvSetConstants.TYPE_ARRAY,
@@ -150,7 +153,7 @@ public class XvSetMainTableData:XvSetTableData {
          
          //sub array for midi destinations gets init when the table is about to load in SetMain so it's the most current data
          
-         let midiDestinationsSection:XvSetSectionData = XvSetSectionData(
+         let midiDestinationsSection:SectionData = SectionData(
          header: "MIDI Destinations",
          footerType: XvSetConstants.FOOTER_TYPE_NONE,
          footerText: nil,
@@ -179,11 +182,11 @@ public class XvSetMainTableData:XvSetTableData {
          
          //loop through and create 7 midi outs, one for each instrument
          
-         var instrumentOuts:[XvSetDisclosureCellData] = []
+         var instrumentOuts:[DisclosureCellData] = []
          
          for i in 0..<XvMidiConstants.kMidiOuts.count {
          
-         let midiOut:XvSetDisclosureCellData = XvSetDisclosureCellData(
+         let midiOut:DisclosureCellData = DisclosureCellData(
          
          key: XvMidiConstants.kMidiOuts[i],
          label: "Instrument " + String(i + 1),
@@ -198,7 +201,7 @@ public class XvSetMainTableData:XvSetTableData {
          instrumentOuts.append(midiOut)
          }
          
-         let instrumentOutsSection:XvSetSectionData = XvSetSectionData(
+         let instrumentOutsSection:SectionData = SectionData(
          header: "Instrument Routing",
          footerType: XvSetConstants.FOOTER_TYPE_NONE,
          footerText: nil,
@@ -217,11 +220,11 @@ public class XvSetMainTableData:XvSetTableData {
         
         //MARK: Musical scale
         
-        let musicalScale:XvSetDisclosureCellData = XvSetDisclosureCellData(
-            withCheckmarkTableDataSource: XvMusicalScaleData()
+        let musicalScale:DisclosureCellData = DisclosureCellData(
+            withCheckmarkTableDataSource: MusicalScaleData()
         )
         
-        let musicalScaleSection:XvSetSectionData = XvSetSectionData(
+        let musicalScaleSection:SectionData = SectionData(
             header: XvSetConstants.MUSIC_SCALE_LABEL,
             footerType: XvSetConstants.FOOTER_TYPE_NONE,
             footerText: nil,
@@ -238,7 +241,7 @@ public class XvSetMainTableData:XvSetTableData {
         //MARK: Modes
         
         
-        let bgMode:XvSetToggleCellData = XvSetToggleCellData(
+        let bgMode:ToggleCellData = ToggleCellData(
             key: XvSetConstants.kAppBackgroundModeEnabled,
             value: xvcdm.getAppBool(forKey: XvSetConstants.kAppBackgroundModeEnabled),
             textLabel: "Background Mode",
@@ -246,7 +249,7 @@ public class XvSetMainTableData:XvSetTableData {
         )
         
         
-        let modesSection:XvSetSectionData = XvSetSectionData(
+        let modesSection:SectionData = SectionData(
             header: "Background Mode",
             footerType: XvSetConstants.FOOTER_TYPE_LINK,
             footerText: ["Background mode keeps the app running in the background. MIDI Mode mutes app audio and activates MIDI Out. For help, see the ", "user's manual", "."],

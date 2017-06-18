@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-public class XvSetSectionData {
+public class SectionData {
 
     //header
     internal var header:String = ""
@@ -21,7 +21,7 @@ public class XvSetSectionData {
     internal var footerHeight:CGFloat = 10
     
     //cells
-    internal var cells:[XvSetCellData] = []
+    internal var cells:[CellData] = []
     
     //visibility
     internal var isVisible:Bool = true
@@ -34,7 +34,7 @@ public class XvSetSectionData {
         footerText:[String]?,
         footerLink:String?,
         footerHeight:CGFloat,
-        cells:[XvSetCellData],
+        cells:[CellData],
         isVisible:Bool
         ){
     

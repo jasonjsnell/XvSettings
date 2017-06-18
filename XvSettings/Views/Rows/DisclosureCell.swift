@@ -8,12 +8,12 @@
 
 import UIKit
 
-public class XvSetDisclosureCell: XvSetCell {
+class DisclosureCell: Cell {
     
-    public init(
+    init(
         style: UITableViewCellStyle,
         reuseIdentifier: String?,
-        data:XvSetDisclosureCellData
+        data:DisclosureCellData
     ){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
@@ -24,7 +24,7 @@ public class XvSetDisclosureCell: XvSetCell {
         
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
     

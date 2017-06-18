@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class XvSetCheckmarkTableData:XvSetTableData {
+class CheckmarkTableData:TableData {
     
     //key of the default this table is updating
     fileprivate var key:String
@@ -28,7 +28,7 @@ open class XvSetCheckmarkTableData:XvSetTableData {
     //can multiple checkmarks be selected?
     fileprivate var multi:Bool
     
-    fileprivate var cellDataArray:[XvSetCheckmarkCellData]
+    fileprivate var cellDataArray:[CheckmarkCellData]
     
     
     //MARK: INIT
@@ -63,7 +63,7 @@ open class XvSetCheckmarkTableData:XvSetTableData {
                 detailTextLabel = detailTextLabels[i]
             }
             
-            let cellData:XvSetCheckmarkCellData  = XvSetCheckmarkCellData(
+            let cellData:CheckmarkCellData  = CheckmarkCellData(
                 key: key,
                 value: values[i],
                 textLabel: detailTextLabels[i],
@@ -99,7 +99,7 @@ open class XvSetCheckmarkTableData:XvSetTableData {
         return detailTextLabels
     }
     
-    public func getCellDataArray() -> [XvSetCheckmarkCellData] {
+    public func getCellDataArray() -> [CheckmarkCellData] {
         return cellDataArray
     }
     
