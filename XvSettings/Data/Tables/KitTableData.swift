@@ -11,15 +11,18 @@ import CoreData
 
 public class KitTableData:TableData {
     
+    //data object that gets passed in from Core Data to populate the table data
+    internal let kitDataObj:NSManagedObject
+    
     public init(kitDataObj:NSManagedObject){
-        //print("SETTINGS: Init kit table with data obj", kitDataObj)
+        
+        self.kitDataObj = kitDataObj
         
         super.init()
         
         //MARK: Header
         let kitName:String = xvcdm.getString(forKey: XvSetConstants.kKitName, forObject: kitDataObj)
         title = kitName
-        
         
         //MARK: Instruments section
         
@@ -36,16 +39,19 @@ public class KitTableData:TableData {
                     forObject: instrumentsDataObj
                 )
                 
+                let id:String = xvcdm.getString(
+                    forKey: XvSetConstants.kInstrumentID,
+                    forObject: instrumentsDataObj
+                )
+                
                 let instrumentDisclosureCellData:DisclosureCellData = DisclosureCellData(
-                    key: "temp",
+                    key: id,
                     textLabel: name
                 )
                 
                 instrumentDisclosureCellDataArray.append(instrumentDisclosureCellData)
                 
             }
-            
-            
             
             let instrumentsSection:SectionData = SectionData(
                 header: "Instruments",
@@ -58,9 +64,6 @@ public class KitTableData:TableData {
             )
             
             sections.append(instrumentsSection)
-           
-        
-        
             
         } else {
             print("SETTINGS: Unable to find instruments data array during KitTableData init")
@@ -106,39 +109,6 @@ public class KitTableData:TableData {
         )
         
         sections.append(factorySettingsSection)
-
-        
-        /*
-        
-        
-        title = kitDataObj.name
-        
-        //MARK: Kit
-        
-        // Loop through instruments in kit
-        
-        var instrumentDisclosureCellDataArray:[DisclosureCellData] = []
-        
-        for instrument in kitDataObj.instrumentArray {
-            
-            let instrumentDisclosureCellData:DisclosureCellData = DisclosureCellData(key: "", textLabel: instrument.name)
-            
-            instrumentDisclosureCellDataArray.append(instrumentDisclosureCellData)
-            
-        }
-        
-        let instrumentSelection:SectionData = SectionData(
-            header: "Instruments",
-            footerType: XvSetConstants.FOOTER_TYPE_NONE,
-            footerText: nil,
-            footerLink: nil,
-            footerHeight: 10,
-            cells: instrumentDisclosureCellDataArray,
-            isVisible: true
-        )
-        
-        sections.append(instrumentSelection)
-        */
         
     }
     

@@ -14,8 +14,6 @@
 		966F4A471E84BDE200154669 /* CellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A431E84BDE200154669 /* CellData.swift */; };
 		966F4A481E84BDE200154669 /* CheckmarkCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A441E84BDE200154669 /* CheckmarkCellData.swift */; };
 		966F4A491E84BDE200154669 /* DisclosureCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A451E84BDE200154669 /* DisclosureCellData.swift */; };
-		966F4A4D1E84BE0B00154669 /* XvCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A4B1E84BE0B00154669 /* XvCoreDataManager.swift */; };
-		966F4A4E1E84BE0B00154669 /* XvSetConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A4C1E84BE0B00154669 /* XvSetConstants.swift */; };
 		966F4A501E84BE1400154669 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A4F1E84BE1400154669 /* Utils.swift */; };
 		966F4A5B1E84BE3C00154669 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A551E84BE3C00154669 /* ButtonCell.swift */; };
 		966F4A5C1E84BE3C00154669 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A561E84BE3C00154669 /* Cell.swift */; };
@@ -23,10 +21,15 @@
 		966F4A5E1E84BE3C00154669 /* DisclosureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A581E84BE3C00154669 /* DisclosureCell.swift */; };
 		966F4A601E84BE3C00154669 /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A5A1E84BE3C00154669 /* ToggleCell.swift */; };
 		966F4A621E84BE4300154669 /* Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A611E84BE4300154669 /* Footer.swift */; };
+		9684A8461EF7196900019AF1 /* XvCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8451EF7196900019AF1 /* XvCoreDataManager.swift */; };
+		9684A8481EF7197000019AF1 /* XvSetConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8471EF7197000019AF1 /* XvSetConstants.swift */; };
+		9684A84A1EF7197800019AF1 /* XvSetMainTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8491EF7197800019AF1 /* XvSetMainTableVC.swift */; };
+		9684A84C1EF7197E00019AF1 /* XvSetMainTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A84B1EF7197E00019AF1 /* XvSetMainTableData.swift */; };
+		9684A84E1EF7199E00019AF1 /* InstrumentTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A84D1EF7199E00019AF1 /* InstrumentTableVC.swift */; };
+		9684A8501EF71A1300019AF1 /* KitTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A84F1EF71A1300019AF1 /* KitTableVC.swift */; };
+		9684A8521EF8116300019AF1 /* InstrumentTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8511EF8116300019AF1 /* InstrumentTableData.swift */; };
 		96C30CE31EF6C2560058A64D /* MidiSyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE21EF6C2560058A64D /* MidiSyncData.swift */; };
 		96C30CE51EF6C4700058A64D /* MusicalScaleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */; };
-		96C30CE81EF6CC460058A64D /* XvSetMainTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE71EF6CC460058A64D /* XvSetMainTableVC.swift */; };
-		96C30CEA1EF6CFB70058A64D /* XvSetMainTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE91EF6CFB70058A64D /* XvSetMainTableData.swift */; };
 		96DC444D1EE47F8D0032DC9C /* CheckmarkTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC444C1EE47F8D0032DC9C /* CheckmarkTableData.swift */; };
 		96DC444F1EE592920032DC9C /* CheckmarkTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC444E1EE592920032DC9C /* CheckmarkTableVC.swift */; };
 		96DC44511EE63B5F0032DC9C /* ToggleCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44501EE63B5F0032DC9C /* ToggleCellData.swift */; };
@@ -44,8 +47,6 @@
 		966F4A431E84BDE200154669 /* CellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CellData.swift; path = XvSettings/Data/Rows/CellData.swift; sourceTree = "<group>"; };
 		966F4A441E84BDE200154669 /* CheckmarkCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckmarkCellData.swift; path = XvSettings/Data/Rows/CheckmarkCellData.swift; sourceTree = "<group>"; };
 		966F4A451E84BDE200154669 /* DisclosureCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DisclosureCellData.swift; path = XvSettings/Data/Rows/DisclosureCellData.swift; sourceTree = "<group>"; };
-		966F4A4B1E84BE0B00154669 /* XvCoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvCoreDataManager.swift; path = XvSettings/Global/XvCoreDataManager.swift; sourceTree = "<group>"; };
-		966F4A4C1E84BE0B00154669 /* XvSetConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetConstants.swift; path = XvSettings/Global/XvSetConstants.swift; sourceTree = "<group>"; };
 		966F4A4F1E84BE1400154669 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = XvSettings/Private/Utils.swift; sourceTree = "<group>"; };
 		966F4A551E84BE3C00154669 /* ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonCell.swift; path = XvSettings/Views/Rows/ButtonCell.swift; sourceTree = "<group>"; };
 		966F4A561E84BE3C00154669 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cell.swift; path = XvSettings/Views/Rows/Cell.swift; sourceTree = "<group>"; };
@@ -53,10 +54,15 @@
 		966F4A581E84BE3C00154669 /* DisclosureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DisclosureCell.swift; path = XvSettings/Views/Rows/DisclosureCell.swift; sourceTree = "<group>"; };
 		966F4A5A1E84BE3C00154669 /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToggleCell.swift; path = XvSettings/Views/Rows/ToggleCell.swift; sourceTree = "<group>"; };
 		966F4A611E84BE4300154669 /* Footer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Footer.swift; path = XvSettings/Views/Footer/Footer.swift; sourceTree = "<group>"; };
+		9684A8451EF7196900019AF1 /* XvCoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvCoreDataManager.swift; path = XvSettings/Public/XvCoreDataManager.swift; sourceTree = "<group>"; };
+		9684A8471EF7197000019AF1 /* XvSetConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetConstants.swift; path = XvSettings/Public/XvSetConstants.swift; sourceTree = "<group>"; };
+		9684A8491EF7197800019AF1 /* XvSetMainTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetMainTableVC.swift; path = XvSettings/Public/XvSetMainTableVC.swift; sourceTree = "<group>"; };
+		9684A84B1EF7197E00019AF1 /* XvSetMainTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetMainTableData.swift; path = XvSettings/Public/XvSetMainTableData.swift; sourceTree = "<group>"; };
+		9684A84D1EF7199E00019AF1 /* InstrumentTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstrumentTableVC.swift; path = Controllers/InstrumentTableVC.swift; sourceTree = "<group>"; };
+		9684A84F1EF71A1300019AF1 /* KitTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KitTableVC.swift; path = Controllers/KitTableVC.swift; sourceTree = "<group>"; };
+		9684A8511EF8116300019AF1 /* InstrumentTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstrumentTableData.swift; path = XvSettings/Data/Tables/InstrumentTableData.swift; sourceTree = "<group>"; };
 		96C30CE21EF6C2560058A64D /* MidiSyncData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiSyncData.swift; path = XvSettings/Data/Tables/Instances/MidiSyncData.swift; sourceTree = "<group>"; };
 		96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MusicalScaleData.swift; path = XvSettings/Data/Tables/Instances/MusicalScaleData.swift; sourceTree = "<group>"; };
-		96C30CE71EF6CC460058A64D /* XvSetMainTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetMainTableVC.swift; path = XvSettings/Controllers/Instances/XvSetMainTableVC.swift; sourceTree = "<group>"; };
-		96C30CE91EF6CFB70058A64D /* XvSetMainTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XvSetMainTableData.swift; path = XvSettings/Data/Tables/Instances/XvSetMainTableData.swift; sourceTree = "<group>"; };
 		96DC444C1EE47F8D0032DC9C /* CheckmarkTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckmarkTableData.swift; path = XvSettings/Data/Tables/CheckmarkTableData.swift; sourceTree = "<group>"; };
 		96DC444E1EE592920032DC9C /* CheckmarkTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckmarkTableVC.swift; path = Controllers/CheckmarkTableVC.swift; sourceTree = "<group>"; };
 		96DC44501EE63B5F0032DC9C /* ToggleCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToggleCellData.swift; path = XvSettings/Data/Rows/ToggleCellData.swift; sourceTree = "<group>"; };
@@ -78,10 +84,10 @@
 		966F4A1B1E84BD6800154669 = {
 			isa = PBXGroup;
 			children = (
-				966F4A4B1E84BE0B00154669 /* XvCoreDataManager.swift */,
-				966F4A4C1E84BE0B00154669 /* XvSetConstants.swift */,
-				96C30CE71EF6CC460058A64D /* XvSetMainTableVC.swift */,
-				96C30CE91EF6CFB70058A64D /* XvSetMainTableData.swift */,
+				9684A8451EF7196900019AF1 /* XvCoreDataManager.swift */,
+				9684A8471EF7197000019AF1 /* XvSetConstants.swift */,
+				9684A8491EF7197800019AF1 /* XvSetMainTableVC.swift */,
+				9684A84B1EF7197E00019AF1 /* XvSetMainTableData.swift */,
 				966F4A381E84BD9700154669 /* Controllers */,
 				966F4A391E84BDA600154669 /* Data */,
 				966F4A521E84BE2500154669 /* Views */,
@@ -110,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				966F4A321E84BD8D00154669 /* TableVC.swift */,
+				9684A84F1EF71A1300019AF1 /* KitTableVC.swift */,
+				9684A84D1EF7199E00019AF1 /* InstrumentTableVC.swift */,
 				96DC444E1EE592920032DC9C /* CheckmarkTableVC.swift */,
 			);
 			name = Controllers;
@@ -151,6 +159,7 @@
 			children = (
 				966F4A3E1E84BDD300154669 /* TableData.swift */,
 				96DC44541EE6F8DC0032DC9C /* KitTableData.swift */,
+				9684A8511EF8116300019AF1 /* InstrumentTableData.swift */,
 				96DC444C1EE47F8D0032DC9C /* CheckmarkTableData.swift */,
 				96C30CE11EF6C1F70058A64D /* Instances */,
 			);
@@ -288,28 +297,31 @@
 			files = (
 				966F4A421E84BDDA00154669 /* SectionData.swift in Sources */,
 				966F4A621E84BE4300154669 /* Footer.swift in Sources */,
+				9684A8481EF7197000019AF1 /* XvSetConstants.swift in Sources */,
 				966F4A401E84BDD300154669 /* TableData.swift in Sources */,
 				96DC444D1EE47F8D0032DC9C /* CheckmarkTableData.swift in Sources */,
 				966F4A481E84BDE200154669 /* CheckmarkCellData.swift in Sources */,
 				96C30CE51EF6C4700058A64D /* MusicalScaleData.swift in Sources */,
+				9684A84C1EF7197E00019AF1 /* XvSetMainTableData.swift in Sources */,
 				966F4A501E84BE1400154669 /* Utils.swift in Sources */,
 				966F4A5C1E84BE3C00154669 /* Cell.swift in Sources */,
 				96DC44551EE6F8DC0032DC9C /* KitTableData.swift in Sources */,
 				966F4A5B1E84BE3C00154669 /* ButtonCell.swift in Sources */,
 				966F4A471E84BDE200154669 /* CellData.swift in Sources */,
 				966F4A5D1E84BE3C00154669 /* CheckmarkCell.swift in Sources */,
-				96C30CE81EF6CC460058A64D /* XvSetMainTableVC.swift in Sources */,
+				9684A8501EF71A1300019AF1 /* KitTableVC.swift in Sources */,
 				966F4A5E1E84BE3C00154669 /* DisclosureCell.swift in Sources */,
-				966F4A4D1E84BE0B00154669 /* XvCoreDataManager.swift in Sources */,
 				96DC444F1EE592920032DC9C /* CheckmarkTableVC.swift in Sources */,
+				9684A8461EF7196900019AF1 /* XvCoreDataManager.swift in Sources */,
+				9684A8521EF8116300019AF1 /* InstrumentTableData.swift in Sources */,
 				966F4A491E84BDE200154669 /* DisclosureCellData.swift in Sources */,
 				966F4A601E84BE3C00154669 /* ToggleCell.swift in Sources */,
 				96DC44531EE64DFA0032DC9C /* ButtonCellData.swift in Sources */,
 				96C30CE31EF6C2560058A64D /* MidiSyncData.swift in Sources */,
-				96C30CEA1EF6CFB70058A64D /* XvSetMainTableData.swift in Sources */,
 				966F4A361E84BD8D00154669 /* TableVC.swift in Sources */,
+				9684A84A1EF7197800019AF1 /* XvSetMainTableVC.swift in Sources */,
 				96DC44511EE63B5F0032DC9C /* ToggleCellData.swift in Sources */,
-				966F4A4E1E84BE0B00154669 /* XvSetConstants.swift in Sources */,
+				9684A84E1EF7199E00019AF1 /* InstrumentTableVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

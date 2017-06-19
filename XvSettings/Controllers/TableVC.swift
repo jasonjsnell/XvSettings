@@ -494,10 +494,28 @@ public class TableVC: UITableViewController {
     
     internal func loadKitTable(fromDataObj: NSManagedObject) {
         
-        let setKitTableData:KitTableData = KitTableData(kitDataObj: fromDataObj)
-        let vc:TableVC = TableVC()
-        vc.load(withDataSource: setKitTableData)
-        push(viewController: vc)
+        if let _nav:UINavigationController = getNav() {
+            let kitTableData:KitTableData = KitTableData(kitDataObj: fromDataObj)
+            let vc:KitTableVC = KitTableVC()
+            vc.load(withDataSource: kitTableData)
+            vc.setNav(nav: _nav)
+            push(viewController: vc)
+        } else {
+            print("SETTINGS: Nav is nil during loadKitTable. Blocking push")
+        }
+    }
+    
+    internal func loadInstrumentTable(fromDataObj: NSManagedObject) {
+        
+        if let _nav:UINavigationController = getNav() {
+            let instrTableData:InstrumentTableData = InstrumentTableData(instrumentDataObj: fromDataObj)
+            let vc:InstrumentTableVC = InstrumentTableVC()
+            vc.load(withDataSource: instrTableData)
+            vc.setNav(nav: _nav)
+            push(viewController: vc)
+        } else {
+            print("SETTINGS: Nav is nil during loadInstrumentTable. Blocking push")
+        }
         
     }
 
@@ -753,12 +771,13 @@ public class TableVC: UITableViewController {
             cell.accessoryType = .checkmark
             data.selected = true
             
+            //TODO: How to set level...?
+            
             Utils.postNotification(
-                name: XvSetConstants.kSettingsPanelDefaultChanged,
+                name: XvSetConstants.kSettingsPanelAttributeChanged,
                 userInfo: [
                     "key" : data.key,
-                    "value" : data.value as Any,
-                    "level" : data.levelType
+                    "value" : data.value as Any
                 ])
             
         } else {
@@ -806,7 +825,7 @@ public class TableVC: UITableViewController {
             toggleCellData.value = fromSwitch.isOn
             
             Utils.postNotification(
-                name: XvSetConstants.kSettingsPanelDefaultChanged,
+                name: XvSetConstants.kSettingsPanelAttributeChanged,
                 userInfo: [
                     "key" : toggleCellData.key,
                     "value" : fromSwitch.isOn as Any,
