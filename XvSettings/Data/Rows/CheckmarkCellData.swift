@@ -28,7 +28,8 @@ public class CheckmarkCellData:CellData {
         dataType:String,
         selected:Bool,
         multi:Bool,
-        levelType:String
+        levelType:String,
+        isVisible:Bool
     ){
         
         super.init(
@@ -36,7 +37,8 @@ public class CheckmarkCellData:CellData {
             value: value,
             textLabel: textLabel,
             displayType: XvSetConstants.DISPLAY_TYPE_CHECKMARK,
-            levelType: levelType
+            levelType: levelType,
+            isVisible: isVisible
         )
         
         self.selected = selected

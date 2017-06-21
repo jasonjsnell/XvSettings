@@ -21,9 +21,15 @@ open class XvCoreDataManager {
     
     //single app var for quick access
     fileprivate var app:NSManagedObject?
+    fileprivate var currKit:NSManagedObject?
+    fileprivate var currInstrument:NSManagedObject?
     
     //one list of kits for quick access
     fileprivate var kits:[NSManagedObject]?
+    
+    //these are the only vars that need to come in externally (from MIDI framework) when opening the settings panel
+    fileprivate var midiDestinationNames:[String] = []
+    fileprivate var midiSourceNames:[String] = []
     
     fileprivate let debug:Bool = true
     
@@ -113,7 +119,6 @@ open class XvCoreDataManager {
         
     }
     
-    //TODO: managed context not showing up here
     public func getKits() -> [NSManagedObject]? {
         
         print("CDM: Get Kits")
@@ -144,7 +149,6 @@ open class XvCoreDataManager {
         
     }
     
-    
     public func getKit(withID:String) -> NSManagedObject? {
         
         print("CDM: Get kit with ID", withID)
@@ -174,8 +178,13 @@ open class XvCoreDataManager {
         }
     }
     
-    // get instruments array from a kit objects relationship variable "instruments"
+    public func getCurrKit() -> NSManagedObject? {
+        
+        return currKit
+    }
     
+    
+    // get instruments array from a kit objects relationship variable "instruments"
     public func getInstruments(forKitObject:NSManagedObject) -> [NSManagedObject?]? {
         
         //cast as NSSet
@@ -217,39 +226,52 @@ open class XvCoreDataManager {
         }
     }
     
-    public func getInstrument(forID:String, inKitObject:NSManagedObject) -> NSManagedObject? {
+    public func getInstrumentInCurrKit(forID:String) -> NSManagedObject? {
         
         //grab all instruments in this kit obj
-        if let instrumentObjs:[NSManagedObject] = getInstruments(forKitObject: inKitObject) as? [NSManagedObject] {
+        if (currKit != nil) {
             
-            //loop through them
-            for instrumentObj in instrumentObjs {
+            if let instrumentObjs:[NSManagedObject] = getInstruments(forKitObject: currKit!) as? [NSManagedObject] {
                 
-                //grab the id
-                let id:String = getString(forKey: XvSetConstants.kInstrumentID, forObject: instrumentObj)
-                
-                //if it matches the incoming id, return the instr data obj
-                if (id == forID) {
+                //loop through them
+                for instrumentObj in instrumentObjs {
                     
-                    return instrumentObj
+                    //grab the id
+                    if let id:String = getString(forKey: XvSetConstants.kInstrumentID, forObject: instrumentObj) {
+                        
+                        //if it matches the incoming id, return the instr data obj
+                        if (id == forID) {
+                            
+                            return instrumentObj
+                        }
+                    } else {
+                        print("CDM: Error getting instrument ID during getInstrumentInCurrKit")
+                    }
                 }
+                
+                //else return nil
+                return nil
+                
+            } else {
+                
+                print("CDM: Error getting instruments during getInstrument")
+                return nil
             }
             
-            //else return nil
-            return nil
-            
         } else {
-            
-            print("CDM: Error getting instruments during getInstrument")
+            print("currKit is nil during getInstrument")
             return nil
         }
+    }
+    
+    public func getCurrInstrument() -> NSManagedObject? {
         
-        
+        return currInstrument
     }
     
     //MARK: - ACCESSORS FOR APP LEVEL VARS
     
-    public func getAppBool(forKey:String) -> Bool {
+    public func getAppBool(forKey:String) -> Bool? {
         
         if let _app:NSManagedObject = getApp(){
             return getBool(forKey: forKey, forObject: _app)
@@ -259,7 +281,7 @@ open class XvCoreDataManager {
         }
     }
     
-    public func getAppDouble(forKey:String) -> Double {
+    public func getAppDouble(forKey:String) -> Double? {
         
         if let _app:NSManagedObject = getApp(){
             return getDouble(forKey: forKey, forObject: _app)
@@ -269,7 +291,7 @@ open class XvCoreDataManager {
         }
     }
     
-    public func getAppFloat(forKey:String) -> Float {
+    public func getAppFloat(forKey:String) -> Float? {
         
         if let _app:NSManagedObject = getApp(){
             return getFloat(forKey: forKey, forObject: _app)
@@ -280,7 +302,7 @@ open class XvCoreDataManager {
         
     }
     
-    public func getAppInteger(forKey:String) -> Int {
+    public func getAppInteger(forKey:String) -> Int? {
         
         if let _app:NSManagedObject = getApp(){
             return getInteger(forKey: forKey, forObject: _app)
@@ -291,7 +313,7 @@ open class XvCoreDataManager {
         
     }
     
-    public func getAppString(forKey:String) -> String {
+    public func getAppString(forKey:String) -> String? {
         
         if let _app:NSManagedObject = getApp(){
             return getString(forKey: forKey, forObject: _app)
@@ -311,63 +333,68 @@ open class XvCoreDataManager {
     
     //MARK: - ACCESSORS FOR ANY LEVEL OBJECT
     
-    public func getArray(forKey:String, forObject:NSManagedObject) -> [Any] {
+    public func getAny(forKey:String, forObject:NSManagedObject) -> Any? {
+        
+        return _getValue(forKey: forKey, forObject: forObject)
+    }
+    
+    public func getArray(forKey:String, forObject:NSManagedObject) -> [Any]? {
         
         if let array:[Any] = _getValue(forKey: forKey, forObject: forObject) as? [Any] {
             
             return array
             
         } else {
-            print("CDM: Error getting array for key", forKey, ", returning []")
-            return []
+            print("CDM: Error getting array for key", forKey)
+            return nil
         }
     }
     
-    public func getBool(forKey:String, forObject:NSManagedObject) -> Bool {
+    public func getBool(forKey:String, forObject:NSManagedObject) -> Bool? {
         
         if let bool:Bool = _getValue(forKey: forKey, forObject: forObject) as? Bool {
             
             return bool
             
         } else {
-            print("CDM: Error getting bool for key", forKey, ", returning false")
-            return false
+            print("CDM: Error getting bool for key", forKey)
+            return nil
         }
     }
     
-    public func getDouble(forKey:String, forObject:NSManagedObject) -> Double {
+    public func getDouble(forKey:String, forObject:NSManagedObject) -> Double? {
         
         if let double:Double = _getValue(forKey: forKey, forObject: forObject) as? Double {
             
             return double
             
         } else {
-            print("CDM: Error getting double for key", forKey, ", returning 0.0")
-            return 0.0
+            print("CDM: Error getting double for key", forKey)
+            return nil
         }
     }
     
-    public func getFloat(forKey:String, forObject:NSManagedObject) -> Float {
+    public func getFloat(forKey:String, forObject:NSManagedObject) -> Float? {
         
         if let flt:Float = _getValue(forKey: forKey, forObject: forObject) as? Float {
             
             return flt
             
         } else {
-            print("CDM: Error getting float for key", forKey, ", returning 0.0")
-            return 0.0
+            print("CDM: Error getting float for key", forKey)
+            return nil
         }
     }
 
-    public func getInteger(forKey:String, forObject:NSManagedObject) -> Int {
+    public func getInteger(forKey:String, forObject:NSManagedObject) -> Int? {
         
         if let int:Int = _getValue(forKey: forKey, forObject: forObject) as? Int {
             
             return int
             
         } else {
-            print("CDM: Error getting integer for key", forKey, ", returning 0")
-            return 0
+            print("CDM: Error getting integer for key", forKey)
+            return nil
         }
     }
     
@@ -381,16 +408,24 @@ open class XvCoreDataManager {
         }
     }
     
-    public func getString(forKey:String, forObject:NSManagedObject) -> String {
+    public func getString(forKey:String, forObject:NSManagedObject) -> String? {
         
         if let str:String = _getValue(forKey: forKey, forObject: forObject) as? String {
             
             return str
             
         } else {
-            print("CDM: Error getting string for key", forKey, ", returning blank string")
-            return ""
+            print("CDM: Error getting string for key", forKey)
+            return nil
         }
+    }
+    
+    public func getMidiDestinationNames() -> [String] {
+        return midiDestinationNames
+    }
+    
+    public func getMidiSourceNames() -> [String] {
+        return midiSourceNames
     }
     
     //MARK: - PRIVATE ACCESSORS
@@ -444,12 +479,22 @@ open class XvCoreDataManager {
     
     // MARK: - SETTERS -
     
-    public func set(app:NSManagedObject){
+    public func set(app:NSManagedObject) {
         self.app = app
     }
     
-    public func set(kits:[NSManagedObject]){
+    public func set(kits:[NSManagedObject]) {
         self.kits = kits
+    }
+    
+    public func set(currKit:NSManagedObject) {
+        print("CDM: currKit is now", currKit.value(forKey: "id") as Any)
+        self.currKit = currKit
+    }
+    
+    public func set(currInstrument:NSManagedObject) {
+        print("CDM: currInstrument is now", currInstrument.value(forKey: "id") as Any)
+        self.currInstrument = currInstrument
     }
     
     public func setApp(value:Any, forKey:String) {
@@ -461,13 +506,47 @@ open class XvCoreDataManager {
         }
     }
     
+    public func setCurrKit(value:Any, forKey:String) {
+        
+        if (currKit != nil) {
+            set(value: value, forKey: forKey, forObject: currKit!)
+        } else {
+            print("CDM: Unable to get curr kit during setCurrKitValue")
+        }
+    }
+    
+    public func setCurrInstrument(value:Any, forKey:String) {
+        
+        if (currInstrument != nil) {
+            set(value: value, forKey: forKey, forObject: currInstrument!)
+        } else {
+            print("CDM: Unable to get curr instrument during setCurrKitValue")
+        }
+    }
+    
+    
+    
+    //used by core data helper, setting values during init and updating whole classes
     public func set(value:Any, forKey:String, forObject:NSManagedObject) {
         
         forObject.setValue(value, forKeyPath: forKey)
         
         if (debug){
-            print("CDM: Set", forKey, "to", value)
+            if let objectID:String = getString(forKey: "id", forObject: forObject) {
+                print("CDM: Set", forKey, "to", value, "for", objectID)
+            }
         }
+    }
+    
+    //called by root vc when settings panel is launched
+    public func set(midiDestinationNames:[String]){
+    
+        self.midiDestinationNames = midiDestinationNames
+    }
+    
+    public func set(midiSourceNames:[String]){
+        
+        self.midiSourceNames = midiSourceNames
     }
     
     

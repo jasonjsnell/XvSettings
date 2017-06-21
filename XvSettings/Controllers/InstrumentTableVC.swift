@@ -12,5 +12,19 @@ import CoreData
 class InstrumentTableVC:TableVC {
 
 
+    override func disclosureRowSelected(cell:DisclosureCell, key:String){
+        
+        print("InstrumentTableVC: Row tap, key", key)
+        
+        
+        if (key == XvSetConstants.kInstrumentMidiDestinations   ||
+            key == XvSetConstants.kInstrumentMidiSendChannel    ||
+            key == XvSetConstants.kInstrumentMidiSources        ||
+            key == XvSetConstants.kInstrumentMidiReceiveChannel ){
+            
+            loadCheckmarkTable(fromCell:cell)
+            
+        }
+    }
 
 }

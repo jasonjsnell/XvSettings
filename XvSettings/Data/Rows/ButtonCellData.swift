@@ -14,14 +14,16 @@ public class ButtonCellData:CellData {
     public init(
         key:String,
         textLabel:String,
-        levelType:String){
+        levelType:String,
+        isVisible:Bool){
         
         super.init(
             key: key,
             value: "",
             textLabel: textLabel,
             displayType: XvSetConstants.DISPLAY_TYPE_BUTTON,
-            levelType: levelType
+            levelType: levelType,
+            isVisible: isVisible
         )
         
     }

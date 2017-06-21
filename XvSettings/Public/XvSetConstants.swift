@@ -152,10 +152,6 @@ public class XvSetConstants {
 
     
     //MARK: - Notifications -
-    public static let kSettingsPanelAttributeChanged:String = "kSettingsPanelAttributeChanged"
-    public static let kSettingsPanelKitAttributeChanged:String = "kSettingsPanelKitAttributeChanged"
-    public static let kSettingsPanelInstrumentAttributeChanged:String = "kSettingsPanelInstrumentAttributeChanged"
-    
     public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
     public static let kKitResetAIButtonTapped:String = "kKitResetAIButtonTapped"
     public static let kKitRestoreFactorySettingsButtonTapped:String = "kKitRestoreFactorySettingsButtonTapped"

@@ -66,11 +66,25 @@ public class TableVC: UITableViewController {
         
         if (dataSource != nil){
             
+            let sectionData:SectionData = dataSource!.sections[section]
+            
             //if section is visible...
-            if (dataSource!.sections[section].isVisible){
+            if (sectionData.isVisible){
                 
-                //return total from data
-                return dataSource!.sections[section].cells.count
+                //start tally
+                var visibleCellCount:Int = 0
+                
+                //loop through each cell
+                for celldata:CellData in sectionData.cells {
+                    
+                    //if it's visible, then up the count
+                    if (celldata.isVisible){
+                        visibleCellCount += 1
+                    }
+                }
+                
+                //return tally
+                return visibleCellCount
                 
             } else {
                 
@@ -88,11 +102,13 @@ public class TableVC: UITableViewController {
     //height of rows in each section
     override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        
         if (dataSource != nil){
             
-            //if section is visible...
-            if (dataSource!.sections[indexPath.section].isVisible) {
+            let sectionData:SectionData = dataSource!.sections[indexPath.section]
+            let cellData:CellData = sectionData.cells[indexPath.row]
+            
+            //if both the section and the cell is visible...
+            if (sectionData.isVisible && cellData.isVisible) {
                 
                 //return default
                 return UITableViewAutomaticDimension
@@ -495,12 +511,15 @@ public class TableVC: UITableViewController {
     internal func loadKitTable(fromDataObj: NSManagedObject) {
         
         if let _nav:UINavigationController = getNav() {
+            
             let kitTableData:KitTableData = KitTableData(kitDataObj: fromDataObj)
             let vc:KitTableVC = KitTableVC()
             vc.load(withDataSource: kitTableData)
             vc.setNav(nav: _nav)
             push(viewController: vc)
+            
         } else {
+            
             print("SETTINGS: Nav is nil during loadKitTable. Blocking push")
         }
     }
@@ -508,12 +527,15 @@ public class TableVC: UITableViewController {
     internal func loadInstrumentTable(fromDataObj: NSManagedObject) {
         
         if let _nav:UINavigationController = getNav() {
+            
             let instrTableData:InstrumentTableData = InstrumentTableData(instrumentDataObj: fromDataObj)
             let vc:InstrumentTableVC = InstrumentTableVC()
             vc.load(withDataSource: instrTableData)
             vc.setNav(nav: _nav)
             push(viewController: vc)
+            
         } else {
+            
             print("SETTINGS: Nav is nil during loadInstrumentTable. Blocking push")
         }
         
@@ -760,25 +782,51 @@ public class TableVC: UITableViewController {
     //overridden in checkmark table class
     internal func _checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
         
-        if let data:CheckmarkCellData = cell.data as? CheckmarkCellData {
+        if let checkmarkCellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
             
-            //if not a multi cell, uncheck all others
-            if (!data.multi){
+            //grab value from cell data
+            var _value:Any = checkmarkCellData.value
+            
+            //if a multi cell...
+            if (checkmarkCellData.multi){
+                
+                //if not current checked...
+                if (!checkmarkCellData.selected){
+                    
+                    //turn this cell on in view and data
+                    cell.accessoryType = .checkmark
+                    checkmarkCellData.selected = true
+                
+                } else {
+                    
+                    //else if currently checked...
+                    //turn off cell and data
+                    cell.accessoryType = .none
+                    checkmarkCellData.selected = false
+                }
+                
+                
+                _value = _getArrayOfValues(level: checkmarkCellData.levelType, key: checkmarkCellData.key, value: checkmarkCellData.value)
+                
+            } else {
+                
+                //if not a multi cell...
+                
+                //uncheck all others
                 _turnOffCheckmarks(inSection: indexPath.section)
+                
+                //and check this one
+                cell.accessoryType = .checkmark
+                checkmarkCellData.selected = true
             }
             
-            //turn this cell on in view and data
-            cell.accessoryType = .checkmark
-            data.selected = true
             
-            //TODO: How to set level...?
             
-            Utils.postNotification(
-                name: XvSetConstants.kSettingsPanelAttributeChanged,
-                userInfo: [
-                    "key" : data.key,
-                    "value" : data.value as Any
-                ])
+            _setCoreData(
+                level: checkmarkCellData.levelType,
+                value: _value,
+                key: checkmarkCellData.key,
+                multi: checkmarkCellData.multi)
             
         } else {
             print("SETTINGS: Checkmark cell data is invalid")
@@ -811,6 +859,111 @@ public class TableVC: UITableViewController {
         
     }
     
+    fileprivate func _getArrayOfValues(level:String, key:String, value:Any) -> [Any]{
+        
+        //1. get existing values based on level type (app, kit, instrument)
+        //var to populate and return
+        var existingValueArray:[Any] = []
+        
+        if (level == XvSetConstants.LEVEL_TYPE_APP) {
+            
+            // if app...
+            if let app:NSManagedObject = xvcdm.getApp() {
+                
+                // get value for key with this kit
+                if let existingAppValue:Any = xvcdm.getAny(forKey: key, forObject: app) {
+                    
+                    //is this value an array?
+                    if let existingAppValueArray:[Any] = existingAppValue as? [Any] {
+                        
+                        existingValueArray = existingAppValueArray
+                    }
+                    
+                } else {
+                    
+                    print("SETTINGS: Unable to get app value during _getArrayOfValues")
+                }
+                
+            } else {
+                
+                print("SETTINGS: Unable to get app during _getArrayOfValues")
+            }
+            
+        } else if (level == XvSetConstants.LEVEL_TYPE_KIT) {
+            
+            // if kit...
+            if let currKit:NSManagedObject = xvcdm.getCurrKit() {
+                
+                // get value for key with this kit
+                if let existingKitValue:Any = xvcdm.getAny(forKey: key, forObject: currKit) {
+                    
+                    //is this value an array?
+                    if let existingKitValueArray:[Any] = existingKitValue as? [Any] {
+                        
+                        existingValueArray = existingKitValueArray
+                    }
+                    
+                } else {
+                    
+                    print("SETTINGS: Unable to get curr kit value during _getArrayOfValues")
+                }
+                
+            } else {
+                
+                print("SETTINGS: Unable to get curr kit during _getArrayOfValues")
+            }
+            
+        } else if (level == XvSetConstants.LEVEL_TYPE_INSTRUMENT) {
+            
+            // if instrument...
+            if let currInstrument:NSManagedObject = xvcdm.getCurrInstrument() {
+                
+                // get value for key with this instrument
+                if let existingInstrumentValue:Any = xvcdm.getAny(forKey: key, forObject: currInstrument) {
+                    
+                    //is this value an array?
+                    if let existingInstrumentValueArray:[Any] = existingInstrumentValue as? [Any] {
+                        
+                        existingValueArray = existingInstrumentValueArray
+                    }
+                    
+                } else {
+                    
+                    print("SETTINGS: Unable to get curr instrument value during _getArrayOfValues")
+                }
+                
+            } else {
+                
+                print("SETTINGS: Unable to get curr instrument during _getArrayOfValues")
+            }
+        }
+        
+        //2. Is the new value already in the existing array
+        
+        var indexOfValueInArray:Int = -1
+        
+        for i in 0..<existingValueArray.count {
+            if (String(describing: existingValueArray[i]) == String(describing: value)) {
+                indexOfValueInArray = i
+            }
+        }
+        
+        //3. Add or remove value
+        if (indexOfValueInArray == -1){
+            
+            existingValueArray.append(value)
+
+        } else {
+            
+            existingValueArray.remove(at: indexOfValueInArray)
+        }
+        
+        //4. Return result
+        return existingValueArray
+        
+    }
+
+    
     
     
     //MARK: Toggle
@@ -824,21 +977,16 @@ public class TableVC: UITableViewController {
             //set cell data's default value to uiswitch value
             toggleCellData.value = fromSwitch.isOn
             
-            Utils.postNotification(
-                name: XvSetConstants.kSettingsPanelAttributeChanged,
-                userInfo: [
-                    "key" : toggleCellData.key,
-                    "value" : fromSwitch.isOn as Any,
-                    "level" : toggleCellData.levelType
-                ])
+            _setCoreData(
+                level: toggleCellData.levelType,
+                value: fromSwitch.isOn,
+                key: toggleCellData.key,
+                multi:false)
             
         } else {
             
-            print("SETTINGS: SetMultiTable toggleCellData is nil during user toggle")
-            
+            print("SETTINGS: Error: toggleCellData is nil during updateValues")
         }
-
-        
     }
     
     // show / hide sections that rely on specifc toggle switch values
@@ -851,21 +999,45 @@ public class TableVC: UITableViewController {
             if let indexPath:IndexPath = getIndexPath(fromSwitch: fromSwitch) {
                 
                 //grab targets array, if not nil
-                if let visibilityTargets:[Int] = dataSource!.sections[indexPath.section].cells[indexPath.row].visibilityTargets {
+                if let visibilityTargets:[[Int]] = dataSource!.sections[indexPath.section].cells[indexPath.row].visibilityTargets {
                     
-                    //... then cycle through them and change their visibility bool in the data
-                    for target in visibilityTargets {
+                    //format: [[section1, row1, row2], [section2, row3], [allOfSection3]]
+                  
+                    //create blank array of sections
+                    var targetSections:[Int] = []
+                    
+                    //loop through all targets
+                    for vt in 0..<visibilityTargets.count {
                         
-                        dataSource!.sections[target].isVisible = fromSwitch.isOn
+                        //grab the visibility target array
+                        let visibilityTarget:[Int] = visibilityTargets[vt]
                         
+                        //grab the section (first element) and store it for later
+                        let targetSection:Int = visibilityTarget[0]
+                        targetSections.append(targetSection)
+                        
+                        //if only 1 item in target, it's to hide a whole section
+                        if (visibilityTarget.count == 1){
+                            
+                            dataSource!.sections[targetSection].isVisible = fromSwitch.isOn
+                        
+                        } else {
+                        
+                            //else it's to hide specific rows in a section
+                            //(start at 1 to skip section)
+                            for r in 1..<visibilityTarget.count {
+                                
+                                let row:Int = visibilityTarget[r]
+                                dataSource!.sections[targetSection].cells[row].isVisible = fromSwitch.isOn
+                            }
+                        }
                     }
-                    
+                
                     //create index set from targets
-                    let indexSet:IndexSet = IndexSet(visibilityTargets)
+                    let indexSet:IndexSet = IndexSet(targetSections)
                     
                     //reload with anim
                     tableView.reloadSections(indexSet, with: .fade)
-                    
                 }
                 
             } else {
@@ -875,10 +1047,7 @@ public class TableVC: UITableViewController {
         } else {
             print("SETTINGS: Error connecting to data source for SetMain during user toggle.")
         }
-
-        
     }
-    
     
     //general toggle switch accessors
     public func getToggleCellKey(fromSwitch:UISwitch) -> String?{
@@ -932,27 +1101,47 @@ public class TableVC: UITableViewController {
     
     }
     
+    //MARK: - Core Data
     
-    //TODO: refresh midi destinations?
-    /*
-     fileprivate func _refreshMidiDestinations(withCellData:DisclosureCellData){
-     
-     //refresh midi destination data
-     XvMidi.sharedInstance.refreshMidiDestinations()
-     
-     //get names of currently available midi destinations
-     let midiDestinationNames:[String] = XvMidi.sharedInstance.getMidiDestinationNames()
-     
-     //get indexes of user selected destinations
-     let activeDestinationIndexes = XvMidi.sharedInstance.getActiveMidiDestinationIndexes()
-     
-     //init data obj with this up-to-date destination data
-     withCellData.initSubArrays(values: midiDestinationNames, labels: midiDestinationNames)
-     withCellData.setNewDefaults(newIndexes: activeDestinationIndexes)
-     
-     }
-     */
     
+
+    fileprivate func _setCoreData(level:String, value:Any, key:String, multi:Bool){
+        
+        print("SETTINGS: TableVC: Set CoreData", level, value, key, multi)
+        
+        //TODO: does multi need to be programmed for app or instrument level?
+        //set core data value based on level (app, kit, or instrument)
+        
+        var _value:Any = value
+        
+        if (level == XvSetConstants.LEVEL_TYPE_APP){
+        
+            xvcdm.setApp(value: value, forKey: key)
+            
+        } else if (level == XvSetConstants.LEVEL_TYPE_KIT){
+            
+            xvcdm.setCurrKit(value: value, forKey: key)
+            
+        } else if (level == XvSetConstants.LEVEL_TYPE_INSTRUMENT){
+            
+            if let currInstrument:NSManagedObject = xvcdm.getCurrInstrument() {
+                
+                //if input is multi
+                if (multi) {
+                    
+                    
+                }
+                
+            } else {
+                
+                print("SETTINGS: Unable to get curr instrument during setCoreData")
+            }
+            
+            
+            xvcdm.setCurrInstrument(value: _value, forKey: key)
+        }
+        
+    }
     
     //MARK: - DEINT
     deinit {

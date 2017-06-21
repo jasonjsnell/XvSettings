@@ -21,31 +21,40 @@ public class XvSetMainTableVC:TableVC {
         //this fires when main settings panel loads, and it returned to from a sub menu
         //if Ableton Link is on, keep midi sync on None, even if user selected something else
         
-        if (xvcdm.getAppBool(forKey: XvSetConstants.kAppAbletonLinkEnabled)){
+        if let linkEnabled:Bool = xvcdm.getAppBool(forKey: XvSetConstants.kAppAbletonLinkEnabled) {
             
-            if let _midiSyncCell:DisclosureCell = _getMidiSyncCell() {
-                _midiSyncCell.set(label: XvSetConstants.MIDI_CLOCK_NONE_LABEL)
+            if (linkEnabled){
+                
+                if let _midiSyncCell:DisclosureCell = _getMidiSyncCell() {
+                    _midiSyncCell.set(label: XvSetConstants.MIDI_CLOCK_NONE_LABEL)
+                }
             }
+            
+        } else {
+            print("SETTINGS: Error: Unable to get ABL Link enabled bool from Core Data")
         }
+        
+        
         
         super.viewWillAppear(animated)
         
     }
     
-    //override by app settings classes, which check for app specific keys and execute app specific commands
     override func disclosureRowSelected(cell:DisclosureCell, key:String){
         
         if (key == XvSetConstants.kAppMidiSync){
             
             //MARK: MIDI sync
-            
-            if (xvcdm.getAppBool(forKey: XvSetConstants.kAppAbletonLinkEnabled)){
+            if let linkEnabled:Bool = xvcdm.getAppBool(forKey: XvSetConstants.kAppAbletonLinkEnabled) {
                 
-                _showMidiSyncAblError()
-                
-            } else {
-                
-                loadCheckmarkTable(fromCell:cell)
+                if (linkEnabled){
+                    
+                    _showMidiSyncAblError()
+                    
+                } else {
+                    
+                    loadCheckmarkTable(fromCell:cell)
+                }
             }
             
         } else if (key == XvSetConstants.kAppAbletonLinkEnabled){

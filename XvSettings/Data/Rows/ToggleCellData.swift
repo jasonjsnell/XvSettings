@@ -15,14 +15,16 @@ public class ToggleCellData:CellData {
         key:String,
         value:Any,
         textLabel:String,
-        levelType:String){
+        levelType:String,
+        isVisible:Bool){
         
         super.init(
             key: key,
             value: value,
             textLabel: textLabel,
             displayType: XvSetConstants.DISPLAY_TYPE_SWITCH,
-            levelType: levelType
+            levelType: levelType,
+            isVisible: isVisible
         )
         
     }

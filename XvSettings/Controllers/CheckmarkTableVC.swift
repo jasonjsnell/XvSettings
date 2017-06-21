@@ -40,26 +40,36 @@ public class CheckmarkTableVC: TableVC {
         }
     }
     
-    //when the local checkmark func is executed, update the parent cells detailTextLabel
+    //when the local checkmark func is executed, update the parent cells detailTextLabel on non-multi tables
     override internal func _checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
         
         super._checkmarkRowSelected(cell: cell, indexPath: indexPath)
         
-        //if there is a parent cell...
-        if (parentDisclosureCell != nil){
+        if let cellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
             
-            //if parent cell data is valid...
-            if let parentDisclosureCellData:DisclosureCellData = parentDisclosureCell!.data as? DisclosureCellData {
+            if (!cellData.multi) {
                 
-                //update detail text label
-                parentDisclosureCellData.updateDetailTextLabel(withRow: indexPath.row)
-                
-                //update view
-                parentDisclosureCell!.set(label: parentDisclosureCellData.detailTextLabel)
-                
-            } else {
-                print("SETTINGS: Parent cell data is invalid during _checkmarkRowSelected")
+                //if there is a parent cell...
+                if (parentDisclosureCell != nil){
+                    
+                    //if parent cell data is valid...
+                    if let parentDisclosureCellData:DisclosureCellData = parentDisclosureCell!.data as? DisclosureCellData {
+                        
+                        //update detail text label
+                        parentDisclosureCellData.updateDetailTextLabel(withRow: indexPath.row)
+                        
+                        //update view
+                        parentDisclosureCell!.set(label: parentDisclosureCellData.detailTextLabel)
+                        
+                    } else {
+                        print("SETTINGS: Error: Parent cell data is invalid during _checkmarkRowSelected")
+                    }
+                }
             }
+            
+            
+        } else {
+            print("SETTINGS: Error: Unable to get checkmark cell data during _checkmarkRowSelected")
         }
     }
 }

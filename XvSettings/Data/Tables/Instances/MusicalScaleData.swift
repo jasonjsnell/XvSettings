@@ -10,36 +10,44 @@ class MusicalScaleData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
-    public init(){
+    public init?(){
        
         let key:String = XvSetConstants.kMusicalScale
         
-        super.init(
+        if let value:String = _xvcdm.getAppString(forKey: key) {
             
-            key: key,
-            dataType: XvSetConstants.DATA_TYPE_STRING,
-            value: _xvcdm.getAppString(forKey: key),
-            values: XvSetConstants.getMusicScaleValues(),
-            textLabel: XvSetConstants.MUSIC_SCALE_LABEL,
-            detailTextLabels: XvSetConstants.getMusicScaleLabels(),
-            multi: false,
-            levelType: XvSetConstants.LEVEL_TYPE_APP
+            super.init(
+                
+                key: key,
+                dataType: XvSetConstants.DATA_TYPE_STRING,
+                defaultValue: value,
+                possibleValues: XvSetConstants.getMusicScaleValues(),
+                textLabel: XvSetConstants.MUSIC_SCALE_LABEL,
+                detailTextLabels: XvSetConstants.getMusicScaleLabels(),
+                levelType: XvSetConstants.LEVEL_TYPE_APP,
+                isVisible: true
+                
+            )
             
-        )
-        
-        let section:SectionData = SectionData(
+            let section:SectionData = SectionData(
+                
+                header: XvSetConstants.MUSIC_SCALE_LABEL,
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: getCellDataArray(),
+                isVisible: true
+                
+            )
             
-            header: XvSetConstants.MUSIC_SCALE_LABEL,
-            footerType: XvSetConstants.FOOTER_TYPE_NONE,
-            footerText: nil,
-            footerLink: nil,
-            footerHeight: 10,
-            cells: getCellDataArray(),
-            isVisible: true
+            sections.append(section)
             
-        )
-        
-        sections.append(section)
+        } else {
+            
+            print("SETTINGS: Error: Unable to get musical scale from core data in MusicalScaleData")
+            return nil
+        }
     }
     
 }

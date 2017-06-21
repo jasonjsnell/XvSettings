@@ -35,7 +35,9 @@ public class CellData {
     //position
     internal var indexPath:IndexPath?
     
-    internal var visibilityTargets:[Int]?
+    //visibiliy
+    internal var visibilityTargets:[[Int]]? // a toggle cell can target any cell in any section
+    internal var isVisible:Bool = true
     
     internal let debug:Bool = false
     
@@ -48,7 +50,8 @@ public class CellData {
         value:Any,
         textLabel:String,
         displayType:String,
-        levelType:String){
+        levelType:String,
+        isVisible:Bool){
         
         //record incoming vars
         self.key = key
@@ -56,12 +59,13 @@ public class CellData {
         self.textLabel = textLabel
         self.displayType = displayType
         self.levelType = levelType
+        self.isVisible = isVisible
 
     }
     
     
     //visibility targets are rare, so it has its own setter
-    public func set(visibilityTargets:[Int]){
+    public func set(visibilityTargets:[[Int]]){
         self.visibilityTargets = visibilityTargets
     }
             

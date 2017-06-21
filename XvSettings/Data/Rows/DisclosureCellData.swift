@@ -21,7 +21,7 @@ class DisclosureCellData:CellData {
     
     //MARK: - INIT
     
-    init(key:String, value:Any, textLabel:String){
+    init(key:String, value:Any, textLabel:String, isVisible:Bool){
         
         detailTextLabel = ""
         detailTextLabels = []
@@ -31,31 +31,34 @@ class DisclosureCellData:CellData {
             value: value,
             textLabel: textLabel,
             displayType: XvSetConstants.DISPLAY_TYPE_DISCLOSURE,
-            levelType: XvSetConstants.LEVEL_TYPE_NONE //disclosure leads to more panels, does not change vars
+            levelType: XvSetConstants.LEVEL_TYPE_NONE, //disclosure leads to more panels, does not change vars
+            isVisible: isVisible
         )
         
     }
     
     //init by data class, for simpler disclosure cells that launch non-checkmark tables
-    convenience init (key:String, textLabel:String){
+    convenience init (key:String, textLabel:String, isVisible:Bool){
         
         self.init(
             key: key,
             value: "",
-            textLabel: textLabel
+            textLabel: textLabel,
+            isVisible: isVisible
         )
     }
     
     
     // init with data class, unpack it to get the vars
     // called by table that wants to create a checkmark table launched from a disclosure cell tap
-    convenience init(withCheckmarkTableDataSource: CheckmarkTableData){
+    convenience init(withCheckmarkTableDataSource: CheckmarkTableData, isVisible:Bool){
         
         //init with data from table data source
         self.init(
             key: withCheckmarkTableDataSource.getKey(),
-            value: withCheckmarkTableDataSource.getValue(),
-            textLabel: withCheckmarkTableDataSource.getTextLabel()
+            value: withCheckmarkTableDataSource.getDefaultValue(),
+            textLabel: withCheckmarkTableDataSource.getTextLabel(),
+            isVisible:isVisible
         )
         
         //retain table data so checkmark table can be launched with this data object (via its cell)
