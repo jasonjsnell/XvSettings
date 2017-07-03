@@ -22,8 +22,8 @@ class MusicalScaleData:CheckmarkTableData {
                 dataType: XvSetConstants.DATA_TYPE_STRING,
                 defaultValue: value,
                 possibleValues: XvSetConstants.getMusicScaleValues(),
-                textLabel: XvSetConstants.MUSIC_SCALE_LABEL,
-                detailTextLabels: XvSetConstants.getMusicScaleLabels(),
+                textLabel: Labels.MUSIC_SCALE_LABEL,
+                detailTextLabels: Labels.getMusicScaleLabels(),
                 levelType: XvSetConstants.LEVEL_TYPE_APP,
                 isVisible: true
                 
@@ -31,7 +31,7 @@ class MusicalScaleData:CheckmarkTableData {
             
             let section:SectionData = SectionData(
                 
-                header: XvSetConstants.MUSIC_SCALE_LABEL,
+                header: Labels.MUSIC_SCALE_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,

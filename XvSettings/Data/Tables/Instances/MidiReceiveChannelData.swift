@@ -35,14 +35,14 @@ class MidiReceiveChannelData:CheckmarkTableData {
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
                 defaultValue: defaultValue,
                 possibleValues: possibleValues,
-                textLabel: "MIDI Receive",
+                textLabel: Labels.MIDI_RECEIVE_LABEL,
                 detailTextLabels: labels,
                 levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
                 isVisible: true
             )
             
             let section:SectionData = SectionData(
-                header: "MIDI Ins",
+                header: Labels.MIDI_RECEIVE_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,

@@ -24,15 +24,8 @@ public class XvSetConstants {
     public static let MIDI_CLOCK_SEND:String = "midiClockSend"
     public static let MIDI_CLOCK_NONE:String = "midiClockNone"
     
-    public static let MIDI_SYNC_LABEL:String = "MIDI Sync"
-    public static let MIDI_CLOCK_RECEIVE_LABEL:String = "Sync to External MIDI Clock"
-    public static let MIDI_CLOCK_SEND_LABEL:String = "Send MIDI Clock"
-    public static let MIDI_CLOCK_NONE_LABEL:String = "None"
-    
     //MARK: App: Musical Scale
     public static let kMusicalScale:String = "musicalScale"
-    
-    public static let MUSIC_SCALE_LABEL:String = "Musical Scale"
     
     public static let MUSIC_SCALE_MAJOR:String = "musicScaleMajor"
     public static let MUSIC_SCALE_MINOR:String = "musicScaleMinor"
@@ -50,23 +43,6 @@ public class XvSetConstants {
     public static let MUSIC_SCALE_CHROMATIC:String = "musicScaleChromatic"
     public static let MUSIC_SCALE_HARMONIC_MINOR:String = "musicScaleHarmonicMinor"
     public static let MUSIC_SCALE_WHOLE_TONE:String = "musicScaleWholeTone"
-    
-    public static let MUSIC_SCALE_MAJOR_LABEL:String = "Major"
-    public static let MUSIC_SCALE_MINOR_LABEL:String = "Minor"
-    public static let MUSIC_SCALE_DORIAN_LABEL:String = "Dorian"
-    public static let MUSIC_SCALE_PHRYGIAN_LABEL:String = "Phrygian"
-    public static let MUSIC_SCALE_LYDIAN_LABEL:String = "Lydian"
-    public static let MUSIC_SCALE_MIXOLYDIAN_LABEL:String = "Mixolydian"
-    public static let MUSIC_SCALE_AEOLIAN_LABEL:String = "Aeolian"
-    public static let MUSIC_SCALE_LOCARIAN_LABEL:String = "Locarian"
-    public static let MUSIC_SCALE_MAJOR_BLUES_LABEL:String = "Major Blues"
-    public static let MUSIC_SCALE_MINOR_BLUES_LABEL:String = "Minor Blues"
-    public static let MUSIC_SCALE_MAJOR_PENTATONIC_LABEL:String = "Major Pentatonic"
-    public static let MUSIC_SCALE_MINOR_PENTATONIC_LABEL:String = "Minor Pentatonic"
-    public static let MUSIC_SCALE_DIMINISHED_LABEL:String = "Diminished"
-    public static let MUSIC_SCALE_CHROMATIC_LABEL:String = "Chromatic"
-    public static let MUSIC_SCALE_HARMONIC_MINOR_LABEL:String = "Harmonic Minor"
-    public static let MUSIC_SCALE_WHOLE_TONE_LABEL:String = "Whole Tone"
     
     public static func getMusicScaleValues() -> [String] {
         return [
@@ -89,33 +65,11 @@ public class XvSetConstants {
         ]
     }
     
-    public static func getMusicScaleLabels() -> [String] {
-        return [
-            MUSIC_SCALE_MAJOR_LABEL,
-            MUSIC_SCALE_MINOR_LABEL,
-            MUSIC_SCALE_DORIAN_LABEL,
-            MUSIC_SCALE_PHRYGIAN_LABEL,
-            MUSIC_SCALE_LYDIAN_LABEL,
-            MUSIC_SCALE_MIXOLYDIAN_LABEL,
-            MUSIC_SCALE_AEOLIAN_LABEL,
-            MUSIC_SCALE_LOCARIAN_LABEL,
-            MUSIC_SCALE_MAJOR_BLUES_LABEL,
-            MUSIC_SCALE_MINOR_BLUES_LABEL,
-            MUSIC_SCALE_MAJOR_PENTATONIC_LABEL,
-            MUSIC_SCALE_MINOR_PENTATONIC_LABEL,
-            MUSIC_SCALE_DIMINISHED_LABEL,
-            MUSIC_SCALE_CHROMATIC_LABEL,
-            MUSIC_SCALE_HARMONIC_MINOR_LABEL,
-            MUSIC_SCALE_WHOLE_TONE
-        ]
-    }
-
     
     //MARK: App: Tour
     public static let kAppTourStatus:String = "tourStatus"
     public static let TOUR_IN_QUEUE:String = "tourInQueue"
     public static let TOUR_COMPLETE:String = "tourComplete"
-
     
     //MARK: - Kit -
     public static let kKitEntity:String = "Kit"
@@ -134,7 +88,8 @@ public class XvSetConstants {
     public static let kInstrumentKit:String = "kit"
     public static let kInstrumentLifetimeKeyTallies = "lifetimeKeyTallies"
     public static let kInstrumentLoopLength:String = "loopLength"
-    public static let kInstrumentMeasuresUntilFadeOut:String = "measuresUntilFadeOut"
+    public static let kInstrumentFadeOut:String = "fadeOut"
+    public static let kInstrumentFadeOutDuration:String = "fadeOutDuration"
     public static let kInstrumentMidiDestinations:String = "midiDestinations"
     public static let kInstrumentMidiReceiveChannel:String = "midiReceiveChannel"
     public static let kInstrumentMidiReceiveEnabled:String = "midiReceiveEnabled"
@@ -147,8 +102,6 @@ public class XvSetConstants {
     public static let kInstrumentRandomizedPitch:String = "randomizedPitch"
     public static let kInstrumentRegenerateAtBeginningOfPattern:String = "regenerateAtBeginningOfPattern"
     public static let kInstrumentVolume:String = "volume"
-    public static let kInstrumentVolumeLock:String = "volumeLock"
-  
 
     
     //MARK: - Notifications -
@@ -173,6 +126,7 @@ public class XvSetConstants {
     public static let DISPLAY_TYPE_BUTTON:String = "displayTypeButton"
     public static let DISPLAY_TYPE_CHECKMARK:String = "displayTypeCheckmark"
     public static let DISPLAY_TYPE_SWITCH:String = "displayTypeSwitch"
+    public static let DISPLAY_TYPE_SLIDER:String = "displayTypeSlider"
     public static let DISPLAY_TYPE_DISCLOSURE:String = "displayTypeDisclosure"
     public static let DISPLAY_TYPE_DISCLOSURE_MULTI:String = "displayTypeDisclosureMulti"
     public static let DISPLAY_TYPE_MULTI_TABLE:String = "displayTypeMultiTable"

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96291FA01F05998D00A9A778 /* QuantizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96291F9F1F05998D00A9A778 /* QuantizationData.swift */; };
 		966F4A2A1E84BD6800154669 /* XvSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 966F4A281E84BD6800154669 /* XvSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		966F4A361E84BD8D00154669 /* TableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A321E84BD8D00154669 /* TableVC.swift */; };
 		966F4A401E84BDD300154669 /* TableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A3E1E84BDD300154669 /* TableData.swift */; };
@@ -34,14 +35,20 @@
 		9684A8621EF86B6400019AF1 /* MidiSourcesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8611EF86B6300019AF1 /* MidiSourcesData.swift */; };
 		96C30CE31EF6C2560058A64D /* MidiSyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE21EF6C2560058A64D /* MidiSyncData.swift */; };
 		96C30CE51EF6C4700058A64D /* MusicalScaleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */; };
+		96C8F58F1EFB9CCC0058BDBF /* SliderCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C8F58E1EFB9CCC0058BDBF /* SliderCellData.swift */; };
+		96C8F5911EFB9DD50058BDBF /* SliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C8F5901EFB9DD50058BDBF /* SliderCell.swift */; };
 		96DC444D1EE47F8D0032DC9C /* CheckmarkTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC444C1EE47F8D0032DC9C /* CheckmarkTableData.swift */; };
 		96DC444F1EE592920032DC9C /* CheckmarkTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC444E1EE592920032DC9C /* CheckmarkTableVC.swift */; };
 		96DC44511EE63B5F0032DC9C /* ToggleCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44501EE63B5F0032DC9C /* ToggleCellData.swift */; };
 		96DC44531EE64DFA0032DC9C /* ButtonCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44521EE64DFA0032DC9C /* ButtonCellData.swift */; };
 		96DC44551EE6F8DC0032DC9C /* KitTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44541EE6F8DC0032DC9C /* KitTableData.swift */; };
+		96F54F9B1F0A798A005021DB /* FadeOutDurationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F54F9A1F0A798A005021DB /* FadeOutDurationData.swift */; };
+		96F54F9D1F0A7B77005021DB /* LoopLengthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F54F9C1F0A7B77005021DB /* LoopLengthData.swift */; };
+		96F54F9F1F0AAA7A005021DB /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F54F9E1F0AAA7A005021DB /* Labels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		96291F9F1F05998D00A9A778 /* QuantizationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuantizationData.swift; path = XvSettings/Data/Tables/Instances/QuantizationData.swift; sourceTree = "<group>"; };
 		966F4A251E84BD6800154669 /* XvSettings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XvSettings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		966F4A281E84BD6800154669 /* XvSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XvSettings.h; sourceTree = "<group>"; };
 		966F4A291E84BD6800154669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,11 +78,16 @@
 		9684A8611EF86B6300019AF1 /* MidiSourcesData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiSourcesData.swift; path = XvSettings/Data/Tables/Instances/MidiSourcesData.swift; sourceTree = "<group>"; };
 		96C30CE21EF6C2560058A64D /* MidiSyncData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiSyncData.swift; path = XvSettings/Data/Tables/Instances/MidiSyncData.swift; sourceTree = "<group>"; };
 		96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MusicalScaleData.swift; path = XvSettings/Data/Tables/Instances/MusicalScaleData.swift; sourceTree = "<group>"; };
+		96C8F58E1EFB9CCC0058BDBF /* SliderCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SliderCellData.swift; path = XvSettings/Data/Rows/SliderCellData.swift; sourceTree = "<group>"; };
+		96C8F5901EFB9DD50058BDBF /* SliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SliderCell.swift; path = XvSettings/Views/Rows/SliderCell.swift; sourceTree = "<group>"; };
 		96DC444C1EE47F8D0032DC9C /* CheckmarkTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckmarkTableData.swift; path = XvSettings/Data/Tables/CheckmarkTableData.swift; sourceTree = "<group>"; };
 		96DC444E1EE592920032DC9C /* CheckmarkTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckmarkTableVC.swift; path = Controllers/CheckmarkTableVC.swift; sourceTree = "<group>"; };
 		96DC44501EE63B5F0032DC9C /* ToggleCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToggleCellData.swift; path = XvSettings/Data/Rows/ToggleCellData.swift; sourceTree = "<group>"; };
 		96DC44521EE64DFA0032DC9C /* ButtonCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonCellData.swift; path = XvSettings/Data/Rows/ButtonCellData.swift; sourceTree = "<group>"; };
 		96DC44541EE6F8DC0032DC9C /* KitTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KitTableData.swift; path = XvSettings/Data/Tables/KitTableData.swift; sourceTree = "<group>"; };
+		96F54F9A1F0A798A005021DB /* FadeOutDurationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FadeOutDurationData.swift; path = XvSettings/Data/Tables/Instances/FadeOutDurationData.swift; sourceTree = "<group>"; };
+		96F54F9C1F0A7B77005021DB /* LoopLengthData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoopLengthData.swift; path = XvSettings/Data/Tables/Instances/LoopLengthData.swift; sourceTree = "<group>"; };
+		96F54F9E1F0AAA7A005021DB /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Labels.swift; path = XvSettings/Data/Labels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +146,7 @@
 		966F4A391E84BDA600154669 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				96F54F9E1F0AAA7A005021DB /* Labels.swift */,
 				966F4A3C1E84BDC600154669 /* Tables */,
 				966F4A3B1E84BDBB00154669 /* Sections */,
 				966F4A3A1E84BDB300154669 /* Rows */,
@@ -145,10 +158,11 @@
 			isa = PBXGroup;
 			children = (
 				966F4A431E84BDE200154669 /* CellData.swift */,
-				96DC44501EE63B5F0032DC9C /* ToggleCellData.swift */,
 				96DC44521EE64DFA0032DC9C /* ButtonCellData.swift */,
 				966F4A441E84BDE200154669 /* CheckmarkCellData.swift */,
 				966F4A451E84BDE200154669 /* DisclosureCellData.swift */,
+				96C8F58E1EFB9CCC0058BDBF /* SliderCellData.swift */,
+				96DC44501EE63B5F0032DC9C /* ToggleCellData.swift */,
 			);
 			name = Rows;
 			sourceTree = "<group>";
@@ -205,10 +219,11 @@
 			isa = PBXGroup;
 			children = (
 				966F4A561E84BE3C00154669 /* Cell.swift */,
-				966F4A571E84BE3C00154669 /* CheckmarkCell.swift */,
 				966F4A551E84BE3C00154669 /* ButtonCell.swift */,
-				966F4A5A1E84BE3C00154669 /* ToggleCell.swift */,
+				966F4A571E84BE3C00154669 /* CheckmarkCell.swift */,
 				966F4A581E84BE3C00154669 /* DisclosureCell.swift */,
+				96C8F5901EFB9DD50058BDBF /* SliderCell.swift */,
+				966F4A5A1E84BE3C00154669 /* ToggleCell.swift */,
 			);
 			name = Rows;
 			sourceTree = "<group>";
@@ -216,12 +231,15 @@
 		96C30CE11EF6C1F70058A64D /* Instances */ = {
 			isa = PBXGroup;
 			children = (
+				96F54F9A1F0A798A005021DB /* FadeOutDurationData.swift */,
+				96F54F9C1F0A7B77005021DB /* LoopLengthData.swift */,
 				96C30CE21EF6C2560058A64D /* MidiSyncData.swift */,
 				96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */,
 				9684A8531EF8285300019AF1 /* MidiSendChannelData.swift */,
 				9684A8551EF83C8700019AF1 /* MidiReceiveChannelData.swift */,
 				9684A8571EF84B3300019AF1 /* MidiDestinationsData.swift */,
 				9684A8611EF86B6300019AF1 /* MidiSourcesData.swift */,
+				96291F9F1F05998D00A9A778 /* QuantizationData.swift */,
 			);
 			name = Instances;
 			sourceTree = "<group>";
@@ -309,16 +327,20 @@
 			files = (
 				966F4A421E84BDDA00154669 /* SectionData.swift in Sources */,
 				966F4A621E84BE4300154669 /* Footer.swift in Sources */,
+				96F54F9B1F0A798A005021DB /* FadeOutDurationData.swift in Sources */,
 				9684A8481EF7197000019AF1 /* XvSetConstants.swift in Sources */,
 				966F4A401E84BDD300154669 /* TableData.swift in Sources */,
+				96F54F9D1F0A7B77005021DB /* LoopLengthData.swift in Sources */,
 				96DC444D1EE47F8D0032DC9C /* CheckmarkTableData.swift in Sources */,
 				966F4A481E84BDE200154669 /* CheckmarkCellData.swift in Sources */,
 				96C30CE51EF6C4700058A64D /* MusicalScaleData.swift in Sources */,
 				9684A84C1EF7197E00019AF1 /* XvSetMainTableData.swift in Sources */,
 				966F4A501E84BE1400154669 /* Utils.swift in Sources */,
 				9684A8581EF84B3300019AF1 /* MidiDestinationsData.swift in Sources */,
+				96291FA01F05998D00A9A778 /* QuantizationData.swift in Sources */,
 				966F4A5C1E84BE3C00154669 /* Cell.swift in Sources */,
 				96DC44551EE6F8DC0032DC9C /* KitTableData.swift in Sources */,
+				96C8F58F1EFB9CCC0058BDBF /* SliderCellData.swift in Sources */,
 				966F4A5B1E84BE3C00154669 /* ButtonCell.swift in Sources */,
 				966F4A471E84BDE200154669 /* CellData.swift in Sources */,
 				966F4A5D1E84BE3C00154669 /* CheckmarkCell.swift in Sources */,
@@ -328,6 +350,7 @@
 				96DC444F1EE592920032DC9C /* CheckmarkTableVC.swift in Sources */,
 				9684A8461EF7196900019AF1 /* XvCoreDataManager.swift in Sources */,
 				9684A8541EF8285300019AF1 /* MidiSendChannelData.swift in Sources */,
+				96C8F5911EFB9DD50058BDBF /* SliderCell.swift in Sources */,
 				9684A8521EF8116300019AF1 /* InstrumentTableData.swift in Sources */,
 				966F4A491E84BDE200154669 /* DisclosureCellData.swift in Sources */,
 				966F4A601E84BE3C00154669 /* ToggleCell.swift in Sources */,
@@ -335,6 +358,7 @@
 				96C30CE31EF6C2560058A64D /* MidiSyncData.swift in Sources */,
 				966F4A361E84BD8D00154669 /* TableVC.swift in Sources */,
 				9684A84A1EF7197800019AF1 /* XvSetMainTableVC.swift in Sources */,
+				96F54F9F1F0AAA7A005021DB /* Labels.swift in Sources */,
 				96DC44511EE63B5F0032DC9C /* ToggleCellData.swift in Sources */,
 				9684A8621EF86B6400019AF1 /* MidiSourcesData.swift in Sources */,
 				9684A84E1EF7199E00019AF1 /* InstrumentTableVC.swift in Sources */,
@@ -455,7 +479,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = XvSettings/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jasonjsnell.XvSettings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -477,7 +501,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = XvSettings/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jasonjsnell.XvSettings;
 				PRODUCT_NAME = "$(TARGET_NAME)";

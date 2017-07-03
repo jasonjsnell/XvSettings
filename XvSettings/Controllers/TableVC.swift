@@ -126,6 +126,7 @@ public class TableVC: UITableViewController {
         
     }
     
+    //MARK: Main build
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if (dataSource != nil){
@@ -136,7 +137,6 @@ public class TableVC: UITableViewController {
             //set the index path into the object so it can be referred to later
             //example: toggle switch requires it to set isSectionVisible bool in data class
             cellDataObj.indexPath = indexPath
-            
             
             if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_SWITCH){
                 
@@ -154,6 +154,23 @@ public class TableVC: UITableViewController {
                 
                 //return object
                 return toggleCell
+                
+            } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_SLIDER){
+                
+                //create slider cell
+                let sliderCell:SliderCell = SliderCell(
+                    style: .default,
+                    reuseIdentifier: cellDataObj.key,
+                    data: cellDataObj)
+                
+                //add listener
+                sliderCell.slider.addTarget(
+                    self,
+                    action: #selector(sliderChanged),
+                    for: UIControlEvents.valueChanged)
+                
+                //return object
+                return sliderCell
                 
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_BUTTON){
                 
@@ -343,7 +360,6 @@ public class TableVC: UITableViewController {
                         print("SETTINGS: Disclosure cell data key could not be found")
                     }
                     
-                    
                 } else {
                     print("SETTINGS: This index does not have a valid disclosure cell")
                 }
@@ -409,8 +425,7 @@ public class TableVC: UITableViewController {
     
     internal func checkmarkRowSelected(cell:CheckmarkCell, key:String) {
         
-        
-        
+        _refreshTableDisplay(fromCheckmarkCell: cell)
         
     }
     
@@ -431,12 +446,56 @@ public class TableVC: UITableViewController {
         }
     }
     
-    //MARK: - TOGGLE SWITCH
+    //MARK: - SLIDER
     
+    internal func sliderChanged(_ sender:UISlider) {
+        
+        //_updateValues(fromSlider: sender)
+        
+        //is data valid?
+        if (dataSource != nil){
+            
+            
+            
+            if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
+                
+                let baseText:String = sliderCell.baseText
+                let newText:String = baseText + " " + String(sender.value)
+                sliderCell.textLabel?.text = newText
+                
+                print("slider super", sliderCell.textLabel?.text)
+            }
+            print("slider is changing", sender.value)
+            
+            
+            /*
+            if let key:String = getToggleCellKey(fromSwitch: sender) {
+                
+                toggleSelected(isOn: sender.isOn, key: key)
+                
+            } else {
+                print("SETTINGS: Error getting toggle cell key SetMain sliderChanged")
+            }
+            */
+            
+        } else {
+            
+            print("SETTINGS: Error connecting to data source for SetMain toggleSwitchChanged")
+            
+        }
+        
+    }
+
+
+    
+
+
+    //MARK: - TOGGLE SWITCH
+
     internal func toggleSwitchChanged(_ sender:UISwitch) {
         
-        updateValues(fromSwitch: sender)
-        refreshTableDisplay(fromSwitch: sender)
+        _updateValues(fromSwitch: sender)
+        _refreshTableDisplay(fromSwitch: sender)
         
         //is data valid?
         if (dataSource != nil){
@@ -543,7 +602,7 @@ public class TableVC: UITableViewController {
 
     
     
-    //MARK: Row / cell getters
+    //MARK: - GETTERS
     internal func getDisplayType(dataSource:TableData, indexPath:IndexPath) -> String {
         
         return dataSource.sections[indexPath.section].cells[indexPath.row].displayType
@@ -677,12 +736,94 @@ public class TableVC: UITableViewController {
         return nil
         
     }
+    
+    fileprivate func _getIndexPath(fromCheckmarkCell:CheckmarkCell) -> IndexPath? {
+        
+        if let checkmarkCellData:CellData = _getData(fromCheckmarkCell: fromCheckmarkCell) {
+            
+            return checkmarkCellData.indexPath
+            
+        } else {
+            
+            print("SETTINGS: Error: Checkmark cell data not found during getIndexPath fromCheckmarkCell")
+            return nil
+            
+        }
+        
+    }
+    
+    fileprivate func _getData(fromCheckmarkCell:CheckmarkCell) -> CellData? {
+        
+        //if data is valid
+        if let data:CellData = fromCheckmarkCell.data {
+            return data
+        } else {
+            print("SETTINGS: Error getting data from checkmark cell")
+        }
+        
+        //else nil
+        return nil
+        
+    }
+
+    
+    //general toggle switch accessors
+    public func getToggleCellKey(fromSwitch:UISwitch) -> String?{
+        
+        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
+            
+            return toggleCellData.key
+            
+        } else {
+            
+            print("SETTINGS: SetMultiTable getToggleCellKey not found during user toggle")
+            return nil
+        }
+        
+    }
+    
+    internal func getIndexPath(fromSwitch:UISwitch) -> IndexPath? {
+        
+        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
+            
+            return toggleCellData.indexPath
+            
+        } else {
+            
+            print("SETTINGS: SetMultiTable getIndexPath not found during user toggle")
+            return nil
+            
+        }
+        
+    }
+    
+    fileprivate func getToggleCellData(fromSwitch:UISwitch) -> CellData? {
+        
+        //if toggle cell is valid
+        if let toggleCell:ToggleCell = fromSwitch.superview!.superview as? ToggleCell {
+            
+            //if data is valid
+            if let data:CellData = toggleCell.data {
+                return data
+            } else {
+                print("SETTINGS: SetMultiTable Toggle cell data could not be found during user toggle")
+            }
+            
+            
+        } else {
+            print("SETTINGS: SetMultiTable Toggle cell could not be found during user toggle")
+        }
+        
+        //else nil
+        return nil
+        
+    }
 
     
     
     //MARK: - INTERNAL -
     
-    //build out footers
+    //MARK: Footer
     internal func buildFooters(){
         
         sectionFooterViews = []
@@ -820,8 +961,6 @@ public class TableVC: UITableViewController {
                 checkmarkCellData.selected = true
             }
             
-            
-            
             _setCoreData(
                 level: checkmarkCellData.levelType,
                 value: _value,
@@ -839,6 +978,8 @@ public class TableVC: UITableViewController {
     
     //MARK: - PRIVATE -
     //MARK: Checkmark
+    
+    
     
     fileprivate func _turnOffCheckmarks(inSection:Int){
         
@@ -969,7 +1110,7 @@ public class TableVC: UITableViewController {
     //MARK: Toggle
     
     //update toggle cell's default value and the correspond user default
-    fileprivate func updateValues(fromSwitch:UISwitch){
+    fileprivate func _updateValues(fromSwitch:UISwitch){
         
         //if cell data is valid...
         if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
@@ -985,12 +1126,35 @@ public class TableVC: UITableViewController {
             
         } else {
             
-            print("SETTINGS: Error: toggleCellData is nil during updateValues")
+            print("SETTINGS: Error: toggleCellData is nil during _updateValues")
         }
     }
     
-    // show / hide sections that rely on specifc toggle switch values
-    fileprivate func refreshTableDisplay(fromSwitch:UISwitch){
+    // show / hide sections that rely on specifc checkmark cells being selected
+
+    fileprivate func _refreshTableDisplay(fromCheckmarkCell:CheckmarkCell){
+        
+        //is table data valid?
+        if (dataSource != nil){
+            
+            //grab index path from sender (SetCell's data obj)
+            if let indexPath:IndexPath = _getIndexPath(fromCheckmarkCell: fromCheckmarkCell) {
+                
+                _updateVisibilityTargets(indexPath: indexPath, isOn: fromCheckmarkCell.isSelected)
+                
+                
+            } else {
+                print("SETTINGS: Error connecting to data source for SetMain during user toggle.")
+            }
+            
+        } else {
+            print("SETTINGS: Error connecting to data source for SetMain during user toggle.")
+        }
+        
+        
+    }
+    
+    fileprivate func _refreshTableDisplay(fromSwitch:UISwitch){
         
         //is table data valid?
         if (dataSource != nil){
@@ -998,47 +1162,7 @@ public class TableVC: UITableViewController {
             //grab index path from sender (SetCell's data obj)
             if let indexPath:IndexPath = getIndexPath(fromSwitch: fromSwitch) {
                 
-                //grab targets array, if not nil
-                if let visibilityTargets:[[Int]] = dataSource!.sections[indexPath.section].cells[indexPath.row].visibilityTargets {
-                    
-                    //format: [[section1, row1, row2], [section2, row3], [allOfSection3]]
-                  
-                    //create blank array of sections
-                    var targetSections:[Int] = []
-                    
-                    //loop through all targets
-                    for vt in 0..<visibilityTargets.count {
-                        
-                        //grab the visibility target array
-                        let visibilityTarget:[Int] = visibilityTargets[vt]
-                        
-                        //grab the section (first element) and store it for later
-                        let targetSection:Int = visibilityTarget[0]
-                        targetSections.append(targetSection)
-                        
-                        //if only 1 item in target, it's to hide a whole section
-                        if (visibilityTarget.count == 1){
-                            
-                            dataSource!.sections[targetSection].isVisible = fromSwitch.isOn
-                        
-                        } else {
-                        
-                            //else it's to hide specific rows in a section
-                            //(start at 1 to skip section)
-                            for r in 1..<visibilityTarget.count {
-                                
-                                let row:Int = visibilityTarget[r]
-                                dataSource!.sections[targetSection].cells[row].isVisible = fromSwitch.isOn
-                            }
-                        }
-                    }
-                
-                    //create index set from targets
-                    let indexSet:IndexSet = IndexSet(targetSections)
-                    
-                    //reload with anim
-                    tableView.reloadSections(indexSet, with: .fade)
-                }
+                _updateVisibilityTargets(indexPath: indexPath, isOn: fromSwitch.isOn)
                 
             } else {
                 print("SETTINGS: Error connecting to data source for SetMain during user toggle.")
@@ -1049,57 +1173,53 @@ public class TableVC: UITableViewController {
         }
     }
     
-    //general toggle switch accessors
-    public func getToggleCellKey(fromSwitch:UISwitch) -> String?{
+    fileprivate func _updateVisibilityTargets(indexPath:IndexPath, isOn:Bool){
         
-        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
+        //grab targets array, if not nil
+        if let visibilityTargets:[[Int]] = dataSource!.sections[indexPath.section].cells[indexPath.row].visibilityTargets {
             
-            return toggleCellData.key
-        
-        } else {
+            //format: [[section1, row1, row2], [section2, row3], [allOfSection3]]
             
-            print("SETTINGS: SetMultiTable getToggleCellKey not found during user toggle")
-            return nil
-        }
-        
-    }
-    
-    internal func getIndexPath(fromSwitch:UISwitch) -> IndexPath? {
-        
-        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
+            //create blank array of sections
+            var targetSections:[Int] = []
             
-            return toggleCellData.indexPath
-        
-        } else {
-            
-             print("SETTINGS: SetMultiTable getIndexPath not found during user toggle")
-            return nil
-        
-        }
-        
-    }
-    
-    fileprivate func getToggleCellData(fromSwitch:UISwitch) -> CellData? {
-    
-        //if toggle cell is valid
-        if let toggleCell:ToggleCell = fromSwitch.superview!.superview as? ToggleCell {
-            
-            //if data is valid
-            if let data:CellData = toggleCell.data {
-                return data
-            } else {
-                print("SETTINGS: SetMultiTable Toggle cell data could not be found during user toggle")
+            //loop through all targets
+            for vt in 0..<visibilityTargets.count {
+                
+                //grab the visibility target array
+                let visibilityTarget:[Int] = visibilityTargets[vt]
+                
+                //grab the section (first element) and store it for later
+                let targetSection:Int = visibilityTarget[0]
+                targetSections.append(targetSection)
+                
+                //if only 1 item in target, it's to hide a whole section
+                if (visibilityTarget.count == 1){
+                    
+                    dataSource!.sections[targetSection].isVisible = isOn
+                    
+                } else {
+                    
+                    //else it's to hide specific rows in a section
+                    //(start at 1 to skip section)
+                    for r in 1..<visibilityTarget.count {
+                        
+                        let row:Int = visibilityTarget[r]
+                        dataSource!.sections[targetSection].cells[row].isVisible = isOn
+                    }
+                }
             }
             
+            //create index set from targets
+            let indexSet:IndexSet = IndexSet(targetSections)
             
-        } else {
-            print("SETTINGS: SetMultiTable Toggle cell could not be found during user toggle")
+            //reload with anim
+            //tableView.reloadSections(indexSet, with: .fade)
+            tableView.reloadSections(indexSet, with: .none)
         }
         
-        //else nil
-        return nil
-    
     }
+    
     
     //MARK: - Core Data
     
@@ -1107,12 +1227,11 @@ public class TableVC: UITableViewController {
 
     fileprivate func _setCoreData(level:String, value:Any, key:String, multi:Bool){
         
-        print("SETTINGS: TableVC: Set CoreData", level, value, key, multi)
+        if (debug){
+            print("SETTINGS: TableVC: Set CoreData", level, value, key, multi)
+        }
         
-        //TODO: does multi need to be programmed for app or instrument level?
         //set core data value based on level (app, kit, or instrument)
-        
-        var _value:Any = value
         
         if (level == XvSetConstants.LEVEL_TYPE_APP){
         
@@ -1124,22 +1243,10 @@ public class TableVC: UITableViewController {
             
         } else if (level == XvSetConstants.LEVEL_TYPE_INSTRUMENT){
             
-            if let currInstrument:NSManagedObject = xvcdm.getCurrInstrument() {
-                
-                //if input is multi
-                if (multi) {
-                    
-                    
-                }
-                
-            } else {
-                
-                print("SETTINGS: Unable to get curr instrument during setCoreData")
-            }
-            
-            
-            xvcdm.setCurrInstrument(value: _value, forKey: key)
+            xvcdm.setCurrInstrument(value: value, forKey: key)
         }
+        
+        let _:Bool = xvcdm.save()
         
     }
     

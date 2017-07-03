@@ -18,7 +18,7 @@ class ToggleCell: Cell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?, data:CellData){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
-    
+        
         //set the toggle based on the data
         toggleSwitch.isOn = data.value as! Bool
         

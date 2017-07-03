@@ -26,7 +26,7 @@ public class XvSetMainTableVC:TableVC {
             if (linkEnabled){
                 
                 if let _midiSyncCell:DisclosureCell = _getMidiSyncCell() {
-                    _midiSyncCell.set(label: XvSetConstants.MIDI_CLOCK_NONE_LABEL)
+                    _midiSyncCell.set(label: Labels.MIDI_CLOCK_NONE_LABEL)
                 }
             }
             

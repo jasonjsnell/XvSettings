@@ -28,11 +28,11 @@ class MidiSyncData:CheckmarkTableData {
                     XvSetConstants.MIDI_CLOCK_SEND,
                     XvSetConstants.MIDI_CLOCK_NONE
                 ],
-                textLabel: XvSetConstants.MIDI_SYNC_LABEL,
+                textLabel: Labels.MIDI_SYNC_LABEL,
                 detailTextLabels: [
-                    XvSetConstants.MIDI_CLOCK_RECEIVE_LABEL,
-                    XvSetConstants.MIDI_CLOCK_SEND_LABEL,
-                    XvSetConstants.MIDI_CLOCK_NONE_LABEL
+                    Labels.MIDI_CLOCK_RECEIVE_LABEL,
+                    Labels.MIDI_CLOCK_SEND_LABEL,
+                    Labels.MIDI_CLOCK_NONE_LABEL
                 ],
                 
                 levelType: XvSetConstants.LEVEL_TYPE_APP,
@@ -40,7 +40,7 @@ class MidiSyncData:CheckmarkTableData {
             )
             
             let section:SectionData = SectionData(
-                header: XvSetConstants.MIDI_SYNC_LABEL,
+                header: Labels.MIDI_SYNC_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,

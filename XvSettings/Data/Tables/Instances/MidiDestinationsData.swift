@@ -19,8 +19,7 @@ class MidiDestinationsData:CheckmarkTableData {
         
         if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: withInstrDataObj) as? [String] {
             
-            //TODO: remove temp names
-            let availableDestinations:[String] = ["foo1", "foo2", "foo3"] //_xvcdm.getMidiDestinationNames()
+            let availableDestinations:[String] = _xvcdm.getMidiDestinationNames()
             
             super.init(
                 
@@ -28,14 +27,14 @@ class MidiDestinationsData:CheckmarkTableData {
                 dataType: XvSetConstants.DATA_TYPE_ARRAY,
                 defaultValue: userSelectedDestinations,
                 possibleValues: availableDestinations,
-                textLabel: "Destinations",
+                textLabel: Labels.MIDI_DESTINATION_LABEL,
                 detailTextLabels: availableDestinations,
                 levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
                 isVisible: true
             )
             
             let section:SectionData = SectionData(
-                header: "MIDI Destinations",
+                header: Labels.MIDI_DESTINATION_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,

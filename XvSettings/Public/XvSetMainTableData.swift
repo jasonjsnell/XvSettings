@@ -45,13 +45,14 @@ public class XvSetMainTableData:TableData {
         
         if let kits:[NSManagedObject] = xvcdm.getKits() {
             
-            for kit in kits {
+            for i in 0..<kits.count {
+                
+                let kit:NSManagedObject = kits[i]
                 
                 if let id:String = xvcdm.getString(forKey: XvSetConstants.kKitID, forObject: kit),
                     let name:String = xvcdm.getString(forKey: XvSetConstants.kKitName, forObject: kit) {
                     
                     var isSelected:Bool = false
-                    
                     
                     if (xvcdm.getAppString(forKey: XvSetConstants.kSelectedKit) == id){
                         isSelected = true
@@ -68,8 +69,11 @@ public class XvSetMainTableData:TableData {
                         isVisible: true
                     )
                     
+                    instrumentKitCheckmarkCellData.set(visibilityTargets: [[1, i]])
+                    
                     kitCheckmarkCellDataArray.append(instrumentKitCheckmarkCellData)
                     
+                    //TODO: only show kit that is selected. Pass "animated" bool into refreshTable in TableVC
                     let instrumentKitDisclosureCellData:DisclosureCellData = DisclosureCellData(
                         key: id,
                         textLabel: name,
@@ -155,86 +159,6 @@ public class XvSetMainTableData:TableData {
         
         
         
-        //TODO: delete?
-        //MARK: MIDI Destinations
-        /*
-         let midiInitialVisibility:Bool = dm.getBool(forKey: XvMidiConstants.kMidiSendEnabled)
-         
-         let midiDestinations:DisclosureMultiCellData = DisclosureMultiCellData(
-         key: XvMidiConstants.kMidiDestinations,
-         label: "MIDI Destinations",
-         dataType: XvSetConstants.TYPE_ARRAY,
-         displayType: XvSetConstants.DISPLAY_TYPE_DISCLOSURE_MULTI,
-         defaultValue: dm.getArray(forKey: XvMidiConstants.kMidiDestinations)
-         )
-         
-         //sub array for midi destinations gets init when the table is about to load in SetMain so it's the most current data
-         
-         let midiDestinationsSection:SectionData = SectionData(
-         header: "MIDI Destinations",
-         footerType: XvSetConstants.FOOTER_TYPE_NONE,
-         footerText: nil,
-         footerLink: nil,
-         footerHeight: 10,
-         cells: [midiDestinations],
-         isVisible: midiInitialVisibility
-         )
-         
-         sections.append(midiDestinationsSection)
-         */
-        
-        /*
-         //MARK: Instrument Outs
-         
-         //run loops to create the 16 MIDI channel options for each of the 7 instruments
-         
-         //loop through and populate MIDI channels and labels
-         var midiOutChannels:[Int] = []
-         var midiOutLabels:[String] = []
-         
-         for i in 0...15 {
-         midiOutChannels.append(i)
-         midiOutLabels.append("MIDI Channel " + String(i + 1))
-         }
-         
-         //loop through and create 7 midi outs, one for each instrument
-         
-         var instrumentOuts:[DisclosureCellData] = []
-         
-         for i in 0..<XvMidiConstants.kMidiOuts.count {
-         
-         let midiOut:DisclosureCellData = DisclosureCellData(
-         
-         key: XvMidiConstants.kMidiOuts[i],
-         label: "Instrument " + String(i + 1),
-         dataType: XvSetConstants.TYPE_INTEGER,
-         displayType: XvSetConstants.DISPLAY_TYPE_DISCLOSURE,
-         defaultValue: dm.getInteger(forKey: XvMidiConstants.kMidiOuts[i])
-         )
-         
-         midiOut.initSubArrays(values: midiOutChannels, labels: midiOutLabels)
-         
-         //add to instrument outs array
-         instrumentOuts.append(midiOut)
-         }
-         
-         let instrumentOutsSection:SectionData = SectionData(
-         header: "Instrument Routing",
-         footerType: XvSetConstants.FOOTER_TYPE_NONE,
-         footerText: nil,
-         footerLink: nil,
-         footerHeight: 10,
-         cells: instrumentOuts,
-         isVisible: midiInitialVisibility
-         )
-         
-         sections.append(instrumentOutsSection)
-         */
-        
-        
-        
-        
-        
         //MARK: Musical scale
         
         if let musicalScaleData:MusicalScaleData = MusicalScaleData() {
@@ -245,7 +169,7 @@ public class XvSetMainTableData:TableData {
             )
             
             let musicalScaleSection:SectionData = SectionData(
-                header: XvSetConstants.MUSIC_SCALE_LABEL,
+                header: "Musical Scale",
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,

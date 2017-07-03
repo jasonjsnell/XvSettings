@@ -131,7 +131,7 @@ open class XvCoreDataManager {
                 return kits
             } else {
                 
-                //
+                //TODO: make alphabetical
                 if let kitsArr:[NSManagedObject] = _getManagedObjectArray(fromEntityName: XvSetConstants.kKitEntity) {
                     
                     set(kits: kitsArr)
@@ -323,13 +323,6 @@ open class XvCoreDataManager {
         }
         
     }
-    
-    
-    
-    
-    
-    
-    
     
     //MARK: - ACCESSORS FOR ANY LEVEL OBJECT
     
