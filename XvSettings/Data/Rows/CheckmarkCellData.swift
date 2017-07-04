@@ -25,7 +25,6 @@ public class CheckmarkCellData:CellData {
         key:String,
         value:Any,
         textLabel:String,
-        dataType:String,
         selected:Bool,
         multi:Bool,
         levelType:String,

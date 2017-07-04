@@ -8,17 +8,6 @@
 
 import UIKit
 
-//allows slider to caluclate text width
-extension NSAttributedString {
-    
-    func width(withConstrainedHeight height: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-        
-        return boundingBox.width
-    }
-}
-
 public class SliderCell: Cell {
     
     //https://stackoverflow.com/questions/35176104/swift-how-to-get-the-value-of-a-slider-in-a-custom-cell-in-a-dynamic-uitablevie
@@ -26,34 +15,47 @@ public class SliderCell: Cell {
     internal let slider:UISlider = UISlider()
     internal var baseText:String = ""
     
-    override public init(style: UITableViewCellStyle, reuseIdentifier: String?, data:CellData){
+    init(
+        style: UITableViewCellStyle,
+        reuseIdentifier: String?,
+        data:SliderCellData){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
         
         let currWidth:CGFloat = self.bounds.width
         
-        //set the toggle based on the data
-        //toggleSwitch.isOn = data.value as! Bool
-        
         baseText = data.textLabel
-        let stringLength:CGFloat = NSAttributedString(string: baseText).width(withConstrainedHeight: 25)
-        
-       
-        
-        print("stringLength:", stringLength)
         
         //set text
         textLabel?.text = baseText
         
         // size the slider based on the text
-        let sliderWidth:CGFloat = currWidth - stringLength - 50
+        let sliderWidth:CGFloat = currWidth / 2
         
         slider.frame = CGRect(x: 0, y: 0, width: sliderWidth, height: 25)
+        
+        slider.minimumValue = data.valueMin
+        slider.maximumValue = data.valueMax
         
         //add the slider to the row cell
         self.accessoryView = UIView(frame:slider.frame)
         self.accessoryView?.addSubview(slider)
         self.selectionStyle = .none
+        
+        //convert slider value to a float
+        if let valueAsFloat:Float = Utils.getFloat(fromAny: data.value) {
+            
+            //init set
+            let _:Any? = set(withSliderValue: valueAsFloat)
+            
+            //set init slider position
+            setSliderPosition(withValue:valueAsFloat)
+            
+        } else {
+            
+            print("SETTINGS: Error: Unable to cast slider value from Any to Float during SliderCell init")
+        }
+        
         
     }
     
@@ -61,6 +63,68 @@ public class SliderCell: Cell {
         super.init(coder:aDecoder)
     }
     
+    
+    //user moves handle, table vc handler calls this func
+    internal func set(withSliderValue:Float) -> Any? {
+        
+        if let formattedValue:Any = getFormattedValue(withSliderValue: withSliderValue) {
+            
+            setTextLabel(withValue: formattedValue)
+            
+            //if there is a linked slider cell data, update it with same slider value
+            if let sliderData:SliderCellData = data as? SliderCellData {
+                
+                if let linkedSliderCellData:SliderCellData = sliderData.linkedSliderCellData {
+                    
+                    linkedSliderCellData.set(withLinkedSliderValue: withSliderValue)
+                
+                }
+                
+            } else {
+                
+                print("SETTINGS: Error: Unable to cast slider cell data as SliderCellData type during set withSliderValue")
+        
+            }
+            
+            return formattedValue
+            
+        } else {
+            
+            print("SETTINGS: Error: Unable to get formatted value from", withSliderValue, "during set withSliderValue")
+            return nil
+        }
+        
+        
+    }
+    
+    
+    
+    //called locally and during linked slider movement
+    internal func setTextLabel(withValue:Any) {
+        
+        textLabel?.text = baseText + ": " + String(describing: withValue)
+    }
+    
+    //called loally and during linked slider movement
+    internal func setSliderPosition(withValue:Float) {
+        
+        slider.value = withValue
+    }
+    
+    internal func getFormattedValue(withSliderValue:Float) -> Any? {
+        
+        // cast data as slider data
+        if let sliderData:SliderCellData = data as? SliderCellData {
+            
+            //send slider value to data class for formatting
+            return sliderData.set(withSliderValue: withSliderValue)
+            
+        } else {
+            print("SETTINGS: Error: Unable to cast slider cell data as SliderCellData type during getFormattedValue")
+            return nil
+        }
+        
+    }
     
 }
 

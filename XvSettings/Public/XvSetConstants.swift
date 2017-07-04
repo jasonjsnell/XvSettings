@@ -25,6 +25,7 @@ public class XvSetConstants {
     public static let MIDI_CLOCK_NONE:String = "midiClockNone"
     
     //MARK: App: Musical Scale
+    
     public static let kMusicalScale:String = "musicalScale"
     
     public static let MUSIC_SCALE_MAJOR:String = "musicScaleMajor"
@@ -96,6 +97,8 @@ public class XvSetConstants {
     public static let kInstrumentMidiSendChannel:String = "midiSendChannel"
     public static let kInstrumentMidiSendEnabled:String = "midiSendEnabled"
     public static let kInstrumentMidiSources:String = "midiSources"
+    public static let kInstrumentOctaveLowest:String = "octaveLowest"
+    public static let kInstrumentOctaveHighest:String = "octaveHighest"
     public static let kInstrumentPitchEnabled:String = "pitchEnabled"
     public static let kInstrumentPosition:String = "position"
     public static let kInstrumentQuantization:String = "quantization"
@@ -115,10 +118,11 @@ public class XvSetConstants {
     public static let PANEL_HEIGHT:CGFloat = 400
     
     //MARK: - Data types -
-    public static let DATA_TYPE_BOOL:String = "bool"
-    public static let DATA_TYPE_STRING:String = "string"
-    public static let DATA_TYPE_INTEGER:String = "integer"
     public static let DATA_TYPE_ARRAY:String = "array"
+    public static let DATA_TYPE_BOOL:String = "bool"
+    public static let DATA_TYPE_FLOAT:String = "float"
+    public static let DATA_TYPE_INTEGER:String = "integer"
+    public static let DATA_TYPE_STRING:String = "string"
     public static let DATA_TYPE_NONE:String = "none"
     
     //MARK: - Cell types -
@@ -141,5 +145,10 @@ public class XvSetConstants {
     public static let LEVEL_TYPE_APP:String = "levelApp"
     public static let LEVEL_TYPE_KIT:String = "levelKit"
     public static let LEVEL_TYPE_INSTRUMENT:String = "levelInstrument"
+    
+    //MARK: - Linked slider types -
+    public static let LISTENER_MAX:String = "listernerMax"
+    public static let LISTENER_MIN:String = "listenerMin"
+    
 
 }

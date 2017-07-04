@@ -62,7 +62,6 @@ public class XvSetMainTableData:TableData {
                         key: XvSetConstants.kSelectedKit,
                         value: id,
                         textLabel: name,
-                        dataType: XvSetConstants.DATA_TYPE_STRING,
                         selected: isSelected,
                         multi: false,
                         levelType: XvSetConstants.LEVEL_TYPE_APP,
@@ -72,12 +71,11 @@ public class XvSetMainTableData:TableData {
                     instrumentKitCheckmarkCellData.set(visibilityTargets: [[1, i]])
                     
                     kitCheckmarkCellDataArray.append(instrumentKitCheckmarkCellData)
-                    
-                    //TODO: only show kit that is selected. Pass "animated" bool into refreshTable in TableVC
+                  
                     let instrumentKitDisclosureCellData:DisclosureCellData = DisclosureCellData(
                         key: id,
                         textLabel: name,
-                        isVisible: true
+                        isVisible: isSelected
                     )
                     
                     kitDisclosureCellDataArray.append(instrumentKitDisclosureCellData)

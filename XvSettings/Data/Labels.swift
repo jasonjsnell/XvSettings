@@ -78,8 +78,7 @@ public class Labels {
     
     
     //MARK: - Instrument: Fade out
-    public static let FADE_OUT_HEADER:String = "Instrument Decay"
-    public static let FADE_OUT_LABEL:String = "Fade out"
+    public static let FADE_OUT_LABEL:String = "Loop fades out"
     
     public static let FADE_OUT_DURATION_HEADER:String = "Fade Out"
     public static let FADE_OUT_DURATION_LABEL:String = "Fade out duration"
@@ -100,11 +99,17 @@ public class Labels {
     public static let LOOP_LENGTH_MEASURE_4:String = "4 measures"
     public static let LOOP_LENGTH_MEASURE_8:String = "8 measures (full pattern)"
     
+    //MARK: - Volume
+    public static let VOLUME_HEADER:String = "Volume"
+    public static let VOLUME_LABEL:String = "Volume"
+    
     //MARK: - Pitch
     public static let PITCH_HEADER:String = "Pitch"
     public static let PITCH_ENABLED_LABEL:String = "Pitch"
     public static let RANDOMIZED_PITCH_LABEL:String = "Randomize pitch on loops"
     
+    public static let OCTAVE_LOWEST_LABEL:String = "Lowest octave"
+    public static let OCTAVE_HIGHEST_LABEL:String = "Highest octave"
     
     //MARK: - Instrument: Quantization
     public static let QUANTIZATION_HEADER:String = "Quantization"
@@ -119,5 +124,8 @@ public class Labels {
     //MARK: - Instrument: Regenerate
     public static let REGENERATE_LABEL:String = "Regenerate at beginning of loop"
     
+    //MARK: - Instrument: Audio enabled
+    public static let AUDIO_ENABLED_HEADER:String = "Audio Playback"
+    public static let AUDIO_ENABLED_LABEL:String = "Audio Enabled"
     
 }

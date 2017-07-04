@@ -71,20 +71,7 @@ public class TableVC: UITableViewController {
             //if section is visible...
             if (sectionData.isVisible){
                 
-                //start tally
-                var visibleCellCount:Int = 0
-                
-                //loop through each cell
-                for celldata:CellData in sectionData.cells {
-                    
-                    //if it's visible, then up the count
-                    if (celldata.isVisible){
-                        visibleCellCount += 1
-                    }
-                }
-                
-                //return tally
-                return visibleCellCount
+                return sectionData.cells.count
                 
             } else {
                 
@@ -115,19 +102,25 @@ public class TableVC: UITableViewController {
                 
             } else {
                 
-                //else a 0 height
-                return 1
+                //else an invisible height
+                return 0.1
             }
             
         } else {
             print("SETTINGS: Error connecting to data source for SetMultiTable heightForRowAt")
-            return 1
+            return 0.1
         }
         
     }
     
     //MARK: Main build
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        func setVisibility(cell:Cell, cellData:CellData){
+            if (!cellData.isVisible){
+                cell.isHidden = true
+            }
+        }
         
         if (dataSource != nil){
             
@@ -152,50 +145,83 @@ public class TableVC: UITableViewController {
                     action: #selector(toggleSwitchChanged),
                     for: UIControlEvents.valueChanged)
                 
+                setVisibility(cell: toggleCell, cellData: cellDataObj)
+                
                 //return object
                 return toggleCell
                 
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_SLIDER){
                 
-                //create slider cell
-                let sliderCell:SliderCell = SliderCell(
-                    style: .default,
-                    reuseIdentifier: cellDataObj.key,
-                    data: cellDataObj)
-                
-                //add listener
-                sliderCell.slider.addTarget(
-                    self,
-                    action: #selector(sliderChanged),
-                    for: UIControlEvents.valueChanged)
-                
-                //return object
-                return sliderCell
+                //cast data
+                if let sliderCellDataObj:SliderCellData = cellDataObj as? SliderCellData {
+                    
+                    //create slider cell
+                    let sliderCell:SliderCell = SliderCell(
+                        style: .default,
+                        reuseIdentifier: cellDataObj.key,
+                        data: cellDataObj as! SliderCellData)
+                    
+                    //create ref of cell in data (used later in linked slider cells)
+                    sliderCellDataObj.set(sliderCell: sliderCell)
+                    
+                    //add listeners
+                    sliderCell.slider.addTarget(
+                        self,
+                        action: #selector(sliderChanged),
+                        for: UIControlEvents.valueChanged)
+                    
+                    sliderCell.slider.addTarget(
+                        self,
+                        action: #selector(sliderEnded),
+                        for: UIControlEvents.touchUpInside)
+                    
+                    setVisibility(cell: sliderCell, cellData: cellDataObj)
+                    
+                    //return object
+                    return sliderCell
+                    
+                } else {
+                    
+                    print("SETTINGS: Error: Unable to cast cellDataObj as SliderCellData during cellForRowAt")
+                    return UITableViewCell()
+                }
                 
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_BUTTON){
                 
-                return ButtonCell(
+                let buttonCell:ButtonCell = ButtonCell(
                     style: .default,
                     reuseIdentifier: cellDataObj.key,
                     data: cellDataObj)
+                
+                setVisibility(cell: buttonCell, cellData: cellDataObj)
+                
+                return buttonCell
                 
                 
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_CHECKMARK){
                 
-                return CheckmarkCell(
+                let checkmarkCell:CheckmarkCell = CheckmarkCell(
                     style: .default,
                     reuseIdentifier: cellDataObj.key,
                     data: cellDataObj as! CheckmarkCellData)
+                
+                setVisibility(cell: checkmarkCell, cellData: cellDataObj)
+                
+                return checkmarkCell
                                 
                 
             } else if (cellDataObj.displayType == XvSetConstants.DISPLAY_TYPE_DISCLOSURE){
                 
                 //disclosure - leads to subview
                 
-                return DisclosureCell(
+                let disclosureCell:DisclosureCell = DisclosureCell(
                     style: .value1,
                     reuseIdentifier: cellDataObj.key,
                     data: cellDataObj as! DisclosureCellData)
+                
+                setVisibility(cell: disclosureCell, cellData: cellDataObj)
+            
+                return disclosureCell
                 
                 
             } else {
@@ -380,7 +406,6 @@ public class TableVC: UITableViewController {
                         checkmarkRowSelected(cell: cell, key: key)
                         
                         
-                        
                     } else {
                         print("SETTINGS: Checkmark cell data key could not be found")
                     }
@@ -448,42 +473,58 @@ public class TableVC: UITableViewController {
     
     //MARK: - SLIDER
     
+    //update the text label when the slider is being dragged
     internal func sliderChanged(_ sender:UISlider) {
         
-        //_updateValues(fromSlider: sender)
-        
-        //is data valid?
-        if (dataSource != nil){
+        if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
             
-            
-            
-            if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
-                
-                let baseText:String = sliderCell.baseText
-                let newText:String = baseText + " " + String(sender.value)
-                sliderCell.textLabel?.text = newText
-                
-                print("slider super", sliderCell.textLabel?.text)
-            }
-            print("slider is changing", sender.value)
-            
-            
-            /*
-            if let key:String = getToggleCellKey(fromSwitch: sender) {
-                
-                toggleSelected(isOn: sender.isOn, key: key)
-                
-            } else {
-                print("SETTINGS: Error getting toggle cell key SetMain sliderChanged")
-            }
-            */
+            let _:Any? = sliderCell.set(withSliderValue: sender.value)
             
         } else {
             
-            print("SETTINGS: Error connecting to data source for SetMain toggleSwitchChanged")
-            
+            print("SETTINGS: Error getting sliderCell during sliderChanged")
         }
         
+    }
+    
+    //save the slider value when the user has released it
+    internal func sliderEnded(_ sender:UISlider) {
+        
+        if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
+            
+            if let sliderCellData:SliderCellData = sliderCell.data as? SliderCellData {
+                
+                if let newValue:Any = sliderCell.set(withSliderValue: sender.value) {
+                    
+                    _setCoreData(
+                        level: sliderCellData.levelType,
+                        value: newValue,
+                        key: sliderCellData.key,
+                        multi: false)
+                    
+                    //if there is a linked cell...
+                    if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
+                        
+                        //save its data too
+                        _setCoreData(
+                            level: linkedSliderCellData.levelType,
+                            value: linkedSliderCellData.value,
+                            key: linkedSliderCellData.key,
+                            multi: false)
+                        
+                    }
+                    
+                }
+                
+            } else {
+                
+                print("SETTINGS: Error getting sliderCellData during sliderChanged")
+            }
+            
+        } else {
+            
+            print("SETTINGS: Error getting sliderCell during sliderChanged")
+        }
     }
 
 
@@ -608,7 +649,7 @@ public class TableVC: UITableViewController {
         return dataSource.sections[indexPath.section].cells[indexPath.row].displayType
     }
     
-    fileprivate func getCells(inSection:Int) -> [UITableViewCell]? {
+    fileprivate func _getCells(inSection:Int) -> [UITableViewCell]? {
         
         var cells:[UITableViewCell] = []
         for row in 0..<tableView.numberOfRows(inSection: inSection) {
@@ -623,7 +664,7 @@ public class TableVC: UITableViewController {
         if (cells.count > 0){
             return cells
         } else {
-            print("SETTINGS: No cells in section during getCells")
+            print("SETTINGS: No cells in section during _getCells")
             return nil
         }
         
@@ -657,9 +698,9 @@ public class TableVC: UITableViewController {
         
     }
     
-    fileprivate func getCheckmarkCells(inSection:Int) -> [CheckmarkCell]? {
+    fileprivate func _getCheckmarkCells(inSection:Int) -> [CheckmarkCell]? {
         
-        if let cells:[UITableViewCell] = getCells(inSection: inSection) {
+        if let cells:[UITableViewCell] = _getCells(inSection: inSection) {
             
             var checkmarkCells:[CheckmarkCell] = []
             
@@ -673,7 +714,7 @@ public class TableVC: UITableViewController {
             if (checkmarkCells.count > 0){
                 return checkmarkCells
             } else {
-                print("SETTINGS: Cell array contains no checkmark cells during getCheckmarkCells")
+                print("SETTINGS: Cell array contains no checkmark cells during _getCheckmarkCells")
                 return nil
             }
             
@@ -952,7 +993,7 @@ public class TableVC: UITableViewController {
             } else {
                 
                 //if not a multi cell...
-                
+            
                 //uncheck all others
                 _turnOffCheckmarks(inSection: indexPath.section)
                 
@@ -983,7 +1024,7 @@ public class TableVC: UITableViewController {
     
     fileprivate func _turnOffCheckmarks(inSection:Int){
         
-        if let checkmarkCells:[CheckmarkCell] = getCheckmarkCells(inSection: inSection) {
+        if let checkmarkCells:[CheckmarkCell] = _getCheckmarkCells(inSection: inSection) {
             
             for cell in checkmarkCells {
                 
@@ -992,13 +1033,83 @@ public class TableVC: UITableViewController {
                 if let data:CheckmarkCellData = cell.data as? CheckmarkCellData {
                     data.selected = false
                 } else {
-                    print("SETTINGS: No data available in checkmark cell")
+                    print("SETTINGS: Error: No data available in checkmark cell")
                 }
             }
             
         }
         
     }
+    
+    fileprivate func _hideAllCells(inSection:Int){
+        
+        //is table data valid?
+        if (dataSource != nil){
+            
+            for cellData in dataSource!.sections[inSection].cells {
+                
+                cellData.isVisible = false
+            }
+            
+            //create index set from targets
+            let indexSet:IndexSet = IndexSet([inSection])
+            
+            //reload
+            tableView.reloadSections(indexSet, with: .none)
+            
+        } else {
+            print("SETTINGS: Error connecting to data source for SetMain during _hideAllCells.")
+        }
+    }
+
+    
+    
+    // show / hide sections that rely on specifc checkmark cells being selected
+    
+    fileprivate func _refreshTableDisplay(fromCheckmarkCell:CheckmarkCell){
+        
+        //is table data valid?
+        if (dataSource != nil){
+            
+            // cast cell data as checkmark
+            if let cellData:CheckmarkCellData = fromCheckmarkCell.data as? CheckmarkCellData {
+                
+                //if there are visibility targets in this cell
+                if let visibilityTargets:[[Int]] = cellData.visibilityTargets {
+                    
+                    //loop through them
+                    for visibilityTarget in visibilityTargets {
+                        
+                        //and hide the cells in the visibility target's section
+                        _hideAllCells(inSection: visibilityTarget[0])
+                    }
+                    
+                    //grab index path from sender (SetCell's data obj) and data type the data
+                    if let indexPath:IndexPath = _getIndexPath(fromCheckmarkCell: fromCheckmarkCell) {
+                        
+                        //show the visibility target
+                        _updateVisibilityTargets(indexPath: indexPath, isOn: true)
+                        
+                    } else {
+                        print("SETTINGS: Error getting indexPath during _refreshTableDisplay.")
+                    }
+                    
+                }
+                
+                //else no visibility targets, do nothing
+                
+            } else {
+                print("SETTINGS: Error casting cell data during _refreshTableDisplay.")
+            }
+            
+        } else {
+            print("SETTINGS: Error connecting to data source for SetMain during _refreshTableDisplay.")
+        }
+        
+        
+    }
+    
+    
     
     fileprivate func _getArrayOfValues(level:String, key:String, value:Any) -> [Any]{
         
@@ -1022,12 +1133,12 @@ public class TableVC: UITableViewController {
                     
                 } else {
                     
-                    print("SETTINGS: Unable to get app value during _getArrayOfValues")
+                    print("SETTINGS: Error getting app value during _getArrayOfValues")
                 }
                 
             } else {
                 
-                print("SETTINGS: Unable to get app during _getArrayOfValues")
+                print("SETTINGS: Error getting app during _getArrayOfValues")
             }
             
         } else if (level == XvSetConstants.LEVEL_TYPE_KIT) {
@@ -1046,12 +1157,12 @@ public class TableVC: UITableViewController {
                     
                 } else {
                     
-                    print("SETTINGS: Unable to get curr kit value during _getArrayOfValues")
+                    print("SETTINGS: Error getting curr kit value during _getArrayOfValues")
                 }
                 
             } else {
                 
-                print("SETTINGS: Unable to get curr kit during _getArrayOfValues")
+                print("SETTINGS: Error getting curr kit during _getArrayOfValues")
             }
             
         } else if (level == XvSetConstants.LEVEL_TYPE_INSTRUMENT) {
@@ -1070,12 +1181,12 @@ public class TableVC: UITableViewController {
                     
                 } else {
                     
-                    print("SETTINGS: Unable to get curr instrument value during _getArrayOfValues")
+                    print("SETTINGS: Error getting curr instrument value during _getArrayOfValues")
                 }
                 
             } else {
                 
-                print("SETTINGS: Unable to get curr instrument during _getArrayOfValues")
+                print("SETTINGS: Error getting curr instrument during _getArrayOfValues")
             }
         }
         
@@ -1122,37 +1233,14 @@ public class TableVC: UITableViewController {
                 level: toggleCellData.levelType,
                 value: fromSwitch.isOn,
                 key: toggleCellData.key,
-                multi:false)
+                multi: false)
             
         } else {
             
-            print("SETTINGS: Error: toggleCellData is nil during _updateValues")
+            print("SETTINGS: Error getting toggleCellData during _updateValues")
         }
     }
     
-    // show / hide sections that rely on specifc checkmark cells being selected
-
-    fileprivate func _refreshTableDisplay(fromCheckmarkCell:CheckmarkCell){
-        
-        //is table data valid?
-        if (dataSource != nil){
-            
-            //grab index path from sender (SetCell's data obj)
-            if let indexPath:IndexPath = _getIndexPath(fromCheckmarkCell: fromCheckmarkCell) {
-                
-                _updateVisibilityTargets(indexPath: indexPath, isOn: fromCheckmarkCell.isSelected)
-                
-                
-            } else {
-                print("SETTINGS: Error connecting to data source for SetMain during user toggle.")
-            }
-            
-        } else {
-            print("SETTINGS: Error connecting to data source for SetMain during user toggle.")
-        }
-        
-        
-    }
     
     fileprivate func _refreshTableDisplay(fromSwitch:UISwitch){
         
@@ -1174,7 +1262,7 @@ public class TableVC: UITableViewController {
     }
     
     fileprivate func _updateVisibilityTargets(indexPath:IndexPath, isOn:Bool){
-        
+    
         //grab targets array, if not nil
         if let visibilityTargets:[[Int]] = dataSource!.sections[indexPath.section].cells[indexPath.row].visibilityTargets {
             
@@ -1200,12 +1288,19 @@ public class TableVC: UITableViewController {
                     
                 } else {
                     
-                    //else it's to hide specific rows in a section
+                    //else it's to hide specific rows in a visible section
+                    
+                    //make sure section is visible
+                    dataSource!.sections[targetSection].isVisible = true
+                    
                     //(start at 1 to skip section)
                     for r in 1..<visibilityTarget.count {
                         
                         let row:Int = visibilityTarget[r]
-                        dataSource!.sections[targetSection].cells[row].isVisible = isOn
+                        
+                        let cellData:CellData = dataSource!.sections[targetSection].cells[row]
+                        
+                        cellData.isVisible = isOn
                     }
                 }
             }
@@ -1213,9 +1308,8 @@ public class TableVC: UITableViewController {
             //create index set from targets
             let indexSet:IndexSet = IndexSet(targetSections)
             
-            //reload with anim
-            //tableView.reloadSections(indexSet, with: .fade)
-            tableView.reloadSections(indexSet, with: .none)
+            //reload
+            tableView.reloadSections(indexSet, with: .automatic)
         }
         
     }

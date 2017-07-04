@@ -90,7 +90,6 @@ class CheckmarkTableData:TableData {
                 key: key,
                 value: possibleValues[i],
                 textLabel: detailTextLabels[i],
-                dataType: dataType,
                 selected: isSelected,
                 multi: multi,
                 levelType: levelType,
