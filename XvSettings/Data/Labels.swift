@@ -103,6 +103,9 @@ public class Labels {
     public static let VOLUME_HEADER:String = "Volume"
     public static let VOLUME_LABEL:String = "Volume"
     
+    public static let PAN_HEADER:String = "Pan"
+    public static let PAN_LABEL:String = "Pan"
+    
     //MARK: - Pitch
     public static let PITCH_HEADER:String = "Pitch"
     public static let PITCH_ENABLED_LABEL:String = "Pitch"

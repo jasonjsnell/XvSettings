@@ -17,8 +17,10 @@ public class XvSetConstants {
     public static let kAppTempo:String = "userTempo"
     public static let kAppAbletonLinkEnabled:String = "abletonLinkEnabled"
     
-    //MARK: App: MIDI Sync
+    //MARK: App: MIDI
     public static let kAppMidiSync:String = "midiSync"
+    public static let kAppGlobalMidiDestinations:String = "globalMidiDestinations"
+    public static let kAppGlobalMidiSources:String = "globalMidiSources"
    
     public static let MIDI_CLOCK_RECEIVE:String = "midiClockReceive"
     public static let MIDI_CLOCK_SEND:String = "midiClockSend"
@@ -80,6 +82,7 @@ public class XvSetConstants {
     public static let kKitInstruments:String = "instruments"
     public static let kKitArtificialIntelligence = "artificialIntelligence"
     public static let kKitFactorySettings = "kKitFactorySettings"
+    public static let kKitRearrange = "kKitRearrange"
     
     //MARK: - Instrument -
     public static let kInstrumentEntity:String = "Instrument"
@@ -99,19 +102,23 @@ public class XvSetConstants {
     public static let kInstrumentMidiSources:String = "midiSources"
     public static let kInstrumentOctaveLowest:String = "octaveLowest"
     public static let kInstrumentOctaveHighest:String = "octaveHighest"
+    public static let kInstrumentPan:String = "pan"
     public static let kInstrumentPitchEnabled:String = "pitchEnabled"
     public static let kInstrumentPosition:String = "position"
     public static let kInstrumentQuantization:String = "quantization"
     public static let kInstrumentRandomizedPitch:String = "randomizedPitch"
     public static let kInstrumentRegenerateAtBeginningOfPattern:String = "regenerateAtBeginningOfPattern"
     public static let kInstrumentVolume:String = "volume"
+    
+    public static let MIDI_DESTINATION_GLOBAL:String = "Global"
+    public static let MIDI_SOURCE_GLOBAL:String = "Global"
 
     
     //MARK: - Notifications -
     public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
     public static let kKitResetAIButtonTapped:String = "kKitResetAIButtonTapped"
     public static let kKitRestoreFactorySettingsButtonTapped:String = "kKitRestoreFactorySettingsButtonTapped"
-    
+    public static let kKitRearrangeButtonTapped:String = "kKitRearrangeButtonTapped"
     
     //MARK: - Panel size -
     public static let PANEL_WIDTH:CGFloat = 300

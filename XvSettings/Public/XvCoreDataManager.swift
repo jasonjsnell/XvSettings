@@ -92,7 +92,9 @@ open class XvCoreDataManager {
                 
                 //else get it from core data
                 
-                if let apps:[NSManagedObject] = _getManagedObjectArray(fromEntityName: XvSetConstants.kAppEntity) {
+                if let apps:[NSManagedObject] = _getManagedObjectArray(
+                    fromEntityName: XvSetConstants.kAppEntity,
+                    sortKey: nil) {
                     
                     //if none, return nil
                     if (apps.count == 0){
@@ -131,8 +133,9 @@ open class XvCoreDataManager {
                 return kits
             } else {
                 
-                //TODO: make alphabetical
-                if let kitsArr:[NSManagedObject] = _getManagedObjectArray(fromEntityName: XvSetConstants.kKitEntity) {
+                if let kitsArr:[NSManagedObject] = _getManagedObjectArray(
+                    fromEntityName: XvSetConstants.kKitEntity,
+                    sortKey: "id") {
                     
                     set(kits: kitsArr)
                     return kitsArr
@@ -441,13 +444,19 @@ open class XvCoreDataManager {
     
 
     
-    fileprivate func _getManagedObjectArray(fromEntityName:String) -> [NSManagedObject]?{
+    fileprivate func _getManagedObjectArray(fromEntityName:String, sortKey:String?) -> [NSManagedObject]?{
         
         //if managed context is valid...
         if (managedContext != nil){
             
             //do a fetch request
             let fetchRequest:NSFetchRequest = NSFetchRequest<NSManagedObject>(entityName: fromEntityName)
+            
+            if (sortKey != nil){
+                let sortDescriptor = NSSortDescriptor(key: sortKey, ascending: true)
+                let sortDescriptors = [sortDescriptor]
+                fetchRequest.sortDescriptors = sortDescriptors
+            }
             
             do {
                 
@@ -533,7 +542,7 @@ open class XvCoreDataManager {
     
     //called by root vc when settings panel is launched
     public func set(midiDestinationNames:[String]){
-    
+        
         self.midiDestinationNames = midiDestinationNames
     }
     

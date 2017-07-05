@@ -109,12 +109,13 @@ public class KitTableData:TableData {
                 footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
                 footerText: ["This resets the " + kitName + " and its instruments to their factory settings."],
                 footerLink: nil,
-                footerHeight: 50,
+                footerHeight: 70,
                 cells: [factorySettings],
                 isVisible: true
             )
             
             sections.append(factorySettingsSection)
+            
             
             
         } else {

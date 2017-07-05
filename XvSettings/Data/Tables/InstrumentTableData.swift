@@ -108,7 +108,7 @@ public class InstrumentTableData:TableData {
                 isVisible: true)
             
             let volumeSection:SectionData = SectionData(
-                header: Labels.VOLUME_LABEL,
+                header: Labels.VOLUME_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,
@@ -121,9 +121,11 @@ public class InstrumentTableData:TableData {
             
         } else {
             
-            print("SETTINGS: Data is invalid when creating quantization section")
+            print("SETTINGS: Data is invalid when creating volume section")
             
         }
+        
+        
 
         
         //MARK: Quantization
@@ -237,6 +239,39 @@ public class InstrumentTableData:TableData {
             
         }
         
+        //MARK: Pan
+        if let panFloat:Float = xvcdm.getFloat(
+            forKey: XvSetConstants.kInstrumentPan,
+            forObject: instrumentDataObj) {
+            
+            let pan:SliderCellData = SliderCellData(
+                key: XvSetConstants.kInstrumentPan,
+                value: panFloat,
+                valueMin: -1.0,
+                valueMax: 1.0,
+                textLabel: Labels.PAN_LABEL,
+                dataType: XvSetConstants.DATA_TYPE_FLOAT,
+                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                isVisible: true)
+            
+            let panSection:SectionData = SectionData(
+                header: Labels.PAN_HEADER,
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: [pan],
+                isVisible: true
+            )
+            
+            sections.append(panSection)
+            
+        } else {
+            
+            print("SETTINGS: Data is invalid when creating pan section")
+            
+        }
+        
         
         //MARK: MIDI send
         //make sure midi core data is valid
@@ -257,7 +292,7 @@ public class InstrumentTableData:TableData {
                 isVisible: true
             )
             
-            midiSendEnabled.visibilityTargets = [[4,1,2]]
+            midiSendEnabled.visibilityTargets = [[5,1,2]]
             
             let midiSendChannel:DisclosureCellData = DisclosureCellData(
                 withCheckmarkTableDataSource: midiSendChannelData,
@@ -300,7 +335,7 @@ public class InstrumentTableData:TableData {
                 isVisible: true
             )
             
-            midiReceiveEnabled.visibilityTargets = [[5,1,2]]
+            midiReceiveEnabled.visibilityTargets = [[6,1,2]]
             
             let midiReceiveChannel:DisclosureCellData = DisclosureCellData(
                 withCheckmarkTableDataSource: midiReceiveChannelData,

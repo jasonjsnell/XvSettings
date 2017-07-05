@@ -23,6 +23,8 @@ import CoreData
 
 public class XvSetMainTableData:TableData {
     
+    //TODO: add "Rearrange" button so shake isn't the only method
+    
     //MARK:- INIT -
     //build cells and put them into sections
     
@@ -40,8 +42,6 @@ public class XvSetMainTableData:TableData {
         // Loop through the instrument kits and prep two sections
         // 1. Section to select the current kit
         // 2. Section to customize any kit
-        
-        //TODO: when kits are taken from getKits, they may be randomly ordered, each time. Go into get kits and have them order alphabetically or something
         
         if let kits:[NSManagedObject] = xvcdm.getKits() {
             
@@ -213,6 +213,27 @@ public class XvSetMainTableData:TableData {
         } else {
             print("SETTINGS: Error: Unable to get bg mode bool in main table")
         }
+        
+        //MARK: Factory settings
+        
+        let rearrangeButton:ButtonCellData = ButtonCellData(
+            key: XvSetConstants.kKitRearrange,
+            textLabel: "Rearrange",
+            levelType: XvSetConstants.LEVEL_TYPE_KIT,
+            isVisible: true
+        )
+        
+        let rearrangeSection:SectionData = SectionData(
+            header: "Composition",
+            footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+            footerText: ["This rearranges the current composition."],
+            footerLink: nil,
+            footerHeight: 70,
+            cells: [rearrangeButton],
+            isVisible: true
+        )
+        
+        sections.append(rearrangeSection)
     
     }
     

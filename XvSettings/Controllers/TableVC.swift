@@ -468,6 +468,12 @@ public class TableVC: UITableViewController {
             Utils.postNotification(
                 name: XvSetConstants.kKitRestoreFactorySettingsButtonTapped,
                 userInfo: nil)
+        
+        } else if (key == XvSetConstants.kKitRearrange){
+            
+            Utils.postNotification(
+                name: XvSetConstants.kKitRearrangeButtonTapped,
+                userInfo: nil)
         }
     }
     
