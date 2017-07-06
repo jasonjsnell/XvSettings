@@ -35,7 +35,8 @@ public class Labels {
     public static let MIDI_GLOBAL_SOURCE_LABEL:String = "MIDI sources"
     
     
-    
+    //MARK: - App: Tempo
+    public static let TEMPO_LABEL:String = "Tempo"
     
     //MARK: - App: Musical Scale
 

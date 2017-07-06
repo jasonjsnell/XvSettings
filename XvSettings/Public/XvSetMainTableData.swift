@@ -34,6 +34,35 @@ public class XvSetMainTableData:TableData {
         
         title = "Settings"
         
+        
+        if let tempoInt:Int = xvcdm.getAppInteger(forKey: XvSetConstants.kAppTempo) {
+            
+            let tempo:SliderCellData = SliderCellData(
+                key: XvSetConstants.kAppTempo,
+                value: tempoInt,
+                valueMin: 40,
+                valueMax: 200,
+                textLabel: Labels.TEMPO_LABEL,
+                dataType: XvSetConstants.DATA_TYPE_INTEGER,
+                levelType: XvSetConstants.LEVEL_TYPE_APP,
+                isVisible: true)
+            
+            let tempoSection:SectionData = SectionData(
+                header: Labels.TEMPO_LABEL,
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: [tempo],
+                isVisible: true
+            )
+            
+            sections.append(tempoSection)
+            
+        } else {
+            print("SETTINGS: Error getting tempo during main table init")
+        }
+        
         //MARK: Kits
         
         var kitCheckmarkCellDataArray:[CheckmarkCellData] = []

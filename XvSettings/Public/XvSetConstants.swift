@@ -111,7 +111,9 @@ public class XvSetConstants {
     public static let kInstrumentVolume:String = "volume"
     
     public static let MIDI_DESTINATION_GLOBAL:String = "Global"
+    public static let MIDI_DESTINATION_DEFAULT:String = "Default"
     public static let MIDI_SOURCE_GLOBAL:String = "Global"
+    public static let MIDI_SOURCE_DEFAULT:String = "Default"
 
     
     //MARK: - Notifications -
