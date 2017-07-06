@@ -274,13 +274,23 @@ open class XvCoreDataManager {
     
     //MARK: - ACCESSORS FOR APP LEVEL VARS
     
+    public func getAppArray(forKey:String) -> [Any]? {
+        
+        if let _app:NSManagedObject = getApp(){
+            return getArray(forKey: forKey, forObject: _app)
+        } else {
+            print("CDM: Error geting app object during getAppArray")
+            return nil
+        }
+    }
+    
     public func getAppBool(forKey:String) -> Bool? {
         
         if let _app:NSManagedObject = getApp(){
             return getBool(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Error geting app object during getAppBool, returning false")
-            return false
+            print("CDM: Error geting app object during getAppBool")
+            return nil
         }
     }
     
@@ -289,8 +299,8 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getDouble(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Error geting app object during getAppDouble, returning 0.0")
-            return 0.0
+            print("CDM: Error geting app object during getAppDouble")
+            return nil
         }
     }
     
@@ -299,8 +309,8 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getFloat(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Error geting app object during getAppFloat, returning 0.0")
-            return 0.0
+            print("CDM: Error geting app object during getAppFloat")
+            return nil
         }
         
     }
@@ -310,8 +320,8 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getInteger(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Error geting app object during getAppInterger, returning 0")
-            return 0
+            print("CDM: Error geting app object during getAppInterger")
+            return nil
         }
         
     }
@@ -321,8 +331,8 @@ open class XvCoreDataManager {
         if let _app:NSManagedObject = getApp(){
             return getString(forKey: forKey, forObject: _app)
         } else {
-            print("CDM: Error geting app object during getAppString, returning blank string")
-            return ""
+            print("CDM: Error geting app object during getAppString")
+            return nil
         }
         
     }
@@ -417,6 +427,7 @@ open class XvCoreDataManager {
     }
     
     public func getMidiDestinationNames() -> [String] {
+        
         return midiDestinationNames
     }
     

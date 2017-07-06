@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		960544881F0E220300FD3012 /* GlobalMidiDestinationsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960544871F0E220300FD3012 /* GlobalMidiDestinationsData.swift */; };
+		9605448A1F0E29B300FD3012 /* GlobalMidiSourcesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960544891F0E29B300FD3012 /* GlobalMidiSourcesData.swift */; };
 		96291FA01F05998D00A9A778 /* QuantizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96291F9F1F05998D00A9A778 /* QuantizationData.swift */; };
 		966F4A2A1E84BD6800154669 /* XvSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 966F4A281E84BD6800154669 /* XvSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		966F4A361E84BD8D00154669 /* TableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A321E84BD8D00154669 /* TableVC.swift */; };
@@ -31,8 +33,8 @@
 		9684A8521EF8116300019AF1 /* InstrumentTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8511EF8116300019AF1 /* InstrumentTableData.swift */; };
 		9684A8541EF8285300019AF1 /* MidiSendChannelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8531EF8285300019AF1 /* MidiSendChannelData.swift */; };
 		9684A8561EF83C8700019AF1 /* MidiReceiveChannelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8551EF83C8700019AF1 /* MidiReceiveChannelData.swift */; };
-		9684A8581EF84B3300019AF1 /* MidiDestinationsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8571EF84B3300019AF1 /* MidiDestinationsData.swift */; };
-		9684A8621EF86B6400019AF1 /* MidiSourcesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8611EF86B6300019AF1 /* MidiSourcesData.swift */; };
+		9684A8581EF84B3300019AF1 /* InstrumentMidiDestinationsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8571EF84B3300019AF1 /* InstrumentMidiDestinationsData.swift */; };
+		9684A8621EF86B6400019AF1 /* InstrumentMidiSourcesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8611EF86B6300019AF1 /* InstrumentMidiSourcesData.swift */; };
 		96C30CE31EF6C2560058A64D /* MidiSyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE21EF6C2560058A64D /* MidiSyncData.swift */; };
 		96C30CE51EF6C4700058A64D /* MusicalScaleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */; };
 		96C8F58F1EFB9CCC0058BDBF /* SliderCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C8F58E1EFB9CCC0058BDBF /* SliderCellData.swift */; };
@@ -48,6 +50,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		960544871F0E220300FD3012 /* GlobalMidiDestinationsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlobalMidiDestinationsData.swift; path = XvSettings/Data/Tables/Instances/GlobalMidiDestinationsData.swift; sourceTree = "<group>"; };
+		960544891F0E29B300FD3012 /* GlobalMidiSourcesData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlobalMidiSourcesData.swift; path = XvSettings/Data/Tables/Instances/GlobalMidiSourcesData.swift; sourceTree = "<group>"; };
 		96291F9F1F05998D00A9A778 /* QuantizationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuantizationData.swift; path = XvSettings/Data/Tables/Instances/QuantizationData.swift; sourceTree = "<group>"; };
 		966F4A251E84BD6800154669 /* XvSettings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XvSettings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		966F4A281E84BD6800154669 /* XvSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XvSettings.h; sourceTree = "<group>"; };
@@ -74,8 +78,8 @@
 		9684A8511EF8116300019AF1 /* InstrumentTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstrumentTableData.swift; path = XvSettings/Data/Tables/InstrumentTableData.swift; sourceTree = "<group>"; };
 		9684A8531EF8285300019AF1 /* MidiSendChannelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiSendChannelData.swift; path = XvSettings/Data/Tables/Instances/MidiSendChannelData.swift; sourceTree = "<group>"; };
 		9684A8551EF83C8700019AF1 /* MidiReceiveChannelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiReceiveChannelData.swift; path = XvSettings/Data/Tables/Instances/MidiReceiveChannelData.swift; sourceTree = "<group>"; };
-		9684A8571EF84B3300019AF1 /* MidiDestinationsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiDestinationsData.swift; path = XvSettings/Data/Tables/Instances/MidiDestinationsData.swift; sourceTree = "<group>"; };
-		9684A8611EF86B6300019AF1 /* MidiSourcesData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiSourcesData.swift; path = XvSettings/Data/Tables/Instances/MidiSourcesData.swift; sourceTree = "<group>"; };
+		9684A8571EF84B3300019AF1 /* InstrumentMidiDestinationsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstrumentMidiDestinationsData.swift; path = XvSettings/Data/Tables/Instances/InstrumentMidiDestinationsData.swift; sourceTree = "<group>"; };
+		9684A8611EF86B6300019AF1 /* InstrumentMidiSourcesData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstrumentMidiSourcesData.swift; path = XvSettings/Data/Tables/Instances/InstrumentMidiSourcesData.swift; sourceTree = "<group>"; };
 		96C30CE21EF6C2560058A64D /* MidiSyncData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiSyncData.swift; path = XvSettings/Data/Tables/Instances/MidiSyncData.swift; sourceTree = "<group>"; };
 		96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MusicalScaleData.swift; path = XvSettings/Data/Tables/Instances/MusicalScaleData.swift; sourceTree = "<group>"; };
 		96C8F58E1EFB9CCC0058BDBF /* SliderCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SliderCellData.swift; path = XvSettings/Data/Rows/SliderCellData.swift; sourceTree = "<group>"; };
@@ -232,13 +236,15 @@
 			isa = PBXGroup;
 			children = (
 				96F54F9A1F0A798A005021DB /* FadeOutDurationData.swift */,
+				960544871F0E220300FD3012 /* GlobalMidiDestinationsData.swift */,
+				960544891F0E29B300FD3012 /* GlobalMidiSourcesData.swift */,
+				9684A8571EF84B3300019AF1 /* InstrumentMidiDestinationsData.swift */,
+				9684A8611EF86B6300019AF1 /* InstrumentMidiSourcesData.swift */,
 				96F54F9C1F0A7B77005021DB /* LoopLengthData.swift */,
 				96C30CE21EF6C2560058A64D /* MidiSyncData.swift */,
 				96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */,
 				9684A8531EF8285300019AF1 /* MidiSendChannelData.swift */,
 				9684A8551EF83C8700019AF1 /* MidiReceiveChannelData.swift */,
-				9684A8571EF84B3300019AF1 /* MidiDestinationsData.swift */,
-				9684A8611EF86B6300019AF1 /* MidiSourcesData.swift */,
 				96291F9F1F05998D00A9A778 /* QuantizationData.swift */,
 			);
 			name = Instances;
@@ -336,7 +342,7 @@
 				96C30CE51EF6C4700058A64D /* MusicalScaleData.swift in Sources */,
 				9684A84C1EF7197E00019AF1 /* XvSetMainTableData.swift in Sources */,
 				966F4A501E84BE1400154669 /* Utils.swift in Sources */,
-				9684A8581EF84B3300019AF1 /* MidiDestinationsData.swift in Sources */,
+				9684A8581EF84B3300019AF1 /* InstrumentMidiDestinationsData.swift in Sources */,
 				96291FA01F05998D00A9A778 /* QuantizationData.swift in Sources */,
 				966F4A5C1E84BE3C00154669 /* Cell.swift in Sources */,
 				96DC44551EE6F8DC0032DC9C /* KitTableData.swift in Sources */,
@@ -345,7 +351,9 @@
 				966F4A471E84BDE200154669 /* CellData.swift in Sources */,
 				966F4A5D1E84BE3C00154669 /* CheckmarkCell.swift in Sources */,
 				9684A8561EF83C8700019AF1 /* MidiReceiveChannelData.swift in Sources */,
+				960544881F0E220300FD3012 /* GlobalMidiDestinationsData.swift in Sources */,
 				9684A8501EF71A1300019AF1 /* KitTableVC.swift in Sources */,
+				9605448A1F0E29B300FD3012 /* GlobalMidiSourcesData.swift in Sources */,
 				966F4A5E1E84BE3C00154669 /* DisclosureCell.swift in Sources */,
 				96DC444F1EE592920032DC9C /* CheckmarkTableVC.swift in Sources */,
 				9684A8461EF7196900019AF1 /* XvCoreDataManager.swift in Sources */,
@@ -360,7 +368,7 @@
 				9684A84A1EF7197800019AF1 /* XvSetMainTableVC.swift in Sources */,
 				96F54F9F1F0AAA7A005021DB /* Labels.swift in Sources */,
 				96DC44511EE63B5F0032DC9C /* ToggleCellData.swift in Sources */,
-				9684A8621EF86B6400019AF1 /* MidiSourcesData.swift in Sources */,
+				9684A8621EF86B6400019AF1 /* InstrumentMidiSourcesData.swift in Sources */,
 				9684A84E1EF7199E00019AF1 /* InstrumentTableVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

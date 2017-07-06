@@ -581,6 +581,7 @@ public class TableVC: UITableViewController {
             print("SETTINGS TABLE: Load data source", withDataSource)
         }
         
+        self.dataSource = nil
         self.dataSource = withDataSource
         title = withDataSource.title
     }

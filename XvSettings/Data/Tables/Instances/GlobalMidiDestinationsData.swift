@@ -1,23 +1,25 @@
 //
-//  MidiDestinationsData.swift
+//  GlobalMidiDestinationData.swift
 //  XvSettings
 //
-//  Created by Jason Snell on 6/19/17.
+//  Created by Jason Snell on 7/6/17.
 //  Copyright © 2017 Jason J. Snell. All rights reserved.
 //
+
+// This is for app level midi destinations, which instruments can default to
 
 import Foundation
 import CoreData
 
-class MidiDestinationsData:CheckmarkTableData {
+class GlobalMidiDestinationsData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
-    public init?(withInstrDataObj:NSManagedObject){
+    public init?(){
         
-        let key:String = XvSetConstants.kInstrumentMidiDestinations
+        let key:String = XvSetConstants.kAppGlobalMidiDestinations
         
-        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: withInstrDataObj) as? [String] {
+        if let userSelectedDestinations:[String] = _xvcdm.getAppArray(forKey: key) as? [String] {
             
             let availableDestinations:[String] = _xvcdm.getMidiDestinationNames()
             
@@ -27,14 +29,14 @@ class MidiDestinationsData:CheckmarkTableData {
                 dataType: XvSetConstants.DATA_TYPE_ARRAY,
                 defaultValue: userSelectedDestinations,
                 possibleValues: availableDestinations,
-                textLabel: Labels.MIDI_DESTINATION_LABEL,
+                textLabel: Labels.MIDI_GLOBAL_DESTINATION_LABEL,
                 detailTextLabels: availableDestinations,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_APP,
                 isVisible: true
             )
             
             let section:SectionData = SectionData(
-                header: Labels.MIDI_DESTINATION_HEADER,
+                header: Labels.MIDI_GLOBAL_DESTINATION_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,
@@ -47,7 +49,7 @@ class MidiDestinationsData:CheckmarkTableData {
             
         } else {
             
-            print("SETTINGS: Error: Unable to get value from instr data obj in MidiDestinationsData")
+            print("SETTINGS: Error: Unable to get value from instr data obj in GlobalMidiDestinationsData")
             
             return nil
         }
@@ -56,4 +58,5 @@ class MidiDestinationsData:CheckmarkTableData {
     }
     
 }
+
 

@@ -156,6 +156,38 @@ public class XvSetMainTableData:TableData {
         }
         
         
+        //MARK: MIDI
+        
+        if let midiDestinationsData:GlobalMidiDestinationsData = GlobalMidiDestinationsData(),
+            let midiSourcesData:GlobalMidiSourcesData = GlobalMidiSourcesData(){
+            
+            let midiDestinations:DisclosureCellData = DisclosureCellData(
+                withCheckmarkTableDataSource: midiDestinationsData,
+                isVisible: true
+            )
+            
+            let midiSources:DisclosureCellData = DisclosureCellData(
+                withCheckmarkTableDataSource: midiSourcesData,
+                isVisible: true
+            )
+            
+            let midiRoutingSection:SectionData = SectionData(
+                header: "Global MIDI Routing",
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: [midiDestinations, midiSources],
+                isVisible: true
+            )
+            
+            sections.append(midiRoutingSection)
+            
+        } else {
+            
+            print("SETTINGS: Error get midi routing data from core data in main table data")
+        }
+        
         
         //MARK: Musical scale
         
@@ -200,9 +232,9 @@ public class XvSetMainTableData:TableData {
             
             let modesSection:SectionData = SectionData(
                 header: "Background Mode",
-                footerType: XvSetConstants.FOOTER_TYPE_LINK,
-                footerText: ["Background mode keeps the app running in the background. MIDI Mode mutes app audio and activates MIDI Out. For help, see the ", "user's manual", "."],
-                footerLink: "http://app.jasonjsnell.com/refraktions/manual/",
+                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                footerText: ["Background mode keeps the app running in the background."],
+                footerLink: nil,
                 footerHeight: 70,
                 cells: [bgMode],
                 isVisible: true
@@ -225,10 +257,10 @@ public class XvSetMainTableData:TableData {
         
         let rearrangeSection:SectionData = SectionData(
             header: "Composition",
-            footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-            footerText: ["This rearranges the current composition."],
-            footerLink: nil,
-            footerHeight: 70,
+            footerType: XvSetConstants.FOOTER_TYPE_LINK,
+            footerText: ["This rearranges the current composition into a new, randomized one. For more information, see the ", "user's manual", "."],
+            footerLink: "http://app.jasonjsnell.com/repercussion/manual/",
+            footerHeight: 75,
             cells: [rearrangeButton],
             isVisible: true
         )

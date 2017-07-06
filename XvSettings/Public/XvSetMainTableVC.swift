@@ -65,7 +65,10 @@ public class XvSetMainTableVC:TableVC {
                 name: XvSetConstants.kAppAbletonLinkViewControllerRequested,
                 userInfo: ["parentVC" : self])
             
-        } else if (key == XvSetConstants.kMusicalScale){
+        } else if (
+            key == XvSetConstants.kMusicalScale ||
+                key == XvSetConstants.kAppGlobalMidiDestinations ||
+                key == XvSetConstants.kAppGlobalMidiSources) {
             
             //MARK: Musical scale
             

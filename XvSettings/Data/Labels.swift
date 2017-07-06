@@ -23,12 +23,16 @@ public class Labels {
     public static let MIDI_SEND_HEADER:String = "MIDI Outs"
     public static let MIDI_SEND_LABEL:String = "Channel"
     public static let MIDI_DESTINATION_HEADER:String = "MIDI Destinations"
+    public static let MIDI_GLOBAL_DESTINATION_HEADER:String = "Global MIDI Destinations"
     public static let MIDI_DESTINATION_LABEL:String = "Destinations"
+    public static let MIDI_GLOBAL_DESTINATION_LABEL:String = "MIDI destinations"
     
     public static let MIDI_RECEIVE_HEADER:String = "MIDI Ins"
     public static let MIDI_RECEIVE_LABEL:String = "Channel"
     public static let MIDI_SOURCE_HEADER:String = "MIDI Sources"
+    public static let MIDI_GLOBAL_SOURCE_HEADER:String = "Global MIDI Sources"
     public static let MIDI_SOURCE_LABEL:String = "Sources"
+    public static let MIDI_GLOBAL_SOURCE_LABEL:String = "MIDI sources"
     
     
     
@@ -77,6 +81,8 @@ public class Labels {
     }
     
     
+    public static let COMPOSITION_HEADER:String = "Composition"
+    
     //MARK: - Instrument: Fade out
     public static let FADE_OUT_LABEL:String = "Loop fades out"
     
@@ -99,15 +105,12 @@ public class Labels {
     public static let LOOP_LENGTH_MEASURE_4:String = "4 measures"
     public static let LOOP_LENGTH_MEASURE_8:String = "8 measures (full pattern)"
     
-    //MARK: - Volume
-    public static let VOLUME_HEADER:String = "Volume"
+    
+    //MARK: - Sound
+    public static let SOUND_HEADER:String = "Sound"
+    
     public static let VOLUME_LABEL:String = "Volume"
-    
-    public static let PAN_HEADER:String = "Pan"
     public static let PAN_LABEL:String = "Pan"
-    
-    //MARK: - Pitch
-    public static let PITCH_HEADER:String = "Pitch"
     public static let PITCH_ENABLED_LABEL:String = "Pitch"
     public static let RANDOMIZED_PITCH_LABEL:String = "Randomize pitch on loops"
     
@@ -115,8 +118,9 @@ public class Labels {
     public static let OCTAVE_HIGHEST_LABEL:String = "Highest octave"
     
     //MARK: - Instrument: Quantization
-    public static let QUANTIZATION_HEADER:String = "Quantization"
+    
     public static let QUANTIZATION_LABEL:String = "Quantization"
+    public static let QUANTIZATION_HEADER:String = "Quantization"
     
     public static let QUANTIZATION_1_16:String = "1/16 note"
     public static let QUANTIZATION_1_8:String = "1/8 note"
@@ -128,7 +132,6 @@ public class Labels {
     public static let REGENERATE_LABEL:String = "Regenerate at beginning of loop"
     
     //MARK: - Instrument: Audio enabled
-    public static let AUDIO_ENABLED_HEADER:String = "Audio Playback"
     public static let AUDIO_ENABLED_LABEL:String = "Audio Enabled"
     
 }

@@ -107,7 +107,7 @@ public class KitTableData:TableData {
             let factorySettingsSection:SectionData = SectionData(
                 header: "Factory Settings",
                 footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["This resets the " + kitName + " and its instruments to their factory settings."],
+                footerText: ["This resets " + kitName + " and its instruments to their factory settings."],
                 footerLink: nil,
                 footerHeight: 70,
                 cells: [factorySettings],
