@@ -97,7 +97,8 @@ public class XvSetMainTableData:TableData {
                         isVisible: true
                     )
                     
-                    instrumentKitCheckmarkCellData.set(visibilityTargets: [[sections.count, i]])
+                    //TODO: this is not working
+                    instrumentKitCheckmarkCellData.set(visibilityTargets: [[sections.count+1, i]])
                     
                     kitCheckmarkCellDataArray.append(instrumentKitCheckmarkCellData)
                   
