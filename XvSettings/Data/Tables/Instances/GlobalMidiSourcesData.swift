@@ -21,7 +21,8 @@ class GlobalMidiSourcesData:CheckmarkTableData {
         
         if let userSelectedSources:[String] = _xvcdm.getAppArray(forKey: key) as? [String] {
             
-            let availableSources:[String] = _xvcdm.getMidiSourceNames()
+            var availableSources:[String] = [XvSetConstants.MIDI_SOURCE_DEFAULT]
+            availableSources.append(contentsOf: _xvcdm.getMidiSourceNames())
             
             super.init(
                 
