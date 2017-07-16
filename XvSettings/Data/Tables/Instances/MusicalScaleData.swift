@@ -12,7 +12,7 @@ class MusicalScaleData:CheckmarkTableData {
     
     public init?(){
        
-        let key:String = XvSetConstants.kMusicalScale
+        let key:String = XvSetConstants.kAppMusicalScale
         
         if let value:String = _xvcdm.getAppString(forKey: key) {
             

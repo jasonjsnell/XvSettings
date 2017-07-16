@@ -17,7 +17,11 @@ import Foundation
 public class XvSetConstants {
     
     //MARK: - Notifications -
+    
+    //app
     public static let kAppTempoChanged:String = "kAppTempoChanged"
+    public static let kAppSelectedKitChanged:String = "kAppSelectedKitChanged"
+    public static let kAppMusicalScaleChanged:String = "kAppMusicalScaleChanged"
     
     //midi
     public static let kAppMidiSyncChanged:String = "kAppMidiSyncChanged"
@@ -29,28 +33,29 @@ public class XvSetConstants {
     //instrument data
     public static let kInstrumentValueChanged:String = "kInstrumentValueChanged"
     
+    
+    
     //button commands
     public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
+    public static let kAppRearrangeButtonTapped:String = "kAppRearrangeButtonTapped"
     public static let kKitResetAIButtonTapped:String = "kKitResetAIButtonTapped"
     public static let kKitRestoreFactorySettingsButtonTapped:String = "kKitRestoreFactorySettingsButtonTapped"
-    public static let kKitRearrangeButtonTapped:String = "kKitRearrangeButtonTapped"
+    
     
     
     //MARK: - Core data keys -
     
     //MARK: App
     public static let kAppEntity:String = "App"
-    
     public static let kAppBackgroundModeEnabled:String = "backgroundModeEnabled" // passive
     public static let kAppAbletonLinkEnabled:String = "abletonLinkEnabled" // passive
     public static let kAppTempo:String = "userTempo" //updates sequencer and ABL Link
-
+    public static let kAppSelectedKit:String = "selectedKit"
     
     
     //MARK: App: MIDI
     public static let kAppGlobalMidiDestinations:String = "globalMidiDestinations" // passive
     public static let kAppGlobalMidiSources:String = "globalMidiSources" // updates MIDI system w/new sources
-    
     public static let kAppMidiSync:String = "midiSync" //updates sequencer and ABL Link
     
     //MIDI sync values
@@ -60,7 +65,7 @@ public class XvSetConstants {
     
     //MARK: App: Musical Scale
     
-    public static let kMusicalScale:String = "musicalScale"
+    public static let kAppMusicalScale:String = "musicalScale" //updates sequencer
     
     public static let MUSIC_SCALE_MAJOR:String = "musicScaleMajor"
     public static let MUSIC_SCALE_MINOR:String = "musicScaleMinor"
@@ -110,11 +115,10 @@ public class XvSetConstants {
     public static let kKitEntity:String = "Kit"
     public static let kKitID:String = "id"
     public static let kKitName:String = "name"
-    public static let kSelectedKit:String = "selectedKit"
     public static let kKitInstruments:String = "instruments"
     public static let kKitArtificialIntelligence = "artificialIntelligence"
     public static let kKitFactorySettings = "kKitFactorySettings"
-    public static let kKitRearrange = "kKitRearrange"
+    public static let kAppRearrange = "kAppRearrange"
     
     //MARK: - Instrument -
     

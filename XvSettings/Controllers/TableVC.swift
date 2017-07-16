@@ -490,19 +490,11 @@ public class TableVC: UITableViewController {
                 
                 if let cell:CheckmarkCell = getCheckmarkCell(indexPath: indexPath) {
                     
-                    if let key:String = getKey(fromCell: cell) {
-                        
-                        //deselect row so the grey background flashes
-                        tableView.deselectRow(at: indexPath, animated: true)
-                        
-                        _checkmarkRowSelected(cell: cell, indexPath: indexPath)
-                        
-                        checkmarkRowSelected(cell: cell, key: key)
-                        
-                        
-                    } else {
-                        print("SETTINGS: Checkmark cell data key could not be found")
-                    }
+                    //deselect row so the grey background flashes
+                    tableView.deselectRow(at: indexPath, animated: true)
+                    
+                    checkmarkRowSelected(cell: cell, indexPath: indexPath)
+                    _refreshTableDisplay(fromCheckmarkCell: cell)
                     
                 } else {
                     print("SETTINGS: This index does not have a valid checkmark cell")
@@ -541,7 +533,13 @@ public class TableVC: UITableViewController {
     //MARK: - BUTTON CELL
     internal func buttonRowSelected(cell:ButtonCell, key:String) {
         
-        if (key == XvSetConstants.kKitArtificialIntelligence){
+        if (key == XvSetConstants.kAppRearrange){
+            
+            Utils.postNotification(
+                name: XvSetConstants.kAppRearrangeButtonTapped,
+                userInfo: nil)
+            
+        } else if (key == XvSetConstants.kKitArtificialIntelligence){
             
             Utils.postNotification(
                 name: XvSetConstants.kKitResetAIButtonTapped,
@@ -552,52 +550,40 @@ public class TableVC: UITableViewController {
             Utils.postNotification(
                 name: XvSetConstants.kKitRestoreFactorySettingsButtonTapped,
                 userInfo: nil)
-        
-        } else if (key == XvSetConstants.kKitRearrange){
-            
-            Utils.postNotification(
-                name: XvSetConstants.kKitRearrangeButtonTapped,
-                userInfo: nil)
         }
     }
     
     
     //MARK: - CHECKMARK
     
-    internal func checkmarkRowSelected(cell:CheckmarkCell, key:String) {
+    //overriden in checkmark table class
+    internal func checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
         
-        _refreshTableDisplay(fromCheckmarkCell: cell)
-        
-    }
-    
-    //overridden in checkmark table class
-    internal func _checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
-        
-        if let checkmarkCellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
+        if let cellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
             
             //grab value from cell data
-            var _value:Any = checkmarkCellData.value
+            var _value:Any = cellData.value
             
             //if a multi cell...
-            if (checkmarkCellData.multi){
+            if (cellData.multi){
                 
                 //if not current checked...
-                if (!checkmarkCellData.selected){
+                if (!cellData.selected){
                     
                     //turn this cell on in view and data
                     cell.accessoryType = .checkmark
-                    checkmarkCellData.selected = true
+                    cellData.selected = true
                     
                 } else {
                     
                     //else if currently checked...
                     //turn off cell and data
                     cell.accessoryType = .none
-                    checkmarkCellData.selected = false
+                    cellData.selected = false
                 }
                 
                 
-                _value = _getArrayOfValues(level: checkmarkCellData.levelType, key: checkmarkCellData.key, value: checkmarkCellData.value)
+                _value = _getArrayOfValues(level: cellData.levelType, key: cellData.key, value: cellData.value)
                 
             } else {
                 
@@ -608,30 +594,14 @@ public class TableVC: UITableViewController {
                 
                 //and check this one
                 cell.accessoryType = .checkmark
-                checkmarkCellData.selected = true
+                cellData.selected = true
             }
             
             _setCoreData(
-                level: checkmarkCellData.levelType,
+                level: cellData.levelType,
                 value: _value,
-                key: checkmarkCellData.key,
-                multi: checkmarkCellData.multi)
-            
-            if (checkmarkCellData.key == XvSetConstants.kAppMidiSync) {
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kAppMidiSyncChanged,
-                    userInfo: nil
-                )
-                
-            } else if (checkmarkCellData.key == XvSetConstants.kAppGlobalMidiSources){
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiSourcesChanged,
-                    userInfo: nil
-                )
-                
-            }
+                key: cellData.key,
+                multi: cellData.multi)
             
         } else {
             print("SETTINGS: Checkmark cell data is invalid")
@@ -834,7 +804,7 @@ public class TableVC: UITableViewController {
     
     //MARK: - DISCLOSURE CELL
     
-    //override by app settings classes, which check for app specific keys and execute app specific commands
+    //overriden by instrument and kit tables
     internal func disclosureRowSelected(cell:DisclosureCell, key:String){
         
     }
@@ -932,45 +902,15 @@ public class TableVC: UITableViewController {
 
     internal func toggleSwitchChanged(_ sender:UISwitch) {
         
-        _updateValues(fromSwitch: sender)
-        _refreshTableDisplay(fromSwitch: sender)
-        
-        //is data valid?
-        if (dataSource != nil){
-            
-            if let key:String = getToggleCellKey(fromSwitch: sender) {
-                
-                toggleSelected(isOn: sender.isOn, key: key)
-                
-            } else {
-                print("SETTINGS: Error getting toggle cell key SetMain toggleSwitchChanged")
-            }
-            
-        } else {
-            
-            print("SETTINGS: Error connecting to data source for SetMain toggleSwitchChanged")
-            
-        }
-        
-    }
-    
-    //override in app 
-    internal func toggleSelected(isOn:Bool, key:String){
-        
-    }
-    
-    //update toggle cell's default value and the correspond user default
-    fileprivate func _updateValues(fromSwitch:UISwitch){
-        
         //if cell data is valid...
-        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
+        if let toggleCellData:CellData = getToggleCellData(fromSwitch: sender) {
             
             //set cell data's default value to uiswitch value
-            toggleCellData.value = fromSwitch.isOn
+            toggleCellData.value = sender.isOn
             
             _setCoreData(
                 level: toggleCellData.levelType,
-                value: fromSwitch.isOn,
+                value: sender.isOn,
                 key: toggleCellData.key,
                 multi: false)
             
@@ -979,6 +919,9 @@ public class TableVC: UITableViewController {
             
             print("SETTINGS: Error getting toggleCellData during _updateValues")
         }
+        
+        _refreshTableDisplay(fromSwitch: sender)
+        
     }
     
     
@@ -1376,18 +1319,18 @@ public class TableVC: UITableViewController {
             xvcdm.setCurrInstrument(value: value, forKey: key)
             let _:Bool = xvcdm.save()
             
-            /*
-             Utils.postNotification(
-             name: XvSetConstants.kInstrumentValueChanged,
-             userInfo: nil
-             )
-             */
+            if let instrumentDataObj:NSManagedObject = xvcdm.getCurrInstrument() {
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kInstrumentValueChanged,
+                    userInfo: ["instrumentDataObj" : instrumentDataObj]
+                )
             
-            
+            } else {
+                
+                print("SETTINGS: Error getting current instrument during setCoreData")
+            }
         }
-        
-        
-        
     }
     
     //MARK: - DEINT

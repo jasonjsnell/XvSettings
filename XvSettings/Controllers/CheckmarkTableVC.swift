@@ -198,9 +198,9 @@ public class CheckmarkTableVC:TableVC {
     //MARK: - USER INPUT
     
     //when the local checkmark func is executed, update the parent cells detailTextLabel on non-multi tables
-    override internal func _checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
+    override internal func checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
         
-        super._checkmarkRowSelected(cell: cell, indexPath: indexPath)
+        super.checkmarkRowSelected(cell: cell, indexPath: indexPath)
         
         if let cellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
             
@@ -219,14 +219,39 @@ public class CheckmarkTableVC:TableVC {
                         parentDisclosureCell!.set(label: parentDisclosureCellData.detailTextLabel)
                         
                     } else {
-                        print("SETTINGS: Error: Parent cell data is invalid during _checkmarkRowSelected")
+                        print("SETTINGS: Error: Parent cell data is invalid during checkmarkRowSelected")
                     }
                 }
             }
             
             
+            //post notifications for checkmark tables based on key
+            
+            if (cellData.key == XvSetConstants.kAppMidiSync) {
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppMidiSyncChanged,
+                    userInfo: nil
+                )
+            
+            } else if (cellData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiSourcesChanged,
+                    userInfo: nil
+                )
+                
+            } else if (cellData.key == XvSetConstants.kAppMusicalScale){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppMusicalScaleChanged,
+                    userInfo: nil
+                )
+            }
+            
         } else {
-            print("SETTINGS: Error: Unable to get checkmark cell data during _checkmarkRowSelected")
+            print("SETTINGS: Error: Unable to get checkmark cell data during checkmarkRowSelected")
         }
     }
+
 }

@@ -16,6 +16,7 @@ public class XvSetMainTableVC:TableVC {
     //ref to midisync cell because it is automatically changed when ABL Link is enabled
     fileprivate var midiSyncCell:DisclosureCell?
     
+    //MARK: - BUILD
     override public func viewWillAppear(_ animated: Bool) {
         
         //this fires when main settings panel loads, and it returned to from a sub menu
@@ -39,6 +40,26 @@ public class XvSetMainTableVC:TableVC {
         super.viewWillAppear(animated)
         
     }
+    
+    //MARK: - USER INPUT
+    
+    override internal func checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
+     
+        super.checkmarkRowSelected(cell: cell, indexPath: indexPath)
+        
+        if let cellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
+            
+             //post notication for main table checkmark cells
+             if (cellData.key == XvSetConstants.kAppSelectedKit){
+             
+                Utils.postNotification(
+                    name: XvSetConstants.kAppSelectedKitChanged,
+                    userInfo: nil
+                )
+             }
+        }
+    }
+    
     
     override func disclosureRowSelected(cell:DisclosureCell, key:String){
         
@@ -66,7 +87,7 @@ public class XvSetMainTableVC:TableVC {
                 userInfo: ["parentVC" : self])
             
         } else if (
-            key == XvSetConstants.kMusicalScale ||
+            key == XvSetConstants.kAppMusicalScale ||
                 key == XvSetConstants.kAppGlobalMidiDestinations ||
                 key == XvSetConstants.kAppGlobalMidiSources) {
             

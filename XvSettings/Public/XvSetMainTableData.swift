@@ -82,12 +82,12 @@ public class XvSetMainTableData:TableData {
                     
                     var isSelected:Bool = false
                     
-                    if (xvcdm.getAppString(forKey: XvSetConstants.kSelectedKit) == id){
+                    if (xvcdm.getAppString(forKey: XvSetConstants.kAppSelectedKit) == id){
                         isSelected = true
                     }
                     
                     let instrumentKitCheckmarkCellData:CheckmarkCellData = CheckmarkCellData(
-                        key: XvSetConstants.kSelectedKit,
+                        key: XvSetConstants.kAppSelectedKit,
                         value: id,
                         textLabel: name,
                         selected: isSelected,
@@ -275,12 +275,12 @@ public class XvSetMainTableData:TableData {
             print("SETTINGS: Error: Unable to get bg mode bool in main table")
         }
         
-        //MARK: Factory settings
+        //MARK: Rearrange
         
         let rearrangeButton:ButtonCellData = ButtonCellData(
-            key: XvSetConstants.kKitRearrange,
+            key: XvSetConstants.kAppRearrange,
             textLabel: "Rearrange",
-            levelType: XvSetConstants.LEVEL_TYPE_KIT,
+            levelType: XvSetConstants.LEVEL_TYPE_APP,
             isVisible: true
         )
         
