@@ -19,12 +19,17 @@ public class XvSetConstants {
     //MARK: - Notifications -
     public static let kAppTempoChanged:String = "kAppTempoChanged"
     
+    //midi
     public static let kAppMidiSyncChanged:String = "kAppMidiSyncChanged"
+    public static let kAppGlobalMidiDestinationsRequest:String = "kAppGlobalMidiDestinationsRequest"
     public static let kAppGlobalMidiSourcesRequest:String = "kAppGlobalMidiSourcesRequest"
     public static let kAppGlobalMidiSourcesChanged:String = "kAppGlobalMidiSourcesChanged"
-    public static let kAppGlobalMidiDestinationsRequest:String = "kAppGlobalMidiDestinationsRequest"
+    public static let kInstrumentMidiDestinationsRequest:String = "kInstrumentMidiDestinationsRequest"
     
+    //instrument data
+    public static let kInstrumentValueChanged:String = "kInstrumentValueChanged"
     
+    //button commands
     public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
     public static let kKitResetAIButtonTapped:String = "kKitResetAIButtonTapped"
     public static let kKitRestoreFactorySettingsButtonTapped:String = "kKitRestoreFactorySettingsButtonTapped"
@@ -112,9 +117,12 @@ public class XvSetConstants {
     public static let kKitRearrange = "kKitRearrange"
     
     //MARK: - Instrument -
+    
     public static let kInstrumentEntity:String = "Instrument"
     public static let kInstrumentID:String = "id"
     public static let kInstrumentName:String = "name"
+    
+    //all update XvInstrument object with same id as core data object
     public static let kInstrumentAudioEnabled:String = "audioEnabled"
     public static let kInstrumentKit:String = "kit"
     public static let kInstrumentLifetimeKeyTallies = "lifetimeKeyTallies"

@@ -14,47 +14,73 @@ class InstrumentMidiDestinationsData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
+    fileprivate let footerText:[String] = ["Pull to refresh MIDI destinations."]
+    
+    fileprivate let instrDataObj:NSManagedObject
+    
     public init?(withInstrDataObj:NSManagedObject){
         
+        self.instrDataObj = withInstrDataObj
         let key:String = XvSetConstants.kInstrumentMidiDestinations
         
-        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: withInstrDataObj) as? [String] {
+        super.init(
             
+            key: key,
+            dataType: XvSetConstants.DATA_TYPE_ARRAY,
+            defaultValue: [],
+            possibleValues: [],
+            textLabel: Labels.MIDI_DESTINATION_LABEL,
+            detailTextLabels: [],
+            levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+            isVisible: true
+        )
+        
+        sections.append(_getSection())
+        
+    }
+    
+    public func refresh() {
+        
+        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: instrDataObj) as? [String] {
+            
+            //reset sections
+            sections = []
+            
+            //grab data from core data manager
             var availableDestinations:[String] = [XvSetConstants.MIDI_DESTINATION_GLOBAL]
             availableDestinations.append(contentsOf: _xvcdm.getMidiDestinationNames())
             
-            super.init(
-                
-                key: key,
-                dataType: XvSetConstants.DATA_TYPE_ARRAY,
-                defaultValue: userSelectedDestinations,
-                possibleValues: availableDestinations,
-                textLabel: Labels.MIDI_DESTINATION_LABEL,
-                detailTextLabels: availableDestinations,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
-                isVisible: true
-            )
             
-            let section:SectionData = SectionData(
-                header: Labels.MIDI_DESTINATION_HEADER,
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 50,
-                cells: getCellDataArray(),
-                isVisible: true
-            )
+            //update the values that were missing from init
+            self.defaultValue = userSelectedDestinations
+            self.possibleValues = availableDestinations
+            self.detailTextLabels = availableDestinations
             
-            sections.append(section)
+            //re-init the data array
+            initCellDataArray()
+            
+            //append
+            sections.append(_getSection())
             
         } else {
             
-            print("SETTINGS: Error: Unable to get value from instr data obj in MidiDestinationsData")
+            print("SETTINGS: Error: Unable to get value from instr data obj in GlobalMidiDestinationsData")
             
-            return nil
         }
+    }
+    
+    fileprivate func _getSection() -> SectionData{
         
-        
+        //create a section with the new cell data array
+        return SectionData(
+            header: Labels.MIDI_DESTINATION_HEADER,
+            footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+            footerText: footerText,
+            footerLink: nil,
+            footerHeight: 50,
+            cells: getCellDataArray(),
+            isVisible: true
+        )
     }
     
 }

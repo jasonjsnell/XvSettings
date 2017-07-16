@@ -1364,17 +1364,29 @@ public class TableVC: UITableViewController {
         if (level == XvSetConstants.LEVEL_TYPE_APP){
         
             xvcdm.setApp(value: value, forKey: key)
+            let _:Bool = xvcdm.save()
             
         } else if (level == XvSetConstants.LEVEL_TYPE_KIT){
             
             xvcdm.setCurrKit(value: value, forKey: key)
+            let _:Bool = xvcdm.save()
             
         } else if (level == XvSetConstants.LEVEL_TYPE_INSTRUMENT){
             
             xvcdm.setCurrInstrument(value: value, forKey: key)
+            let _:Bool = xvcdm.save()
+            
+            /*
+             Utils.postNotification(
+             name: XvSetConstants.kInstrumentValueChanged,
+             userInfo: nil
+             )
+             */
+            
+            
         }
         
-        let _:Bool = xvcdm.save()
+        
         
     }
     
