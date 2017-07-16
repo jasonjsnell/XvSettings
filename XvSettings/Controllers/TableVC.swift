@@ -15,20 +15,13 @@ public class TableVC: UITableViewController {
     
     //MARK: - VARIABLES -
     
-    internal let xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
-    
-    //table data
     public var dataSource:TableData?
     
-    
+    internal let xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     internal var nav:UINavigationController?
-    //public var refreshControl = UIRefreshControl()
-    internal let debug:Bool = false
-
-    
     internal var sectionFooterViews:[Footer?]?
     
-    fileprivate var firstLoad:Bool = true
+    internal let debug:Bool = false
     
     //MARK: - BUILD -
     
