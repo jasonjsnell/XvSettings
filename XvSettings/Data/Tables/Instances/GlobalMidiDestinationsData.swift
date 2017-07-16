@@ -21,7 +21,7 @@ class GlobalMidiDestinationsData:CheckmarkTableData {
         
         if let userSelectedDestinations:[String] = _xvcdm.getAppArray(forKey: key) as? [String] {
             
-            var availableDestinations:[String] = [XvSetConstants.MIDI_DESTINATION_DEFAULT]
+            var availableDestinations:[String] = [XvSetConstants.MIDI_DESTINATION_OMNI]
             availableDestinations.append(contentsOf: _xvcdm.getMidiDestinationNames())
             
             super.init(

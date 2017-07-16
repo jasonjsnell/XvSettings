@@ -23,7 +23,6 @@ import CoreData
 
 public class XvSetMainTableData:TableData {
     
-    //TODO: add "Rearrange" button so shake isn't the only method
     
     //MARK:- INIT -
     //build cells and put them into sections
@@ -187,7 +186,7 @@ public class XvSetMainTableData:TableData {
         
         
         //MARK: MIDI
-        
+       
         if let midiDestinationsData:GlobalMidiDestinationsData = GlobalMidiDestinationsData(),
             let midiSourcesData:GlobalMidiSourcesData = GlobalMidiSourcesData(){
             

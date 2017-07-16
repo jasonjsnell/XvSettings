@@ -22,13 +22,27 @@ public class TableVC: UITableViewController {
     
     
     internal var nav:UINavigationController?
+    //public var refreshControl = UIRefreshControl()
     internal let debug:Bool = false
 
     
     internal var sectionFooterViews:[Footer?]?
     
-    //MARK: - PUBLIC API
-    //MARK:   LOAD -
+    fileprivate var firstLoad:Bool = true
+    
+    //MARK: - BUILD -
+    
+    public func load(withDataSource:TableData){
+        
+        if (debug){
+            print("")
+            print("SETTINGS TABLE: Load table with data source", withDataSource)
+        }
+        
+        self.dataSource = nil
+        self.dataSource = withDataSource
+        title = withDataSource.title
+    }
     
     override public func viewDidLoad() {
         
@@ -42,8 +56,69 @@ public class TableVC: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        //refresh
+        buildRefreshControl()
+        
         //build footers
         buildFooters()
+        
+    }
+    
+    
+    
+    
+    
+    override public func viewWillAppear(_ animated: Bool) {
+        
+        //TODO: move all this checkmark table code to checkmark table
+        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
+            
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiSourcesRequest,
+                    userInfo: ["tableVC" : self])
+            }
+        }
+        
+        super.viewWillAppear(animated)
+    }
+    
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print("view did appear")
+        
+        tableView.reloadData()
+    }
+    
+    public func reloadTableAfterMidiUpdate(){
+        
+        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
+            
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                if let globalMidiSourcesData:GlobalMidiSourcesData = checkmarkTableData as? GlobalMidiSourcesData {
+                    
+                    //refresh table data
+                    globalMidiSourcesData.refresh()
+                    
+                    // reload this table vc with new data
+                    load(withDataSource: globalMidiSourcesData)
+                    
+                    //reload data on tableview
+                    tableView.reloadData()
+                
+                } else {
+                    
+                    print("SETTINGS: Unable to cast checkmark table data as GlobalMidiSourcesData during reloadTableAfterMidiUpdate")
+                }
+            }
+            
+        } else {
+            
+            print("SETTINGS: Unable to cast table data as checkmark table data during reloadTableAfterMidiUpdate")
+        }
         
     }
     
@@ -60,7 +135,7 @@ public class TableVC: UITableViewController {
         
     }
     
-    //MARK:- ROWS -
+    //MARK: - ROWS
     //number of rows in each section
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -115,6 +190,8 @@ public class TableVC: UITableViewController {
     
     //MARK: Main build
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        print("cell for row at")
         
         func setVisibility(cell:Cell, cellData:CellData){
             if (!cellData.isVisible){
@@ -337,9 +414,125 @@ public class TableVC: UITableViewController {
         }
         
     }
+    
+    internal func buildFooters(){
+        
+        sectionFooterViews = []
+        
+        //assemble footer objects with data from data class
+        if (dataSource != nil){
+            
+            for i in 0 ..< dataSource!.sections.count {
+                
+                var setFooter:Footer?
+                let type:String = dataSource!.sections[i].footerType
+                let text:[String]? = dataSource!.sections[i].footerText
+                let link:String? = dataSource!.sections[i].footerLink
+                
+                if (type == XvSetConstants.FOOTER_TYPE_NORMAL){
+                    
+                    //if text is valid
+                    if (text != nil){
+                        
+                        //... create footer
+                        setFooter = Footer(withText: text![0])
+                        
+                        //and append to object's array
+                        sectionFooterViews!.append(setFooter)
+                        
+                    } else {
+                        print("SETTINGS: Error creating normal footer")
+                        sectionFooterViews!.append(nil)
+                    }
+                    
+                    
+                } else if (type == XvSetConstants.FOOTER_TYPE_LINK){
+                    
+                    //if all data is valid...
+                    if (text != nil && link != nil){
+                        
+                        //... create footer
+                        setFooter = Footer(
+                            preText: text![0],
+                            underlinedText: text![1],
+                            postText: text![2],
+                            link: link!)
+                        
+                        //enable interaction
+                        setFooter!.isUserInteractionEnabled = true
+                        
+                        //set tap recognizer
+                        let setFooterTap = UITapGestureRecognizer(
+                            target: self,
+                            action: #selector(footerWithLinkWasTapped)
+                        )
+                        
+                        setFooter!.addGestureRecognizer(setFooterTap)
+                        
+                        //and append to object's array
+                        sectionFooterViews!.append(setFooter)
+                        
+                    } else {
+                        print("SETTINGS: Error creating link footer")
+                        sectionFooterViews!.append(nil)
+                    }
+                    
+                } else {
+                    
+                    //else put in nil
+                    sectionFooterViews!.append(nil)
+                }
+                
+            }
+            
+        } else {
+            print("SETTINGS: Error connecting to data source for SetMultiTable buildFooters")
+        }
+        
+    }
+    
+    //MARK: - REFRESH CONTROL
 
-    //MARK: - PUBLIC API
-    //MARK:   USER INPUT -
+    fileprivate func buildRefreshControl(){
+        
+        //only add refresh controls on midi checkmark tables
+        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
+            
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                // set up the refresh control
+                let refreshControl:UIRefreshControl = UIRefreshControl()
+                refreshControl.attributedTitle = NSAttributedString(string: "Loading " + Labels.MIDI_SOURCE_HEADER)
+                refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+                tableView.addSubview(refreshControl)
+                
+            }
+            
+        }
+        
+        
+    }
+    
+    internal func refresh(_ sender:AnyObject) {
+        print("refresh")
+        
+        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
+            
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiSourcesRequest,
+                    userInfo: ["tableVC" : self])
+            }
+        }
+        
+        if let refreshControl:UIRefreshControl = sender as? UIRefreshControl {
+            refreshControl.endRefreshing()
+        }
+    }
+
+
+    //MARK: - USER INPUT -
     
     //MARK: ROWS
     
@@ -443,18 +636,8 @@ public class TableVC: UITableViewController {
         
     }
     
-    //override by app settings classes, which check for app specific keys and execute app specific commands
-    internal func disclosureRowSelected(cell:DisclosureCell, key:String){
-        
-    }
     
-    internal func checkmarkRowSelected(cell:CheckmarkCell, key:String) {
-        
-        _refreshTableDisplay(fromCheckmarkCell: cell)
-        
-    }
-    
-    //MARK: - Buttons cells
+    //MARK: - BUTTON CELL
     internal func buttonRowSelected(cell:ButtonCell, key:String) {
         
         if (key == XvSetConstants.kKitArtificialIntelligence){
@@ -477,497 +660,15 @@ public class TableVC: UITableViewController {
         }
     }
     
-    //MARK: - SLIDER
     
-    //update the text label when the slider is being dragged
-    internal func sliderChanged(_ sender:UISlider) {
+    //MARK: - CHECKMARK
+    
+    internal func checkmarkRowSelected(cell:CheckmarkCell, key:String) {
         
-        if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
-            
-            let _:Any? = sliderCell.set(withSliderValue: sender.value)
-            
-        } else {
-            
-            print("SETTINGS: Error getting sliderCell during sliderChanged")
-        }
+        _refreshTableDisplay(fromCheckmarkCell: cell)
         
     }
     
-    //save the slider value when the user has released it
-    internal func sliderEnded(_ sender:UISlider) {
-        
-        if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
-            
-            if let sliderCellData:SliderCellData = sliderCell.data as? SliderCellData {
-                
-                if let newValue:Any = sliderCell.set(withSliderValue: sender.value) {
-                    
-                    _setCoreData(
-                        level: sliderCellData.levelType,
-                        value: newValue,
-                        key: sliderCellData.key,
-                        multi: false)
-                    
-                    //if there is a linked cell...
-                    if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
-                        
-                        //save its data too
-                        _setCoreData(
-                            level: linkedSliderCellData.levelType,
-                            value: linkedSliderCellData.value,
-                            key: linkedSliderCellData.key,
-                            multi: false)
-                        
-                    }
-                    
-                }
-                
-            } else {
-                
-                print("SETTINGS: Error getting sliderCellData during sliderChanged")
-            }
-            
-        } else {
-            
-            print("SETTINGS: Error getting sliderCell during sliderChanged")
-        }
-    }
-
-
-    
-
-
-    //MARK: - TOGGLE SWITCH
-
-    internal func toggleSwitchChanged(_ sender:UISwitch) {
-        
-        _updateValues(fromSwitch: sender)
-        _refreshTableDisplay(fromSwitch: sender)
-        
-        //is data valid?
-        if (dataSource != nil){
-            
-            if let key:String = getToggleCellKey(fromSwitch: sender) {
-                
-                toggleSelected(isOn: sender.isOn, key: key)
-                
-            } else {
-                print("SETTINGS: Error getting toggle cell key SetMain toggleSwitchChanged")
-            }
-            
-        } else {
-            
-            print("SETTINGS: Error connecting to data source for SetMain toggleSwitchChanged")
-            
-        }
-        
-    }
-    
-    //override in app 
-    internal func toggleSelected(isOn:Bool, key:String){
-        
-    }
-
-    
-    
-    
-    //MARK: - PUBLIC API -
-    
-    //MARK: LOAD
-    
-    public func load(withDataSource:TableData){
-        
-        if (debug){
-            print("SETTINGS TABLE: Load data source", withDataSource)
-        }
-        
-        self.dataSource = nil
-        self.dataSource = withDataSource
-        title = withDataSource.title
-    }
-    
-    
-    //MARK:- ACCESSORS
-    public func setNav(nav: UINavigationController) {
-        self.nav = nav
-    }
-    
-    internal func getNav() -> UINavigationController? {
-        return nav
-    }
-    
-    //MARK: - VC MANAGEMENT
-    
-    //called internally and by settings helper
-    public func push(viewController:UIViewController) {
-        if (getNav() != nil){
-            getNav()!.pushViewController(viewController, animated: true)
-        } else {
-            print("SETTINGS: Nav is nil during VC push")
-        }
-    }
-    
-    internal func loadCheckmarkTable(fromCell:DisclosureCell) {
-        
-        let vc:CheckmarkTableVC = CheckmarkTableVC()
-        vc.load(withParentDisclosureCell: fromCell)
-        push(viewController: vc)
-        
-    }
-    
-    internal func loadKitTable(fromDataObj: NSManagedObject) {
-        
-        if let _nav:UINavigationController = getNav() {
-            
-            let kitTableData:KitTableData = KitTableData(kitDataObj: fromDataObj)
-            let vc:KitTableVC = KitTableVC()
-            vc.load(withDataSource: kitTableData)
-            vc.setNav(nav: _nav)
-            push(viewController: vc)
-            
-        } else {
-            
-            print("SETTINGS: Nav is nil during loadKitTable. Blocking push")
-        }
-    }
-    
-    internal func loadInstrumentTable(fromDataObj: NSManagedObject) {
-        
-        if let _nav:UINavigationController = getNav() {
-            
-            let instrTableData:InstrumentTableData = InstrumentTableData(instrumentDataObj: fromDataObj)
-            let vc:InstrumentTableVC = InstrumentTableVC()
-            vc.load(withDataSource: instrTableData)
-            vc.setNav(nav: _nav)
-            push(viewController: vc)
-            
-        } else {
-            
-            print("SETTINGS: Nav is nil during loadInstrumentTable. Blocking push")
-        }
-        
-    }
-
-    
-    
-    //MARK: - GETTERS
-    internal func getDisplayType(dataSource:TableData, indexPath:IndexPath) -> String {
-        
-        return dataSource.sections[indexPath.section].cells[indexPath.row].displayType
-    }
-    
-    fileprivate func _getCells(inSection:Int) -> [UITableViewCell]? {
-        
-        var cells:[UITableViewCell] = []
-        for row in 0..<tableView.numberOfRows(inSection: inSection) {
-            
-            let newIndexPath:IndexPath = IndexPath(row: row, section: inSection)
-            if let cell:UITableViewCell = tableView.cellForRow(at: newIndexPath){
-                cells.append(cell)
-            }
-            
-        }
-        
-        if (cells.count > 0){
-            return cells
-        } else {
-            print("SETTINGS: No cells in section during _getCells")
-            return nil
-        }
-        
-    }
-
-    
-    internal func getDisclosureCell(indexPath: IndexPath) -> DisclosureCell? {
-        
-        if let cell:DisclosureCell = tableView.cellForRow(at: indexPath) as? DisclosureCell {
-            
-            return cell
-            
-        } else {
-            print("SETTINGS: Error finding SetMultiTable SetDisclosureCell")
-            return nil
-        }
-        
-    }
-    
-    internal func getCheckmarkCell(indexPath: IndexPath) -> CheckmarkCell? {
-        
-        if let cell:CheckmarkCell = tableView.cellForRow(at: indexPath) as? CheckmarkCell {
-            
-            return cell
-            
-        } else {
-            print("SETTINGS: Error finding SetMultiTable SetCheckmarkCell")
-            return nil
-        }
-        
-        
-    }
-    
-    fileprivate func _getCheckmarkCells(inSection:Int) -> [CheckmarkCell]? {
-        
-        if let cells:[UITableViewCell] = _getCells(inSection: inSection) {
-            
-            var checkmarkCells:[CheckmarkCell] = []
-            
-            for cell in cells {
-                
-                if let checkmarkCell:CheckmarkCell = cell as? CheckmarkCell {
-                    checkmarkCells.append(checkmarkCell)
-                }
-            }
-            
-            if (checkmarkCells.count > 0){
-                return checkmarkCells
-            } else {
-                print("SETTINGS: Cell array contains no checkmark cells during _getCheckmarkCells")
-                return nil
-            }
-            
-        } else {
-            return nil
-        }
-        
-    }
-    
-    public func getButtonCell(indexPath: IndexPath) -> ButtonCell? {
-        
-        if let cell:ButtonCell = tableView.cellForRow(at: indexPath) as? ButtonCell {
-            
-            return cell
-            
-        } else {
-            print("SETTINGS: Error finding SetMultiTable SetButtonCell")
-            return nil
-        }
-        
-        
-    }
-    
-    public func getKey(fromCell: Cell) -> String? {
-        
-        if let cellData:CellData = fromCell.data {
-            
-            return cellData.key
-            
-        } else {
-            print("SETTINGS: Error accessing SetMultiTable data key")
-            return nil
-        }
-        
-    }
-    
-    public func getCell(fromKey:String) -> Cell? {
-        
-        for section:Int in 0..<tableView.numberOfSections {
-            
-            for row:Int in 0..<tableView.numberOfRows(inSection: section) {
-                
-                let indexPath:IndexPath = IndexPath(row: row, section: section)
-                
-                //if cell can be cast as SetCell object
-                if let cell:Cell = tableView.cellForRow(at: indexPath) as? Cell {
-                    
-                    //if data is valid
-                    if let data:CellData = cell.data {
-                        
-                        if (data.key == fromKey){
-                            return cell
-                        }
-                    }
-                }
-            }
-        }
-        
-        print("SETTINGS: Found no cell with key", fromKey, "during getCell")
-        return nil
-        
-    }
-    
-    fileprivate func _getIndexPath(fromCheckmarkCell:CheckmarkCell) -> IndexPath? {
-        
-        if let checkmarkCellData:CellData = _getData(fromCheckmarkCell: fromCheckmarkCell) {
-            
-            return checkmarkCellData.indexPath
-            
-        } else {
-            
-            print("SETTINGS: Error: Checkmark cell data not found during getIndexPath fromCheckmarkCell")
-            return nil
-            
-        }
-        
-    }
-    
-    fileprivate func _getData(fromCheckmarkCell:CheckmarkCell) -> CellData? {
-        
-        //if data is valid
-        if let data:CellData = fromCheckmarkCell.data {
-            return data
-        } else {
-            print("SETTINGS: Error getting data from checkmark cell")
-        }
-        
-        //else nil
-        return nil
-        
-    }
-
-    
-    //general toggle switch accessors
-    public func getToggleCellKey(fromSwitch:UISwitch) -> String?{
-        
-        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
-            
-            return toggleCellData.key
-            
-        } else {
-            
-            print("SETTINGS: SetMultiTable getToggleCellKey not found during user toggle")
-            return nil
-        }
-        
-    }
-    
-    internal func getIndexPath(fromSwitch:UISwitch) -> IndexPath? {
-        
-        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
-            
-            return toggleCellData.indexPath
-            
-        } else {
-            
-            print("SETTINGS: SetMultiTable getIndexPath not found during user toggle")
-            return nil
-            
-        }
-        
-    }
-    
-    fileprivate func getToggleCellData(fromSwitch:UISwitch) -> CellData? {
-        
-        //if toggle cell is valid
-        if let toggleCell:ToggleCell = fromSwitch.superview!.superview as? ToggleCell {
-            
-            //if data is valid
-            if let data:CellData = toggleCell.data {
-                return data
-            } else {
-                print("SETTINGS: SetMultiTable Toggle cell data could not be found during user toggle")
-            }
-            
-            
-        } else {
-            print("SETTINGS: SetMultiTable Toggle cell could not be found during user toggle")
-        }
-        
-        //else nil
-        return nil
-        
-    }
-
-    
-    
-    //MARK: - INTERNAL -
-    
-    //MARK: Footer
-    internal func buildFooters(){
-        
-        sectionFooterViews = []
-        
-        //assemble footer objects with data from data class
-        if (dataSource != nil){
-            
-            for i in 0 ..< dataSource!.sections.count {
-                
-                var setFooter:Footer?
-                let type:String = dataSource!.sections[i].footerType
-                let text:[String]? = dataSource!.sections[i].footerText
-                let link:String? = dataSource!.sections[i].footerLink
-                
-                if (type == XvSetConstants.FOOTER_TYPE_NORMAL){
-                    
-                    //if text is valid
-                    if (text != nil){
-                        
-                        //... create footer
-                        setFooter = Footer(withText: text![0])
-                        
-                        //and append to object's array
-                        sectionFooterViews!.append(setFooter)
-                        
-                    } else {
-                        print("SETTINGS: Error creating normal footer")
-                        sectionFooterViews!.append(nil)
-                    }
-                    
-                    
-                } else if (type == XvSetConstants.FOOTER_TYPE_LINK){
-                    
-                    //if all data is valid...
-                    if (text != nil && link != nil){
-                        
-                        //... create footer
-                        setFooter = Footer(
-                            preText: text![0],
-                            underlinedText: text![1],
-                            postText: text![2],
-                            link: link!)
-                        
-                        //enable interaction
-                        setFooter!.isUserInteractionEnabled = true
-                        
-                        //set tap recognizer
-                        let setFooterTap = UITapGestureRecognizer(
-                            target: self,
-                            action: #selector(footerWithLinkWasTapped)
-                        )
-                        
-                        setFooter!.addGestureRecognizer(setFooterTap)
-                        
-                        //and append to object's array
-                        sectionFooterViews!.append(setFooter)
-                        
-                    } else {
-                        print("SETTINGS: Error creating link footer")
-                        sectionFooterViews!.append(nil)
-                    }
-                    
-                } else {
-                    
-                    //else put in nil
-                    sectionFooterViews!.append(nil)
-                }
-                
-            }
-            
-        } else {
-            print("SETTINGS: Error connecting to data source for SetMultiTable buildFooters")
-        }
-
-    }
-    
-    //user taps link is settings footer
-    internal func footerWithLinkWasTapped(sender:UITapGestureRecognizer){
-        
-        if let footer:Footer = sender.view as? Footer {
-            
-            if (debug){
-                print("SETTINGS: Launch", footer.url)
-            }
-            
-            let url = URL(string: footer.url)!
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-            
-        }
-    }
-    
-    //MARK: Checkmark
     //overridden in checkmark table class
     internal func _checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
         
@@ -985,7 +686,7 @@ public class TableVC: UITableViewController {
                     //turn this cell on in view and data
                     cell.accessoryType = .checkmark
                     checkmarkCellData.selected = true
-                
+                    
                 } else {
                     
                     //else if currently checked...
@@ -1000,7 +701,7 @@ public class TableVC: UITableViewController {
             } else {
                 
                 //if not a multi cell...
-            
+                
                 //uncheck all others
                 _turnOffCheckmarks(inSection: indexPath.section)
                 
@@ -1015,19 +716,27 @@ public class TableVC: UITableViewController {
                 key: checkmarkCellData.key,
                 multi: checkmarkCellData.multi)
             
+            if (checkmarkCellData.key == XvSetConstants.kAppMidiSync) {
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppMidiSyncChanged,
+                    userInfo: nil
+                )
+                
+            } else if (checkmarkCellData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiSourcesChanged,
+                    userInfo: nil
+                )
+                
+            }
+            
         } else {
             print("SETTINGS: Checkmark cell data is invalid")
         }
         
     }
-
-    
-    
-    
-    //MARK: - PRIVATE -
-    //MARK: Checkmark
-    
-    
     
     fileprivate func _turnOffCheckmarks(inSection:Int){
         
@@ -1068,7 +777,7 @@ public class TableVC: UITableViewController {
             print("SETTINGS: Error connecting to data source for SetMain during _hideAllCells.")
         }
     }
-
+    
     
     
     // show / hide sections that rely on specifc checkmark cells being selected
@@ -1211,7 +920,7 @@ public class TableVC: UITableViewController {
         if (indexOfValueInArray == -1){
             
             existingValueArray.append(value)
-
+            
         } else {
             
             existingValueArray.remove(at: indexOfValueInArray)
@@ -1221,11 +930,133 @@ public class TableVC: UITableViewController {
         return existingValueArray
         
     }
+    
+    //MARK: - DISCLOSURE CELL
+    
+    //override by app settings classes, which check for app specific keys and execute app specific commands
+    internal func disclosureRowSelected(cell:DisclosureCell, key:String){
+        
+    }
+    
+    
+    //MARK: - FOOTER
+    //user taps link is settings footer
+    internal func footerWithLinkWasTapped(sender:UITapGestureRecognizer){
+        
+        if let footer:Footer = sender.view as? Footer {
+            
+            if (debug){
+                print("SETTINGS: Launch", footer.url)
+            }
+            
+            let url = URL(string: footer.url)!
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+            
+        }
+    }
 
     
+    //MARK: - SLIDER
     
+    //update the text label when the slider is being dragged
+    internal func sliderChanged(_ sender:UISlider) {
+        
+        if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
+            
+            let _:Any? = sliderCell.set(withSliderValue: sender.value)
+            
+        } else {
+            
+            print("SETTINGS: Error getting sliderCell during sliderChanged")
+        }
+        
+    }
     
-    //MARK: Toggle
+    //save the slider value when the user has released it
+    internal func sliderEnded(_ sender:UISlider) {
+        
+        if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
+            
+            if let sliderCellData:SliderCellData = sliderCell.data as? SliderCellData {
+                
+                if let newValue:Any = sliderCell.set(withSliderValue: sender.value) {
+                    
+                    _setCoreData(
+                        level: sliderCellData.levelType,
+                        value: newValue,
+                        key: sliderCellData.key,
+                        multi: false)
+                    
+                    //if there is a linked cell...
+                    if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
+                        
+                        //save its data too
+                        _setCoreData(
+                            level: linkedSliderCellData.levelType,
+                            value: linkedSliderCellData.value,
+                            key: linkedSliderCellData.key,
+                            multi: false)
+                        
+                    }
+                    
+                    if (sliderCellData.key == XvSetConstants.kAppTempo){
+                        
+                        Utils.postNotification(
+                            name: XvSetConstants.kAppTempoChanged,
+                            userInfo: nil
+                        )
+                    }
+                }
+                
+            } else {
+                
+                print("SETTINGS: Error getting sliderCellData during sliderChanged")
+            }
+            
+        } else {
+            
+            print("SETTINGS: Error getting sliderCell during sliderChanged")
+        }
+    }
+
+
+    
+
+
+    //MARK: - TOGGLE SWITCH
+
+    internal func toggleSwitchChanged(_ sender:UISwitch) {
+        
+        _updateValues(fromSwitch: sender)
+        _refreshTableDisplay(fromSwitch: sender)
+        
+        //is data valid?
+        if (dataSource != nil){
+            
+            if let key:String = getToggleCellKey(fromSwitch: sender) {
+                
+                toggleSelected(isOn: sender.isOn, key: key)
+                
+            } else {
+                print("SETTINGS: Error getting toggle cell key SetMain toggleSwitchChanged")
+            }
+            
+        } else {
+            
+            print("SETTINGS: Error connecting to data source for SetMain toggleSwitchChanged")
+            
+        }
+        
+    }
+    
+    //override in app 
+    internal func toggleSelected(isOn:Bool, key:String){
+        
+    }
     
     //update toggle cell's default value and the correspond user default
     fileprivate func _updateValues(fromSwitch:UISwitch){
@@ -1241,6 +1072,7 @@ public class TableVC: UITableViewController {
                 value: fromSwitch.isOn,
                 key: toggleCellData.key,
                 multi: false)
+            
             
         } else {
             
@@ -1267,6 +1099,304 @@ public class TableVC: UITableViewController {
             print("SETTINGS: Error connecting to data source for SetMain during user toggle.")
         }
     }
+
+    
+    //MARK: - VC MANAGEMENT -
+    
+    //called internally and by settings helper
+    public func push(viewController:UIViewController) {
+        if (getNav() != nil){
+            getNav()!.pushViewController(viewController, animated: true)
+        } else {
+            print("SETTINGS: Nav is nil during VC push")
+        }
+    }
+    
+    internal func loadCheckmarkTable(fromCell:DisclosureCell) {
+        
+        let vc:CheckmarkTableVC = CheckmarkTableVC()
+        vc.load(withParentDisclosureCell: fromCell)
+        push(viewController: vc)
+        
+    }
+    
+    internal func loadKitTable(fromDataObj: NSManagedObject) {
+        
+        if let _nav:UINavigationController = getNav() {
+            
+            let kitTableData:KitTableData = KitTableData(kitDataObj: fromDataObj)
+            let vc:KitTableVC = KitTableVC()
+            vc.load(withDataSource: kitTableData)
+            vc.setNav(nav: _nav)
+            push(viewController: vc)
+            
+        } else {
+            
+            print("SETTINGS: Nav is nil during loadKitTable. Blocking push")
+        }
+    }
+    
+    internal func loadInstrumentTable(fromDataObj: NSManagedObject) {
+        
+        if let _nav:UINavigationController = getNav() {
+            
+            let instrTableData:InstrumentTableData = InstrumentTableData(instrumentDataObj: fromDataObj)
+            let vc:InstrumentTableVC = InstrumentTableVC()
+            vc.load(withDataSource: instrTableData)
+            vc.setNav(nav: _nav)
+            push(viewController: vc)
+            
+        } else {
+            
+            print("SETTINGS: Nav is nil during loadInstrumentTable. Blocking push")
+        }
+        
+    }
+
+    
+    
+    //MARK:- ACCESSORS -
+    
+    
+    internal func getDisplayType(dataSource:TableData, indexPath:IndexPath) -> String {
+        
+        return dataSource.sections[indexPath.section].cells[indexPath.row].displayType
+    }
+    
+    fileprivate func _getCells(inSection:Int) -> [UITableViewCell]? {
+        
+        var cells:[UITableViewCell] = []
+        for row in 0..<tableView.numberOfRows(inSection: inSection) {
+            
+            let newIndexPath:IndexPath = IndexPath(row: row, section: inSection)
+            if let cell:UITableViewCell = tableView.cellForRow(at: newIndexPath){
+                cells.append(cell)
+            }
+            
+        }
+        
+        if (cells.count > 0){
+            return cells
+        } else {
+            print("SETTINGS: No cells in section during _getCells")
+            return nil
+        }
+        
+    }
+
+    
+    
+    
+    
+    public func getKey(fromCell: Cell) -> String? {
+        
+        if let cellData:CellData = fromCell.data {
+            
+            return cellData.key
+            
+        } else {
+            print("SETTINGS: Error accessing SetMultiTable data key")
+            return nil
+        }
+        
+    }
+    
+    public func getCell(fromKey:String) -> Cell? {
+        
+        for section:Int in 0..<tableView.numberOfSections {
+            
+            for row:Int in 0..<tableView.numberOfRows(inSection: section) {
+                
+                let indexPath:IndexPath = IndexPath(row: row, section: section)
+                
+                //if cell can be cast as SetCell object
+                if let cell:Cell = tableView.cellForRow(at: indexPath) as? Cell {
+                    
+                    //if data is valid
+                    if let data:CellData = cell.data {
+                        
+                        if (data.key == fromKey){
+                            return cell
+                        }
+                    }
+                }
+            }
+        }
+        
+        print("SETTINGS: Found no cell with key", fromKey, "during getCell")
+        return nil
+        
+    }
+    
+    //MARK: - BUTTON CELL
+    public func getButtonCell(indexPath: IndexPath) -> ButtonCell? {
+        
+        if let cell:ButtonCell = tableView.cellForRow(at: indexPath) as? ButtonCell {
+            
+            return cell
+            
+        } else {
+            print("SETTINGS: Error finding SetMultiTable SetButtonCell")
+            return nil
+        }
+        
+        
+    }
+    
+    
+    //MARK: - CHECKMARK CELLS
+    
+    internal func getCheckmarkCell(indexPath: IndexPath) -> CheckmarkCell? {
+        
+        if let cell:CheckmarkCell = tableView.cellForRow(at: indexPath) as? CheckmarkCell {
+            
+            return cell
+            
+        } else {
+            print("SETTINGS: Error finding SetMultiTable SetCheckmarkCell")
+            return nil
+        }
+        
+        
+    }
+    
+    fileprivate func _getCheckmarkCells(inSection:Int) -> [CheckmarkCell]? {
+        
+        if let cells:[UITableViewCell] = _getCells(inSection: inSection) {
+            
+            var checkmarkCells:[CheckmarkCell] = []
+            
+            for cell in cells {
+                
+                if let checkmarkCell:CheckmarkCell = cell as? CheckmarkCell {
+                    checkmarkCells.append(checkmarkCell)
+                }
+            }
+            
+            if (checkmarkCells.count > 0){
+                return checkmarkCells
+            } else {
+                print("SETTINGS: Cell array contains no checkmark cells during _getCheckmarkCells")
+                return nil
+            }
+            
+        } else {
+            return nil
+        }
+        
+    }
+
+    
+    fileprivate func _getIndexPath(fromCheckmarkCell:CheckmarkCell) -> IndexPath? {
+        
+        if let checkmarkCellData:CellData = _getData(fromCheckmarkCell: fromCheckmarkCell) {
+            
+            return checkmarkCellData.indexPath
+            
+        } else {
+            
+            print("SETTINGS: Error: Checkmark cell data not found during getIndexPath fromCheckmarkCell")
+            return nil
+            
+        }
+        
+    }
+    
+    fileprivate func _getData(fromCheckmarkCell:CheckmarkCell) -> CellData? {
+        
+        //if data is valid
+        if let data:CellData = fromCheckmarkCell.data {
+            return data
+        } else {
+            print("SETTINGS: Error getting data from checkmark cell")
+        }
+        
+        //else nil
+        return nil
+        
+    }
+    
+    //MARK: - DISCLOSURE CELL
+    internal func getDisclosureCell(indexPath: IndexPath) -> DisclosureCell? {
+        
+        if let cell:DisclosureCell = tableView.cellForRow(at: indexPath) as? DisclosureCell {
+            
+            return cell
+            
+        } else {
+            print("SETTINGS: Error finding SetMultiTable SetDisclosureCell")
+            return nil
+        }
+        
+    }
+    
+    //MARK: - NAV
+    public func setNav(nav: UINavigationController) {
+        self.nav = nav
+    }
+    
+    internal func getNav() -> UINavigationController? {
+        return nav
+    }
+
+    
+    //MARK: - TOGGLE CELLS
+    //general toggle switch accessors
+    public func getToggleCellKey(fromSwitch:UISwitch) -> String?{
+        
+        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
+            
+            return toggleCellData.key
+            
+        } else {
+            
+            print("SETTINGS: SetMultiTable getToggleCellKey not found during user toggle")
+            return nil
+        }
+        
+    }
+    
+    internal func getIndexPath(fromSwitch:UISwitch) -> IndexPath? {
+        
+        if let toggleCellData:CellData = getToggleCellData(fromSwitch: fromSwitch) {
+            
+            return toggleCellData.indexPath
+            
+        } else {
+            
+            print("SETTINGS: SetMultiTable getIndexPath not found during user toggle")
+            return nil
+            
+        }
+        
+    }
+    
+    fileprivate func getToggleCellData(fromSwitch:UISwitch) -> CellData? {
+        
+        //if toggle cell is valid
+        if let toggleCell:ToggleCell = fromSwitch.superview!.superview as? ToggleCell {
+            
+            //if data is valid
+            if let data:CellData = toggleCell.data {
+                return data
+            } else {
+                print("SETTINGS: SetMultiTable Toggle cell data could not be found during user toggle")
+            }
+            
+            
+        } else {
+            print("SETTINGS: SetMultiTable Toggle cell could not be found during user toggle")
+        }
+        
+        //else nil
+        return nil
+        
+    }
+    
+    
+ 
+    //MARK: - VISIBILITY TARGETS -
+    
     
     fileprivate func _updateVisibilityTargets(indexPath:IndexPath, isOn:Bool){
     
@@ -1322,10 +1452,10 @@ public class TableVC: UITableViewController {
     }
     
     
-    //MARK: - Core Data
-    
-    
 
+    
+    //MARK: - CORE DATA -
+    
     fileprivate func _setCoreData(level:String, value:Any, key:String, multi:Bool){
         
         if (debug){

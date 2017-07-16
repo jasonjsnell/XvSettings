@@ -8,22 +8,29 @@
 
 import Foundation
 
-class CheckmarkTableData:TableData {
+public class CheckmarkTableData:TableData {
     
     //key of the default this table is updating
-    fileprivate var key:String
+    //accessed during table view will appear to check for midi dest / source tables
+    internal var key:String
     
     //Does checkmark selection update a String, Int, etc...?
     fileprivate var dataType:String
     
     //all the values and the currently selected value in the table
-    fileprivate var defaultValue:Any // current value
-    fileprivate var possibleValues:[Any] // all the possible values
+    internal var defaultValue:Any // current value
+    internal var possibleValues:[Any] // all the possible values
     
     //labels
     fileprivate var textLabel:String //left-side text label
     fileprivate var detailTextLabel:String // curr right-side text label
-    fileprivate var detailTextLabels:[String] //all the possible right-side text labels / name of checkmark cells in table
+    internal var detailTextLabels:[String] //all the possible right-side text labels / name of checkmark cells in table
+    
+    //level type: app, kit, or instrument
+    fileprivate var levelType:String
+    
+    //visibility
+    fileprivate var isVisible:Bool
     
     fileprivate var cellDataArray:[CheckmarkCellData]
     
@@ -47,7 +54,22 @@ class CheckmarkTableData:TableData {
         self.textLabel = textLabel
         self.detailTextLabel = ""
         self.detailTextLabels = detailTextLabels
+        self.levelType = levelType
+        self.isVisible = isVisible
         self.cellDataArray = []
+        
+        super.init()
+        
+        initCellDataArray()
+    }
+    
+    //called locally and from midi instance tables during reloads with updated midi info
+    public func initCellDataArray(){
+        
+        print("initCellDataArray")
+        
+        //clear out array 
+        cellDataArray = []
         
         var multi:Bool = false
         var defaultValues:[Any] = []
@@ -61,6 +83,7 @@ class CheckmarkTableData:TableData {
         }
         
         //calculate detail text label during load
+        
         for i in 0..<possibleValues.count {
             
             var isSelected:Bool = false
@@ -99,6 +122,7 @@ class CheckmarkTableData:TableData {
             cellDataArray.append(cellData)
             
         }
+        
     }
 
     //MARK: - ACCESSORS
@@ -125,6 +149,8 @@ class CheckmarkTableData:TableData {
     public func getCellDataArray() -> [CheckmarkCellData] {
         return cellDataArray
     }
+    
+    
     
     
 }

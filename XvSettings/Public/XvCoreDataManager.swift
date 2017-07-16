@@ -513,7 +513,9 @@ open class XvCoreDataManager {
     public func setApp(value:Any, forKey:String) {
         
         if let _app:NSManagedObject = getApp(){
+            
             set(value: value, forKey: forKey, forObject: _app)
+            
         } else {
             print("CDM: Unable to get app object during setAppValue")
         }
@@ -543,7 +545,7 @@ open class XvCoreDataManager {
     public func set(value:Any, forKey:String, forObject:NSManagedObject) {
         
         forObject.setValue(value, forKeyPath: forKey)
-        
+        //TODO: how to post this up to helper for instant app updates...?
         if (debug){
             if let objectID:String = getString(forKey: "id", forObject: forObject) {
                 print("CDM: Set", forKey, "to", value, "for", objectID)

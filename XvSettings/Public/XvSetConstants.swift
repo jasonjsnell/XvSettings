@@ -5,23 +5,46 @@
 //
 // used by defaults manager and settings
 
+/*
+ There are active and passive vars
+ Passive vars are settings inside of core data that are not stored outside of core data. They are referrred to direct in core data when needed, like bgMode.
+ Active vars also live outside of core data and need to be pushed to other parts of the app when updated, like into an instrument class, or need to change something instantly, like changing the song tempo when changing the tempo slider. These require post notifcations to do an update outside the framework
+ 
+*/
+
 import Foundation
 
 public class XvSetConstants {
+    
+    //MARK: - Notifications -
+    public static let kAppTempoChanged:String = "kAppTempoChanged"
+    public static let kAppMidiSyncChanged:String = "kAppMidiSyncChanged"
+    public static let kAppGlobalMidiSourcesRequest:String = "kAppGlobalMidiSourcesRequest"
+    public static let kAppGlobalMidiSourcesChanged:String = "kAppGlobalMidiSourcesChanged"
+    public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
+    public static let kKitResetAIButtonTapped:String = "kKitResetAIButtonTapped"
+    public static let kKitRestoreFactorySettingsButtonTapped:String = "kKitRestoreFactorySettingsButtonTapped"
+    public static let kKitRearrangeButtonTapped:String = "kKitRearrangeButtonTapped"
+    
     
     //MARK: - Core data keys -
     
     //MARK: App
     public static let kAppEntity:String = "App"
-    public static let kAppBackgroundModeEnabled:String = "backgroundModeEnabled"
-    public static let kAppTempo:String = "userTempo"
-    public static let kAppAbletonLinkEnabled:String = "abletonLinkEnabled"
+    
+    public static let kAppBackgroundModeEnabled:String = "backgroundModeEnabled" // passive
+    public static let kAppAbletonLinkEnabled:String = "abletonLinkEnabled" // passive
+    public static let kAppTempo:String = "userTempo" //updates sequencer and ABL Link
+
+    
     
     //MARK: App: MIDI
-    public static let kAppMidiSync:String = "midiSync"
-    public static let kAppGlobalMidiDestinations:String = "globalMidiDestinations"
-    public static let kAppGlobalMidiSources:String = "globalMidiSources"
-   
+    public static let kAppGlobalMidiDestinations:String = "globalMidiDestinations" // passive
+    public static let kAppGlobalMidiSources:String = "globalMidiSources" // updates MIDI system w/new sources
+    
+    public static let kAppMidiSync:String = "midiSync" //updates sequencer and ABL Link
+    
+    //MIDI sync values
     public static let MIDI_CLOCK_RECEIVE:String = "midiClockReceive"
     public static let MIDI_CLOCK_SEND:String = "midiClockSend"
     public static let MIDI_CLOCK_NONE:String = "midiClockNone"
@@ -111,16 +134,11 @@ public class XvSetConstants {
     public static let kInstrumentVolume:String = "volume"
     
     public static let MIDI_DESTINATION_GLOBAL:String = "Global"
-    public static let MIDI_DESTINATION_DEFAULT:String = "Default"
+    public static let MIDI_DESTINATION_OMNI:String = "Omni"
     public static let MIDI_SOURCE_GLOBAL:String = "Global"
-    public static let MIDI_SOURCE_DEFAULT:String = "Default"
+    public static let MIDI_SOURCE_OMNI:String = "Omni"
 
-    
-    //MARK: - Notifications -
-    public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
-    public static let kKitResetAIButtonTapped:String = "kKitResetAIButtonTapped"
-    public static let kKitRestoreFactorySettingsButtonTapped:String = "kKitRestoreFactorySettingsButtonTapped"
-    public static let kKitRearrangeButtonTapped:String = "kKitRearrangeButtonTapped"
+
     
     //MARK: - Panel size -
     public static let PANEL_WIDTH:CGFloat = 300
