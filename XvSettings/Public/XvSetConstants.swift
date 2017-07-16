@@ -18,9 +18,13 @@ public class XvSetConstants {
     
     //MARK: - Notifications -
     public static let kAppTempoChanged:String = "kAppTempoChanged"
+    
     public static let kAppMidiSyncChanged:String = "kAppMidiSyncChanged"
     public static let kAppGlobalMidiSourcesRequest:String = "kAppGlobalMidiSourcesRequest"
     public static let kAppGlobalMidiSourcesChanged:String = "kAppGlobalMidiSourcesChanged"
+    public static let kAppGlobalMidiDestinationsRequest:String = "kAppGlobalMidiDestinationsRequest"
+    
+    
     public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
     public static let kKitResetAIButtonTapped:String = "kKitResetAIButtonTapped"
     public static let kKitRestoreFactorySettingsButtonTapped:String = "kKitRestoreFactorySettingsButtonTapped"

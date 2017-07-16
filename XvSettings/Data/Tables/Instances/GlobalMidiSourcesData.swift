@@ -60,7 +60,7 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
             
         } else {
             
-            print("SETTINGS: Error: Unable to get value from instr data obj in XvGlobalMidiSourcesData")
+            print("SETTINGS: Error: Unable to get value from instr data obj in GlobalMidiSourcesData")
             
         }
     }

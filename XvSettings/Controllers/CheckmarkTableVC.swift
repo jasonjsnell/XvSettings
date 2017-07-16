@@ -15,7 +15,6 @@ public class CheckmarkTableVC:TableVC {
     //parent cell that launched this table
     var parentDisclosureCell:DisclosureCell?
     
-    
     //MARK: - BUILD
     
     override public func viewDidLoad() {
@@ -34,6 +33,12 @@ public class CheckmarkTableVC:TableVC {
                 
                 Utils.postNotification(
                     name: XvSetConstants.kAppGlobalMidiSourcesRequest,
+                    userInfo: ["checkmarkTableVC" : self])
+            
+            } else if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiDestinationsRequest,
                     userInfo: ["checkmarkTableVC" : self])
             }
         }
@@ -81,14 +86,29 @@ public class CheckmarkTableVC:TableVC {
                     // reload this table vc with new data
                     load(withDataSource: globalMidiSourcesData)
                     
-                    //reload data on tableview
-                    tableView.reloadData()
+                } else {
+                    
+                    print("SETTINGS: Unable to cast checkmark table data as GlobalMidiSourcesData during reloadTableAfterMidiUpdate")
+                }
+                
+            } else if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations){
+                
+                if let globalMidiDestinationsData:GlobalMidiDestinationsData = checkmarkTableData as? GlobalMidiDestinationsData {
+                    
+                    //refresh table data
+                    globalMidiDestinationsData.refresh()
+                    
+                    // reload this table vc with new data
+                    load(withDataSource: globalMidiDestinationsData)
                     
                 } else {
                     
                     print("SETTINGS: Unable to cast checkmark table data as GlobalMidiSourcesData during reloadTableAfterMidiUpdate")
                 }
             }
+            
+            //reload data on tableview
+            tableView.reloadData()
             
         } else {
             
@@ -108,7 +128,8 @@ public class CheckmarkTableVC:TableVC {
         //only add refresh controls on midi checkmark tables
         if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
             
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources ||
+                checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations){
                 
                 // set up the refresh control
                 let refreshControl:UIRefreshControl = UIRefreshControl()
@@ -120,7 +141,9 @@ public class CheckmarkTableVC:TableVC {
     
     internal func refresh(_ sender:AnyObject) {
        
-        print("refresh")
+        if (debug){
+            print("SETTINGS: Refresh table")
+        }
         
         if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
             
@@ -128,6 +151,12 @@ public class CheckmarkTableVC:TableVC {
                 
                 Utils.postNotification(
                     name: XvSetConstants.kAppGlobalMidiSourcesRequest,
+                    userInfo: ["checkmarkTableVC" : self])
+            
+            } else if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiDestinationsRequest,
                     userInfo: ["checkmarkTableVC" : self])
             }
         }

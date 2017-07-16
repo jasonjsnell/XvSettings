@@ -66,8 +66,6 @@ public class CheckmarkTableData:TableData {
     //called locally and from midi instance tables during reloads with updated midi info
     public func initCellDataArray(){
         
-        print("initCellDataArray")
-        
         //clear out array 
         cellDataArray = []
         

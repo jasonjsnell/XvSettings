@@ -545,10 +545,13 @@ open class XvCoreDataManager {
     public func set(value:Any, forKey:String, forObject:NSManagedObject) {
         
         forObject.setValue(value, forKeyPath: forKey)
-        //TODO: how to post this up to helper for instant app updates...?
+        
         if (debug){
             if let objectID:String = getString(forKey: "id", forObject: forObject) {
-                print("CDM: Set", forKey, "to", value, "for", objectID)
+                
+                if (forKey != XvSetConstants.kInstrumentLifetimeKeyTallies){
+                    print("CDM: Set", forKey, "to", value, "for", objectID)
+                }
             }
         }
     }
