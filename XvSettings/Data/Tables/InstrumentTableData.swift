@@ -298,8 +298,7 @@ public class InstrumentTableData:TableData {
         //MARK: MIDI Receive
         //make sure core data is valid
         if let midiReceiveEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kInstrumentMidiReceiveEnabled, forObject: instrumentDataObj),
-            let midiReceiveChannelData:MidiReceiveChannelData = MidiReceiveChannelData(withInstrDataObj: instrumentDataObj),
-            let midiSourcesData:InstrumentMidiSourcesData = InstrumentMidiSourcesData(withInstrDataObj: instrumentDataObj)
+            let midiReceiveChannelData:MidiReceiveChannelData = MidiReceiveChannelData(withInstrDataObj: instrumentDataObj)
         {
             
             let midiReceiveEnabled:ToggleCellData = ToggleCellData(
@@ -310,15 +309,10 @@ public class InstrumentTableData:TableData {
                 isVisible: true
             )
             
-            midiReceiveEnabled.visibilityTargets = [[sections.count,1,2]]
+            midiReceiveEnabled.visibilityTargets = [[sections.count,1]]
             
             let midiReceiveChannel:DisclosureCellData = DisclosureCellData(
                 withCheckmarkTableDataSource: midiReceiveChannelData,
-                isVisible: midiReceiveEnabledBool
-            )
-            
-            let midiSources:DisclosureCellData = DisclosureCellData(
-                withCheckmarkTableDataSource: midiSourcesData,
                 isVisible: midiReceiveEnabledBool
             )
             
@@ -328,7 +322,7 @@ public class InstrumentTableData:TableData {
                 footerText: nil,
                 footerLink: nil,
                 footerHeight: 10,
-                cells: [midiReceiveEnabled, midiReceiveChannel, midiSources],
+                cells: [midiReceiveEnabled, midiReceiveChannel],
                 isVisible: true
             )
             

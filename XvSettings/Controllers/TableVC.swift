@@ -56,71 +56,16 @@ public class TableVC: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        //refresh
-        buildRefreshControl()
-        
         //build footers
         buildFooters()
         
     }
     
-    
-    
-    
-    
     override public func viewWillAppear(_ animated: Bool) {
-        
-        //TODO: move all this checkmark table code to checkmark table
-        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
-            
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiSourcesRequest,
-                    userInfo: ["tableVC" : self])
-            }
-        }
         
         super.viewWillAppear(animated)
     }
     
-    override public func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print("view did appear")
-        
-        tableView.reloadData()
-    }
-    
-    public func reloadTableAfterMidiUpdate(){
-        
-        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
-            
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
-                
-                if let globalMidiSourcesData:GlobalMidiSourcesData = checkmarkTableData as? GlobalMidiSourcesData {
-                    
-                    //refresh table data
-                    globalMidiSourcesData.refresh()
-                    
-                    // reload this table vc with new data
-                    load(withDataSource: globalMidiSourcesData)
-                    
-                    //reload data on tableview
-                    tableView.reloadData()
-                
-                } else {
-                    
-                    print("SETTINGS: Unable to cast checkmark table data as GlobalMidiSourcesData during reloadTableAfterMidiUpdate")
-                }
-            }
-            
-        } else {
-            
-            print("SETTINGS: Unable to cast table data as checkmark table data during reloadTableAfterMidiUpdate")
-        }
-        
-    }
     
     //MARK: - SECTIONS
     // number of section(s)
@@ -190,8 +135,6 @@ public class TableVC: UITableViewController {
     
     //MARK: Main build
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        print("cell for row at")
         
         func setVisibility(cell:Cell, cellData:CellData){
             if (!cellData.isVisible){
@@ -490,46 +433,6 @@ public class TableVC: UITableViewController {
         }
         
     }
-    
-    //MARK: - REFRESH CONTROL
-
-    fileprivate func buildRefreshControl(){
-        
-        //only add refresh controls on midi checkmark tables
-        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
-            
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
-                
-                // set up the refresh control
-                let refreshControl:UIRefreshControl = UIRefreshControl()
-                refreshControl.attributedTitle = NSAttributedString(string: "Loading " + Labels.MIDI_SOURCE_HEADER)
-                refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
-                tableView.addSubview(refreshControl)
-                
-            }
-            
-        }
-        
-        
-    }
-    
-    internal func refresh(_ sender:AnyObject) {
-        print("refresh")
-        
-        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
-            
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiSourcesRequest,
-                    userInfo: ["tableVC" : self])
-            }
-        }
-        
-        if let refreshControl:UIRefreshControl = sender as? UIRefreshControl {
-            refreshControl.endRefreshing()
-        }
-    }
 
 
     //MARK: - USER INPUT -
@@ -547,11 +450,9 @@ public class TableVC: UITableViewController {
             if (cellData.displayType == XvSetConstants.DISPLAY_TYPE_SWITCH){
                 return nil
             }
-            
         }
         
         return indexPath
-        
     }
 
     
@@ -1183,10 +1084,6 @@ public class TableVC: UITableViewController {
         }
         
     }
-
-    
-    
-    
     
     public func getKey(fromCell: Cell) -> String? {
         

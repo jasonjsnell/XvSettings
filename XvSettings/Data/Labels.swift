@@ -29,10 +29,8 @@ public class Labels {
     
     public static let MIDI_RECEIVE_HEADER:String = "MIDI Ins"
     public static let MIDI_RECEIVE_LABEL:String = "Channel"
-    public static let MIDI_SOURCE_HEADER:String = "MIDI Sources"
-    public static let MIDI_GLOBAL_SOURCE_HEADER:String = "Global MIDI Sources"
-    public static let MIDI_SOURCE_LABEL:String = "Sources"
-    public static let MIDI_GLOBAL_SOURCE_LABEL:String = "MIDI sources"
+    public static let MIDI_SOURCE_HEADER:String = "Global MIDI Sources"
+    public static let MIDI_SOURCE_LABEL:String = "MIDI sources"
     
     
     //MARK: - App: Tempo

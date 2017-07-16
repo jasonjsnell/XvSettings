@@ -10,10 +10,36 @@ import UIKit
 
 //check mark tables are launched with a parent disclosure cell, rather than a data class. The data for the class is inside the incoming cell
 
-public class CheckmarkTableVC: TableVC {
+public class CheckmarkTableVC:TableVC {
 
     //parent cell that launched this table
     var parentDisclosureCell:DisclosureCell?
+    
+    
+    //MARK: - BUILD
+    
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //refresh control
+        buildRefreshControl()
+        
+    }
+    
+    override public func viewWillAppear(_ animated: Bool) {
+        
+        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
+            
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiSourcesRequest,
+                    userInfo: ["checkmarkTableVC" : self])
+            }
+        }
+        
+        super.viewWillAppear(animated)
+    }
     
     internal func load(withParentDisclosureCell:DisclosureCell){
         
@@ -39,6 +65,80 @@ public class CheckmarkTableVC: TableVC {
             print("SETTINGS: Parent disclosure cell's data is invalid during load")
         }
     }
+    
+    
+    public func reloadTableAfterMidiUpdate(){
+        
+        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
+            
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                if let globalMidiSourcesData:GlobalMidiSourcesData = checkmarkTableData as? GlobalMidiSourcesData {
+                    
+                    //refresh table data
+                    globalMidiSourcesData.refresh()
+                    
+                    // reload this table vc with new data
+                    load(withDataSource: globalMidiSourcesData)
+                    
+                    //reload data on tableview
+                    tableView.reloadData()
+                    
+                } else {
+                    
+                    print("SETTINGS: Unable to cast checkmark table data as GlobalMidiSourcesData during reloadTableAfterMidiUpdate")
+                }
+            }
+            
+        } else {
+            
+            print("SETTINGS: Unable to cast table data as checkmark table data during reloadTableAfterMidiUpdate")
+        }
+        
+    }
+
+    
+    
+    
+    
+    //MARK: - REFRESH CONTROL
+    
+    fileprivate func buildRefreshControl(){
+        
+        //only add refresh controls on midi checkmark tables
+        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
+            
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                // set up the refresh control
+                let refreshControl:UIRefreshControl = UIRefreshControl()
+                refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+                tableView.addSubview(refreshControl)
+            }
+        }
+    }
+    
+    internal func refresh(_ sender:AnyObject) {
+       
+        print("refresh")
+        
+        if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
+            
+            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiSourcesRequest,
+                    userInfo: ["checkmarkTableVC" : self])
+            }
+        }
+        
+        if let refreshControl:UIRefreshControl = sender as? UIRefreshControl {
+            refreshControl.endRefreshing()
+        }
+    }
+    
+    
+    //MARK: - USER INPUT
     
     //when the local checkmark func is executed, update the parent cells detailTextLabel on non-multi tables
     override internal func _checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {

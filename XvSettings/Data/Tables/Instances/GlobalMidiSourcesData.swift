@@ -15,6 +15,8 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
+    fileprivate let footerText:[String] = ["Pull to refresh MIDI sources."]
+    
     public init?(){
         
         let key:String = XvSetConstants.kAppGlobalMidiSources
@@ -25,23 +27,13 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
             dataType: XvSetConstants.DATA_TYPE_ARRAY,
             defaultValue: [],
             possibleValues: [],
-            textLabel: Labels.MIDI_GLOBAL_SOURCE_LABEL,
+            textLabel: Labels.MIDI_SOURCE_LABEL,
             detailTextLabels: [],
             levelType: XvSetConstants.LEVEL_TYPE_APP,
             isVisible: true
         )
-        
-        let section:SectionData = SectionData(
-            header: Labels.MIDI_GLOBAL_DESTINATION_HEADER,
-            footerType: XvSetConstants.FOOTER_TYPE_NONE,
-            footerText: nil,
-            footerLink: nil,
-            footerHeight: 50,
-            cells: getCellDataArray(),
-            isVisible: true
-        )
-        
-        sections.append(section)
+    
+        sections.append(_getSection())
     }
     
     public func refresh() {
@@ -62,26 +54,29 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
             
             //re-init the data array
             initCellDataArray()
-          
-            //create a section with the new cell data array
-            let section:SectionData = SectionData(
-                header: Labels.MIDI_GLOBAL_SOURCE_HEADER,
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 50,
-                cells: getCellDataArray(),
-                isVisible: true
-            )
             
             //append
-            sections.append(section)
+            sections.append(_getSection())
             
         } else {
             
             print("SETTINGS: Error: Unable to get value from instr data obj in XvGlobalMidiSourcesData")
             
         }
+    }
+    
+    fileprivate func _getSection() -> SectionData{
+        
+        //create a section with the new cell data array
+        return SectionData(
+            header: Labels.MIDI_SOURCE_HEADER,
+            footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+            footerText: footerText,
+            footerLink: nil,
+            footerHeight: 50,
+            cells: getCellDataArray(),
+            isVisible: true
+        )
     }
 }
 
