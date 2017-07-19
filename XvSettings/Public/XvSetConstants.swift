@@ -123,24 +123,26 @@ public class XvSetConstants {
     //MARK: - Instrument -
     
     public static let kInstrumentEntity:String = "Instrument"
+    
     public static let kInstrumentID:String = "id"
     public static let kInstrumentName:String = "name"
     
+    //set by kit data object
+    public static let kInstrumentKit:String = "kit"
+    
     //all update XvInstrument object with same id as core data object
     public static let kInstrumentAudioEnabled:String = "audioEnabled"
-    public static let kInstrumentKit:String = "kit"
-    public static let kInstrumentLifetimeKeyTallies = "lifetimeKeyTallies"
-    public static let kInstrumentLoopLength:String = "loopLength"
     public static let kInstrumentFadeOut:String = "fadeOut"
     public static let kInstrumentFadeOutDuration:String = "fadeOutDuration"
+    public static let kInstrumentLifetimeKeyTallies = "lifetimeKeyTallies"
+    public static let kInstrumentLoopLength:String = "loopLength"
     public static let kInstrumentMidiDestinations:String = "instrumentMidiDestinations"
     public static let kInstrumentMidiReceiveChannel:String = "midiReceiveChannel"
     public static let kInstrumentMidiReceiveEnabled:String = "midiReceiveEnabled"
     public static let kInstrumentMidiSendChannel:String = "midiSendChannel"
     public static let kInstrumentMidiSendEnabled:String = "midiSendEnabled"
-    public static let kInstrumentMidiSources:String = "instrumentMidiSources"
-    public static let kInstrumentOctaveLowest:String = "octaveLowest"
-    public static let kInstrumentOctaveHighest:String = "octaveHighest"
+    public static let kInstrumentOctaveCenter:String = "octaveCenter"
+    public static let kInstrumentOctaveRange:String = "octaveRange"
     public static let kInstrumentPan:String = "pan"
     public static let kInstrumentPitchEnabled:String = "pitchEnabled"
     public static let kInstrumentPosition:String = "position"

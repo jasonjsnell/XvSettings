@@ -167,12 +167,12 @@ public class InstrumentTableData:TableData {
                 forKey: XvSetConstants.kInstrumentRandomizedPitch,
                 forObject: instrumentDataObj),
             
-            let octaveHighestInt:Int = xvcdm.getInteger(
-                forKey: XvSetConstants.kInstrumentOctaveHighest,
+            let octaveCenterInt:Int = xvcdm.getInteger(
+                forKey: XvSetConstants.kInstrumentOctaveCenter,
                 forObject: instrumentDataObj),
             
-            let octaveLowestInt:Int = xvcdm.getInteger(
-                forKey: XvSetConstants.kInstrumentOctaveLowest,
+            let octaveRangeInt:Int = xvcdm.getInteger(
+                forKey: XvSetConstants.kInstrumentOctaveRange,
                 forObject: instrumentDataObj)
         {
             
@@ -187,29 +187,30 @@ public class InstrumentTableData:TableData {
             
             pitchEnabled.visibilityTargets = [[sections.count, 1, 2, 3]]
             
-            let octaveLowest:SliderCellData = SliderCellData(
-                key: XvSetConstants.kInstrumentOctaveLowest,
-                value: Float(octaveLowestInt),
-                valueMin: 0,
-                valueMax: 10,
-                textLabel: Labels.OCTAVE_LOWEST_LABEL,
+            let octaveCenter:SliderCellData = SliderCellData(
+                key: XvSetConstants.kInstrumentOctaveCenter,
+                value: Float(octaveCenterInt),
+                valueMin: -2,
+                valueMax: 8,
+                textLabel: Labels.OCTAVE_CENTER_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
                 levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
                 isVisible: pitchEnabledBool)
             
-            let octaveHighest:SliderCellData = SliderCellData(
-                key: XvSetConstants.kInstrumentOctaveHighest,
-                value: Float(octaveHighestInt),
-                valueMin: 0,
+            let octaveRange:SliderCellData = SliderCellData(
+                key: XvSetConstants.kInstrumentOctaveRange,
+                value: Float(octaveRangeInt),
+                valueMin: 1,
                 valueMax: 10,
-                textLabel: Labels.OCTAVE_HIGHEST_LABEL,
+                textLabel: Labels.OCTAVE_RANGE_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
                 levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
                 isVisible: pitchEnabledBool)
             
             //create link between highest and lowest slider cell data objects
-            octaveLowest.set(linkedSliderCellData: octaveHighest, asType: XvSetConstants.LISTENER_MAX)
-            octaveHighest.set(linkedSliderCellData: octaveLowest, asType: XvSetConstants.LISTENER_MIN)
+            //(when sliders were a high and low value in a range
+            //octaveLowest.set(linkedSliderCellData: octaveHighest, asType: XvSetConstants.LISTENER_MAX)
+            //octaveHighest.set(linkedSliderCellData: octaveLowest, asType: XvSetConstants.LISTENER_MIN)
             
             
             let randomizedPitch:ToggleCellData = ToggleCellData(
@@ -227,7 +228,7 @@ public class InstrumentTableData:TableData {
                 footerText: nil,
                 footerLink: nil,
                 footerHeight: 10,
-                cells: [pitchEnabled, octaveHighest, octaveLowest, randomizedPitch],
+                cells: [pitchEnabled, octaveCenter, octaveRange, randomizedPitch],
                 isVisible: true
             )
             

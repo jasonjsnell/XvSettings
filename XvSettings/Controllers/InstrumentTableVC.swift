@@ -16,7 +16,6 @@ class InstrumentTableVC:TableVC {
         
         if (key == XvSetConstants.kInstrumentMidiDestinations     ||
             key == XvSetConstants.kInstrumentMidiSendChannel      ||
-            key == XvSetConstants.kInstrumentMidiSources          ||
             key == XvSetConstants.kInstrumentMidiReceiveChannel   ||
             key == XvSetConstants.kInstrumentLoopLength           ||
             key == XvSetConstants.kInstrumentFadeOutDuration ||

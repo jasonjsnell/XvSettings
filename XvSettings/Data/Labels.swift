@@ -113,8 +113,8 @@ public class Labels {
     public static let PITCH_ENABLED_LABEL:String = "Pitch"
     public static let RANDOMIZED_PITCH_LABEL:String = "Randomize pitch on loops"
     
-    public static let OCTAVE_LOWEST_LABEL:String = "Lowest octave"
-    public static let OCTAVE_HIGHEST_LABEL:String = "Highest octave"
+    public static let OCTAVE_CENTER_LABEL:String = "Center octave"
+    public static let OCTAVE_RANGE_LABEL:String = "Octave range"
     
     //MARK: - Instrument: Quantization
     
