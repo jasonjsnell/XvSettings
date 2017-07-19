@@ -1291,9 +1291,9 @@ public class TableVC: UITableViewController {
     
     fileprivate func _setCoreData(level:String, value:Any, key:String, multi:Bool){
         
-        if (debug){
-            print("SETTINGS: TableVC: Set CoreData", level, value, key, multi)
-        }
+        //if (debug){
+            print("SETTINGS: TableVC: Set CoreData", level, value, key)
+        //}
         
         //set core data value based on level (app, kit, or instrument)
         

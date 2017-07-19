@@ -97,7 +97,7 @@ public class XvSetMainTableData:TableData {
                     )
                     
         
-                    instrumentKitCheckmarkCellData.set(visibilityTargets: [[sections.count+1, i]])
+                    instrumentKitCheckmarkCellData.set(visibilityTargets: [[1, i]])
                     
                     kitCheckmarkCellDataArray.append(instrumentKitCheckmarkCellData)
                   
@@ -114,18 +114,6 @@ public class XvSetMainTableData:TableData {
                 }
             }
             
-            let instrumentKitSelection:SectionData = SectionData(
-                header: "Selected Kit",
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 10,
-                cells: kitCheckmarkCellDataArray,
-                isVisible: true
-            )
-            
-            sections.append(instrumentKitSelection)
-            
             //MARK: Customize
             
             let customizeSection:SectionData = SectionData(
@@ -139,6 +127,20 @@ public class XvSetMainTableData:TableData {
             )
             
             sections.append(customizeSection)
+            
+            let instrumentKitSelection:SectionData = SectionData(
+                header: "Kits",
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: kitCheckmarkCellDataArray,
+                isVisible: true
+            )
+            
+            sections.append(instrumentKitSelection)
+            
+            
         
         } else {
             print("SETTINGS: Error getting kits during XvSetMainTableData init")
