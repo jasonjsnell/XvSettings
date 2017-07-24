@@ -136,8 +136,9 @@ public class InstrumentTableData:TableData {
                 value: audioEnabledBool,
                 textLabel: Labels.AUDIO_ENABLED_LABEL,
                 levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
-                isVisible: true
+                isVisible: false
             )
+            //TODO: show this in later versions, when users can make their own kits
             
             
             let soundSection:SectionData = SectionData(
@@ -159,7 +160,11 @@ public class InstrumentTableData:TableData {
         }
         
         //MARK: Sound: Pitch
-        if let pitchEnabledBool:Bool = xvcdm.getBool(
+        if let tuneInt:Int = xvcdm.getInteger(
+            forKey: XvSetConstants.kInstrumentTune,
+            forObject: instrumentDataObj),
+            
+            let pitchEnabledBool:Bool = xvcdm.getBool(
                 forKey: XvSetConstants.kInstrumentPitchEnabled,
                 forObject: instrumentDataObj),
             
@@ -176,6 +181,15 @@ public class InstrumentTableData:TableData {
                 forObject: instrumentDataObj)
         {
             
+            let tune:SliderCellData = SliderCellData(
+                key: XvSetConstants.kInstrumentTune,
+                value: Float(tuneInt),
+                valueMin: -6,
+                valueMax: 6,
+                textLabel: Labels.TUNE_LABEL,
+                dataType: XvSetConstants.DATA_TYPE_INTEGER,
+                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                isVisible: true)
             
             let pitchEnabled:ToggleCellData = ToggleCellData(
                 key: XvSetConstants.kInstrumentPitchEnabled,
@@ -185,7 +199,7 @@ public class InstrumentTableData:TableData {
                 isVisible: true
             )
             
-            pitchEnabled.visibilityTargets = [[sections.count, 1, 2, 3]]
+            pitchEnabled.visibilityTargets = [[sections.count, 2, 3, 4]]
             
             let octaveCenter:SliderCellData = SliderCellData(
                 key: XvSetConstants.kInstrumentOctaveCenter,
@@ -228,7 +242,7 @@ public class InstrumentTableData:TableData {
                 footerText: nil,
                 footerLink: nil,
                 footerHeight: 10,
-                cells: [pitchEnabled, octaveCenter, octaveRange, randomizedPitch],
+                cells: [tune, pitchEnabled, octaveCenter, octaveRange, randomizedPitch],
                 isVisible: true
             )
             

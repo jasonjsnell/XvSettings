@@ -110,7 +110,8 @@ public class Labels {
     
     public static let VOLUME_LABEL:String = "Volume"
     public static let PAN_LABEL:String = "Pan"
-    public static let PITCH_ENABLED_LABEL:String = "Pitch"
+    public static let PITCH_ENABLED_LABEL:String = "Chromatic Mode"
+    public static let TUNE_LABEL:String = "Tune"
     public static let RANDOMIZED_PITCH_LABEL:String = "Randomize pitch on loops"
     
     public static let OCTAVE_CENTER_LABEL:String = "Center octave"

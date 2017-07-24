@@ -149,6 +149,7 @@ public class XvSetConstants {
     public static let kInstrumentQuantization:String = "quantization"
     public static let kInstrumentRandomizedPitch:String = "randomizedPitch"
     public static let kInstrumentRegenerateAtBeginningOfPattern:String = "regenerateAtBeginningOfPattern"
+    public static let kInstrumentTune:String = "tune"
     public static let kInstrumentVolume:String = "volume"
     
     public static let MIDI_DESTINATION_GLOBAL:String = "Global"

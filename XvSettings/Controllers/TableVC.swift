@@ -826,13 +826,63 @@ public class TableVC: UITableViewController {
     
     //MARK: - SLIDER
     
-    //update the text label when the slider is being dragged
+    /*
+     Slider data is either int or double
+     Update the core data and instrument / app value when the slider is being dragged, as long as it is a new value. Slider values reset when the handle is reset
+     */
+    fileprivate var currSliderIntValue:Int  = -99999
+    fileprivate var currSliderDoubleValue:Double  = -99999.0
+    fileprivate let SLIDER_INT_NON_VALUE:Int = -99999
+    fileprivate let SLIDER_DOUBLE_NON_VALUE:Double = -99999.0
+    
     internal func sliderChanged(_ sender:UISlider) {
         
+        //validate cell
         if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
             
-            let _:Any? = sliderCell.set(withSliderValue: sender.value)
-            
+            //validate data
+            if let sliderCellData:SliderCellData = sliderCell.data as? SliderCellData {
+                
+                //get value of slider
+                if let newValue:Any = sliderCell.set(withSliderValue: sender.value) {
+                    
+                    //if new...
+                    if (_isSliderValueNew(newValue: newValue)){
+                        
+                        //set core data
+                        _setCoreData(
+                            level: sliderCellData.levelType,
+                            value: newValue,
+                            key: sliderCellData.key,
+                            multi: false)
+                        
+                        //if there is a linked cell...
+                        if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
+                            
+                            //save its data too
+                            _setCoreData(
+                                level: linkedSliderCellData.levelType,
+                                value: linkedSliderCellData.value,
+                                key: linkedSliderCellData.key,
+                                multi: false)
+                        }
+                        
+                        //if tempo, post notification for sequencer
+                        if (sliderCellData.key == XvSetConstants.kAppTempo){
+                            
+                            Utils.postNotification(
+                                name: XvSetConstants.kAppTempoChanged,
+                                userInfo: nil
+                            )
+                        }
+                    }
+                }
+                
+            } else {
+                
+                print("SETTINGS: Error getting sliderCellData during sliderChanged")
+            }
+
         } else {
             
             print("SETTINGS: Error getting sliderCell during sliderChanged")
@@ -843,53 +893,35 @@ public class TableVC: UITableViewController {
     //save the slider value when the user has released it
     internal func sliderEnded(_ sender:UISlider) {
         
-        if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
+        //reset both slider vars
+        currSliderIntValue = SLIDER_INT_NON_VALUE
+        currSliderDoubleValue = SLIDER_DOUBLE_NON_VALUE
+    }
+    
+    fileprivate func _isSliderValueNew(newValue:Any) -> Bool {
+        
+        //int
+        if let newIntValue:Int = newValue as? Int {
             
-            if let sliderCellData:SliderCellData = sliderCell.data as? SliderCellData {
+            //float
+            if (newIntValue != currSliderIntValue) {
                 
-                if let newValue:Any = sliderCell.set(withSliderValue: sender.value) {
-                    
-                    _setCoreData(
-                        level: sliderCellData.levelType,
-                        value: newValue,
-                        key: sliderCellData.key,
-                        multi: false)
-                    
-                    //if there is a linked cell...
-                    if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
-                        
-                        //save its data too
-                        _setCoreData(
-                            level: linkedSliderCellData.levelType,
-                            value: linkedSliderCellData.value,
-                            key: linkedSliderCellData.key,
-                            multi: false)
-                        
-                    }
-                    
-                    if (sliderCellData.key == XvSetConstants.kAppTempo){
-                        
-                        Utils.postNotification(
-                            name: XvSetConstants.kAppTempoChanged,
-                            userInfo: nil
-                        )
-                    }
-                }
-                
-            } else {
-                
-                print("SETTINGS: Error getting sliderCellData during sliderChanged")
+                currSliderIntValue = newIntValue
+                return true
             }
             
-        } else {
+        } else if let newDoubleValue:Double = newValue as? Double {
             
-            print("SETTINGS: Error getting sliderCell during sliderChanged")
+            //float
+            if (newDoubleValue != currSliderDoubleValue){
+                
+                currSliderDoubleValue = newDoubleValue
+                return true
+            }
         }
+        
+        return false
     }
-
-
-    
-
 
     //MARK: - TOGGLE SWITCH
 

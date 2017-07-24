@@ -34,33 +34,6 @@ public class XvSetMainTableData:TableData {
         title = "Settings"
         
         
-        if let tempoInt:Int = xvcdm.getAppInteger(forKey: XvSetConstants.kAppTempo) {
-            
-            let tempo:SliderCellData = SliderCellData(
-                key: XvSetConstants.kAppTempo,
-                value: tempoInt,
-                valueMin: 40,
-                valueMax: 200,
-                textLabel: Labels.TEMPO_LABEL,
-                dataType: XvSetConstants.DATA_TYPE_INTEGER,
-                levelType: XvSetConstants.LEVEL_TYPE_APP,
-                isVisible: true)
-            
-            let tempoSection:SectionData = SectionData(
-                header: Labels.TEMPO_LABEL,
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 10,
-                cells: [tempo],
-                isVisible: true
-            )
-            
-            sections.append(tempoSection)
-            
-        } else {
-            print("SETTINGS: Error getting tempo during main table init")
-        }
         
         //MARK: Kits
         
@@ -116,18 +89,6 @@ public class XvSetMainTableData:TableData {
             
             //MARK: Customize
             
-            let customizeSection:SectionData = SectionData(
-                header: "Kit Customization",
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 10,
-                cells: kitDisclosureCellDataArray,
-                isVisible: true
-            )
-            
-            sections.append(customizeSection)
-            
             let instrumentKitSelection:SectionData = SectionData(
                 header: "Kits",
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
@@ -140,12 +101,55 @@ public class XvSetMainTableData:TableData {
             
             sections.append(instrumentKitSelection)
             
+            let customizeSection:SectionData = SectionData(
+                header: "Kit Customization",
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: kitDisclosureCellDataArray,
+                isVisible: true
+            )
+            
+            sections.append(customizeSection)
+            
+            
+            
             
         
         } else {
             print("SETTINGS: Error getting kits during XvSetMainTableData init")
         }
     
+        
+        if let tempoInt:Int = xvcdm.getAppInteger(forKey: XvSetConstants.kAppTempo) {
+            
+            let tempo:SliderCellData = SliderCellData(
+                key: XvSetConstants.kAppTempo,
+                value: tempoInt,
+                valueMin: 40,
+                valueMax: 200,
+                textLabel: Labels.TEMPO_LABEL,
+                dataType: XvSetConstants.DATA_TYPE_INTEGER,
+                levelType: XvSetConstants.LEVEL_TYPE_APP,
+                isVisible: true)
+            
+            let tempoSection:SectionData = SectionData(
+                header: Labels.TEMPO_LABEL,
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: [tempo],
+                isVisible: true
+            )
+            
+            sections.append(tempoSection)
+            
+        } else {
+            print("SETTINGS: Error getting tempo during main table init")
+        }
+
         
         //MARK: Sync
         
@@ -289,7 +293,7 @@ public class XvSetMainTableData:TableData {
         let rearrangeSection:SectionData = SectionData(
             header: "Composition",
             footerType: XvSetConstants.FOOTER_TYPE_LINK,
-            footerText: ["This rearranges the current composition into a new, randomized one. For more information, see the ", "user's manual", "."],
+            footerText: ["This rearranges the current composition into a new, randomized one. You can also execute this by shaking your device. For more information, see the ", "user's manual", "."],
             footerLink: "http://app.jasonjsnell.com/repercussion/manual/",
             footerHeight: 75,
             cells: [rearrangeButton],
