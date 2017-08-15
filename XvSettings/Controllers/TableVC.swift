@@ -534,15 +534,53 @@ public class TableVC: UITableViewController {
             
         } else if (key == XvSetConstants.kKitArtificialIntelligence){
             
-            Utils.postNotification(
-                name: XvSetConstants.kKitResetAIButtonTapped,
-                userInfo: nil)
+            let alert = UIAlertController(
+                title: "Reset",
+                message: "Are you sure you want to reset the kit's AI memory?",
+                preferredStyle: UIAlertControllerStyle.alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                UIAlertAction in
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kKitResetAIButtonTapped,
+                    userInfo: nil)
+                
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+                UIAlertAction in
+                //
+            }
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+            
             
         } else if (key == XvSetConstants.kKitFactorySettings){
             
-            Utils.postNotification(
-                name: XvSetConstants.kKitRestoreFactorySettingsButtonTapped,
-                userInfo: nil)
+            let alert = UIAlertController(
+                title: "Restore",
+                message: "Are you sure you want to restore this kit to its factory settings?",
+                preferredStyle: UIAlertControllerStyle.alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                UIAlertAction in
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kKitRestoreFactorySettingsButtonTapped,
+                    userInfo: nil)
+                
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+                UIAlertAction in
+                //
+            }
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+            
         }
     }
     

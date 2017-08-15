@@ -85,7 +85,7 @@ public class KitTableData:TableData {
             let artificialIntelligenceSection:SectionData = SectionData(
                 header: "Artificial Intelligence",
                 footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["This clears and resets the AI memory for " + kitName + "."],
+                footerText: ["This clears and resets the AI memory for this kit."],
                 footerLink: nil,
                 footerHeight: 50,
                 cells: [artificialIntelligence],
@@ -107,7 +107,7 @@ public class KitTableData:TableData {
             let factorySettingsSection:SectionData = SectionData(
                 header: "Factory Settings",
                 footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["This resets " + kitName + " and its instruments to their factory settings."],
+                footerText: ["This resets the kit and its instruments to their factory settings."],
                 footerLink: nil,
                 footerHeight: 70,
                 cells: [factorySettings],

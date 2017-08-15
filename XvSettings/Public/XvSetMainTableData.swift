@@ -90,7 +90,7 @@ public class XvSetMainTableData:TableData {
             //MARK: Customize
             
             let instrumentKitSelection:SectionData = SectionData(
-                header: "Kits",
+                header: Labels.KIT_SELECTION_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,
@@ -102,7 +102,7 @@ public class XvSetMainTableData:TableData {
             sections.append(instrumentKitSelection)
             
             let customizeSection:SectionData = SectionData(
-                header: "Kit Customization",
+                header: Labels.KIT_CUSTOMIZATION_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,

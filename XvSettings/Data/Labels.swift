@@ -79,6 +79,10 @@ public class Labels {
         ]
     }
     
+    //MARK: - Instrument: Kit Selection
+    public static let KIT_SELECTION_HEADER:String = "Select a Kit"
+    public static let KIT_CUSTOMIZATION_HEADER:String = "Customize"
+    
     
     public static let COMPOSITION_HEADER:String = "Composition"
     
@@ -105,7 +109,7 @@ public class Labels {
     public static let LOOP_LENGTH_MEASURE_8:String = "8 measures (full pattern)"
     
     
-    //MARK: - Sound
+    //MARK: - Instrument: Sound
     public static let SOUND_HEADER:String = "Sound"
     
     public static let VOLUME_LABEL:String = "Volume"
