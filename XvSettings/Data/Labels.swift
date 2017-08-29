@@ -83,14 +83,18 @@ public class Labels {
     public static let KIT_SELECTION_HEADER:String = "Select a Kit"
     public static let KIT_CUSTOMIZATION_HEADER:String = "Customize"
     
+    //MARK: - Instrument: Sample
     
+    public static let SAMPLE_HEADER:String = "Sample"
+    public static let SAMPLE_LABEL:String = "Sample playback"
+    
+    //MARK: - Instrument: Composition
     public static let COMPOSITION_HEADER:String = "Composition"
     
     //MARK: - Instrument: Fade out
-    public static let FADE_OUT_LABEL:String = "Loop fades out"
     
-    public static let FADE_OUT_DURATION_HEADER:String = "Fade Out"
-    public static let FADE_OUT_DURATION_LABEL:String = "Fade out duration"
+    public static let FADE_OUT_DURATION_HEADER:String = "Duration"
+    public static let FADE_OUT_DURATION_LABEL:String = "Duration"
     
     public static let FADE_OUT_DURATION_MEASURE_8:String = "8 measures"
     public static let FADE_OUT_DURATION_MEASURE_16:String = "16 measures"
@@ -110,10 +114,11 @@ public class Labels {
     
     
     //MARK: - Instrument: Sound
-    public static let SOUND_HEADER:String = "Sound"
+    public static let VOLUME_HEADER:String = "Volume"
     
     public static let VOLUME_LABEL:String = "Volume"
-    public static let PAN_LABEL:String = "Pan"
+    
+    public static let PITCH_HEADER:String = "Pitch"
     public static let PITCH_ENABLED_LABEL:String = "Chromatic Mode"
     public static let TUNE_LABEL:String = "Tune"
     public static let RANDOMIZED_PITCH_LABEL:String = "Randomize pitch on loops"
@@ -135,7 +140,5 @@ public class Labels {
     //MARK: - Instrument: Regenerate
     public static let REGENERATE_LABEL:String = "Regenerate at beginning of loop"
     
-    //MARK: - Instrument: Audio enabled
-    public static let AUDIO_ENABLED_LABEL:String = "Audio Enabled"
     
 }

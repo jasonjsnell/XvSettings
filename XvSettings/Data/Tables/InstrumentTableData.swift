@@ -30,66 +30,84 @@ public class InstrumentTableData:TableData {
             print("SETTINGS: Error getting instrument name for instrument table header")
         }
         
+        //MARK: Sample
+        if let audioEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kInstrumentAudioEnabled, forObject: instrumentDataObj) {
+            
+            let audioEnabled:ToggleCellData = ToggleCellData(
+                key: XvSetConstants.kInstrumentAudioEnabled,
+                value: audioEnabledBool,
+                textLabel: Labels.SAMPLE_LABEL,
+                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                isVisible: true
+            )
+            
+            let sampleSection:SectionData = SectionData(
+                header: Labels.SAMPLE_HEADER,
+                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                footerText: ["Activates audio playback for this instrument."],
+                footerLink: nil,
+                footerHeight: 50,
+                cells: [audioEnabled],
+                isVisible: true
+            )
+            
+            sections.append(sampleSection)
+            
+        } else {
+            
+            print("SETTINGS: Data is invalid when creating sample section")
+            
+        }
+       
         
-        //MARK: Composition
+        //MARK: Quantization
+        if let quantizationData:QuantizationData = QuantizationData(withInstrDataObj: instrumentDataObj)
+            
+        {
+            
+            let quantization:DisclosureCellData = DisclosureCellData(
+                withCheckmarkTableDataSource: quantizationData,
+                isVisible: true)
+            
+            let quantizationSection:SectionData = SectionData(
+                header: Labels.COMPOSITION_HEADER,
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: [quantization],
+                isVisible: true
+            )
+            
+            sections.append(quantizationSection)
+            
+        } else {
+            
+            print("SETTINGS: Data is invalid when creating quantization section")
+            
+        }
         
-        if let quantizationData:QuantizationData = QuantizationData(withInstrDataObj: instrumentDataObj),
+        //MARK: Loop length
+        
+        if let loopLengthData:LoopLengthData = LoopLengthData(withInstrDataObj: instrumentDataObj)
             
-            let loopLengthData:LoopLengthData = LoopLengthData(withInstrDataObj: instrumentDataObj),
+        {
             
-            let regenerateBool:Bool = xvcdm.getBool(
-                forKey: XvSetConstants.kInstrumentRegenerateAtBeginningOfPattern,
-                forObject: instrumentDataObj),
+            let loopLength:DisclosureCellData = DisclosureCellData(
+                withCheckmarkTableDataSource: loopLengthData,
+                isVisible: true)
             
-            let fadeOutDurationData:FadeOutDurationData = FadeOutDurationData(withInstrDataObj: instrumentDataObj),
+            let loopLengthSection:SectionData = SectionData(
+                header: "",
+                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                footerText: ["Loop length determines how many times the note will repeat in the 8 measure loop. "],
+                footerLink: nil,
+                footerHeight: 50,
+                cells: [loopLength],
+                isVisible: true
+            )
             
-            let fadeOutBool:Bool = xvcdm.getBool(
-                forKey: XvSetConstants.kInstrumentFadeOut,
-                forObject: instrumentDataObj)
-            
-            {
-                
-                let quantization:DisclosureCellData = DisclosureCellData(
-                    withCheckmarkTableDataSource: quantizationData,
-                    isVisible: true)
-               
-                let loopLength:DisclosureCellData = DisclosureCellData(
-                    withCheckmarkTableDataSource: loopLengthData,
-                    isVisible: true)
-                
-                let regenerate:ToggleCellData = ToggleCellData(
-                    key: XvSetConstants.kInstrumentRegenerateAtBeginningOfPattern,
-                    value: regenerateBool,
-                    textLabel: Labels.REGENERATE_LABEL,
-                    levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
-                    isVisible: true
-                )
-                
-                let fadeOut:ToggleCellData = ToggleCellData(
-                    key: XvSetConstants.kInstrumentFadeOut,
-                    value: fadeOutBool,
-                    textLabel: Labels.FADE_OUT_LABEL,
-                    levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
-                    isVisible: true
-                )
-                
-                fadeOut.visibilityTargets = [[sections.count, 4]]
-                
-                let fadeOutDuration:DisclosureCellData = DisclosureCellData(
-                    withCheckmarkTableDataSource: fadeOutDurationData,
-                    isVisible: fadeOutBool)
-                
-                let compositionSection:SectionData = SectionData(
-                    header: Labels.COMPOSITION_HEADER,
-                    footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                    footerText: nil,
-                    footerLink: nil,
-                    footerHeight: 10,
-                    cells: [quantization, loopLength, regenerate, fadeOut, fadeOutDuration],
-                    isVisible: true
-                )
-                
-                sections.append(compositionSection)
+            sections.append(loopLengthSection)
             
         } else {
             
@@ -97,16 +115,44 @@ public class InstrumentTableData:TableData {
             
         }
         
-        //MARK: Sound
+        //MARK: Duration
+        
+        if let fadeOutDurationData:FadeOutDurationData = FadeOutDurationData(withInstrDataObj: instrumentDataObj)
+            
+            
+            {
+                
+                let fadeOutDuration:DisclosureCellData = DisclosureCellData(
+                    withCheckmarkTableDataSource: fadeOutDurationData,
+                    isVisible: true)
+                
+                let durationSection:SectionData = SectionData(
+                    header: "",
+                    footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                    footerText: ["Duration determines how many measures the note will play before fading out and regenerating."],
+                    footerLink: nil,
+                    footerHeight: 50,
+                    cells: [fadeOutDuration],
+                    isVisible: true
+                )
+                
+                sections.append(durationSection)
+            
+        } else {
+            
+            print("SETTINGS: Data is invalid when creating composition section")
+            
+        }
+        
+        //MARK: Volume
         if let volumeFloat:Float = xvcdm.getFloat(
             forKey: XvSetConstants.kInstrumentVolume,
             forObject: instrumentDataObj),
             
-            let panFloat:Float = xvcdm.getFloat(
-                forKey: XvSetConstants.kInstrumentPan,
-                forObject: instrumentDataObj),
+            let fadeOutBool:Bool = xvcdm.getBool(
+                forKey: XvSetConstants.kInstrumentVolumeLock,
+                forObject: instrumentDataObj)
             
-            let audioEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kInstrumentAudioEnabled, forObject: instrumentDataObj)
         
         {
             
@@ -120,34 +166,23 @@ public class InstrumentTableData:TableData {
                 levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
                 isVisible: true)
             
-            let pan:SliderCellData = SliderCellData(
-                key: XvSetConstants.kInstrumentPan,
-                value: panFloat,
-                valueMin: -1.0,
-                valueMax: 1.0,
-                textLabel: Labels.PAN_LABEL,
-                dataType: XvSetConstants.DATA_TYPE_FLOAT,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
-                isVisible: true)
+           
 
-
-            let audioEnabled:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kInstrumentAudioEnabled,
-                value: audioEnabledBool,
-                textLabel: Labels.AUDIO_ENABLED_LABEL,
+            let volumeLock:ToggleCellData = ToggleCellData(
+                key: XvSetConstants.kInstrumentVolumeLock,
+                value: fadeOutBool,
+                textLabel: "Volume Lock",
                 levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
-                isVisible: false
+                isVisible: true
             )
-            //TODO: show this in later versions, when users can make their own kits
-            
             
             let soundSection:SectionData = SectionData(
-                header: Labels.SOUND_HEADER,
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
+                header: Labels.VOLUME_HEADER,
+                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                footerText: ["This prevents the instrument from ever fading out."],
                 footerLink: nil,
-                footerHeight: 10,
-                cells: [audioEnabled, volume, pan],
+                footerHeight: 50,
+                cells: [volume, volumeLock],
                 isVisible: true
             )
             
@@ -237,7 +272,7 @@ public class InstrumentTableData:TableData {
             
             
             let pitchSection:SectionData = SectionData(
-                header: "",
+                header: Labels.PITCH_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,
@@ -254,14 +289,6 @@ public class InstrumentTableData:TableData {
             
         }
         
-        
-
-        
-
-        
-        
-       
-       
         
         //MARK: MIDI send
         //make sure midi core data is valid
@@ -336,7 +363,7 @@ public class InstrumentTableData:TableData {
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,
-                footerHeight: 10,
+                footerHeight: 100,
                 cells: [midiReceiveEnabled, midiReceiveChannel],
                 isVisible: true
             )

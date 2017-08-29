@@ -132,7 +132,7 @@ public class XvSetConstants {
     
     //all update XvInstrument object with same id as core data object
     public static let kInstrumentAudioEnabled:String = "audioEnabled"
-    public static let kInstrumentFadeOut:String = "fadeOut"
+    
     public static let kInstrumentFadeOutDuration:String = "fadeOutDuration"
     public static let kInstrumentLifetimeKeyTallies = "lifetimeKeyTallies"
     public static let kInstrumentLoopLength:String = "loopLength"
@@ -151,6 +151,7 @@ public class XvSetConstants {
     public static let kInstrumentRegenerateAtBeginningOfPattern:String = "regenerateAtBeginningOfPattern"
     public static let kInstrumentTune:String = "tune"
     public static let kInstrumentVolume:String = "volume"
+    public static let kInstrumentVolumeLock:String = "volumeLock"
     
     public static let MIDI_DESTINATION_GLOBAL:String = "Global"
     public static let MIDI_DESTINATION_OMNI:String = "Omni"

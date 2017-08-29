@@ -59,6 +59,7 @@ public class XvSetMainTableData:TableData {
                         isSelected = true
                     }
                     
+                    
                     let instrumentKitCheckmarkCellData:CheckmarkCellData = CheckmarkCellData(
                         key: XvSetConstants.kAppSelectedKit,
                         value: id,
@@ -89,6 +90,7 @@ public class XvSetMainTableData:TableData {
             
             //MARK: Customize
             
+            
             let instrumentKitSelection:SectionData = SectionData(
                 header: Labels.KIT_SELECTION_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
@@ -100,6 +102,7 @@ public class XvSetMainTableData:TableData {
             )
             
             sections.append(instrumentKitSelection)
+ 
             
             let customizeSection:SectionData = SectionData(
                 header: Labels.KIT_CUSTOMIZATION_HEADER,
@@ -113,15 +116,40 @@ public class XvSetMainTableData:TableData {
             
             sections.append(customizeSection)
             
-            
-            
-            
         
         } else {
             print("SETTINGS: Error getting kits during XvSetMainTableData init")
         }
-    
         
+        
+        //MARK: Musical scale
+        
+        if let musicalScaleData:MusicalScaleData = MusicalScaleData() {
+            
+            let musicalScale:DisclosureCellData = DisclosureCellData(
+                withCheckmarkTableDataSource: musicalScaleData,
+                isVisible: true
+            )
+            
+            let musicalScaleSection:SectionData = SectionData(
+                header: "Musical Scale",
+                footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                footerText: nil,
+                footerLink: nil,
+                footerHeight: 10,
+                cells: [musicalScale],
+                isVisible: true
+            )
+            
+            sections.append(musicalScaleSection)
+            
+        } else {
+            
+            print("SETTINGS: Error get musical scale data from core data in main table data")
+        }
+        
+    
+        /*
         if let tempoInt:Int = xvcdm.getAppInteger(forKey: XvSetConstants.kAppTempo) {
             
             let tempo:SliderCellData = SliderCellData(
@@ -149,7 +177,7 @@ public class XvSetMainTableData:TableData {
         } else {
             print("SETTINGS: Error getting tempo during main table init")
         }
-
+        */
         
         //MARK: Sync
         
@@ -208,10 +236,10 @@ public class XvSetMainTableData:TableData {
             
             let midiRoutingSection:SectionData = SectionData(
                 header: "Global MIDI Routing",
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
+                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                footerText: ["These set the default MIDI destinations and sources."],
                 footerLink: nil,
-                footerHeight: 10,
+                footerHeight: 50,
                 cells: [midiDestinations, midiSources],
                 isVisible: true
             )
@@ -224,36 +252,29 @@ public class XvSetMainTableData:TableData {
         }
         
         
-        //MARK: Musical scale
+        //MARK: Artificial Intelligence
         
-        if let musicalScaleData:MusicalScaleData = MusicalScaleData() {
-            
-            let musicalScale:DisclosureCellData = DisclosureCellData(
-                withCheckmarkTableDataSource: musicalScaleData,
-                isVisible: true
-            )
-            
-            let musicalScaleSection:SectionData = SectionData(
-                header: "Musical Scale",
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 10,
-                cells: [musicalScale],
-                isVisible: true
-            )
-            
-            sections.append(musicalScaleSection)
-
-        } else {
-            
-            print("SETTINGS: Error get musical scale data from core data in main table data")
-        }
+        let artificialIntelligence:ButtonCellData = ButtonCellData(
+            key: XvSetConstants.kKitArtificialIntelligence,
+            textLabel: "Reset AI Memory",
+            levelType: XvSetConstants.LEVEL_TYPE_KIT,
+            isVisible: true
+        )
+        
+        let artificialIntelligenceSection:SectionData = SectionData(
+            header: "Artificial Intelligence",
+            footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+            footerText: ["This clears the AI memory and resets it to the factory state."],
+            footerLink: nil,
+            footerHeight: 80,
+            cells: [artificialIntelligence],
+            isVisible: true
+        )
+        
+        sections.append(artificialIntelligenceSection)
         
         
-        
-        
-        //MARK: Modes
+        //MARK: BG Mode
         
         if let bgModeBool:Bool = xvcdm.getAppBool(forKey: XvSetConstants.kAppBackgroundModeEnabled) {
             
@@ -268,9 +289,9 @@ public class XvSetMainTableData:TableData {
             let modesSection:SectionData = SectionData(
                 header: "Background Mode",
                 footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["Background mode keeps the app running in the background."],
+                footerText: ["Activate this to keep the app running in the background."],
                 footerLink: nil,
-                footerHeight: 70,
+                footerHeight: 80,
                 cells: [bgMode],
                 isVisible: true
             )
@@ -283,6 +304,7 @@ public class XvSetMainTableData:TableData {
         
         //MARK: Rearrange
         
+        /*
         let rearrangeButton:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kAppRearrange,
             textLabel: "Rearrange",
@@ -301,7 +323,8 @@ public class XvSetMainTableData:TableData {
         )
         
         sections.append(rearrangeSection)
-    
+        */
+        
     }
     
 }

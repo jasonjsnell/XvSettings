@@ -73,26 +73,7 @@ public class KitTableData:TableData {
                 print("SETTINGS: Unable to find instruments data array during KitTableData init")
             }
             
-            //MARK: Artificial Intelligence
-            
-            let artificialIntelligence:ButtonCellData = ButtonCellData(
-                key: XvSetConstants.kKitArtificialIntelligence,
-                textLabel: "Reset AI Memory",
-                levelType: XvSetConstants.LEVEL_TYPE_KIT,
-                isVisible: true
-            )
-            
-            let artificialIntelligenceSection:SectionData = SectionData(
-                header: "Artificial Intelligence",
-                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["This clears and resets the AI memory for this kit."],
-                footerLink: nil,
-                footerHeight: 50,
-                cells: [artificialIntelligence],
-                isVisible: true
-            )
-            
-            sections.append(artificialIntelligenceSection)
+           
             
             
             //MARK: Factory settings
