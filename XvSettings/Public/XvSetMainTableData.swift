@@ -156,7 +156,7 @@ public class XvSetMainTableData:TableData {
                 key: XvSetConstants.kAppTempo,
                 value: tempoInt,
                 valueMin: 20,
-                valueMax: 999,
+                valueMax: 200,
                 textLabel: Labels.TEMPO_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
                 levelType: XvSetConstants.LEVEL_TYPE_APP,
