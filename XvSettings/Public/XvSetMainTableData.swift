@@ -150,12 +150,15 @@ public class XvSetMainTableData:TableData {
         
     
         //MARK: Tempo
+        /*
         if let tempoInt:Int = xvcdm.getAppInteger(forKey: XvSetConstants.kAppTempo) {
+            
+            print("my curr tempo is", tempoInt)
             
             let tempo:SliderCellData = SliderCellData(
                 key: XvSetConstants.kAppTempo,
                 value: tempoInt,
-                valueMin: 20,
+                valueMin: 50,
                 valueMax: 200,
                 textLabel: Labels.TEMPO_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
@@ -177,7 +180,7 @@ public class XvSetMainTableData:TableData {
         } else {
             print("SETTINGS: Error getting tempo during main table init")
         }
-        
+        */
         
         //MARK: Sync
         
