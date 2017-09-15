@@ -234,6 +234,13 @@ public class CheckmarkTableVC:TableVC {
                     userInfo: nil
                 )
             
+            } else if (cellData.key == XvSetConstants.kAppGlobalMidiDestinations){
+                
+                Utils.postNotification(
+                    name: XvSetConstants.kAppGlobalMidiDestinationsChanged,
+                    userInfo: nil
+                )
+                
             } else if (cellData.key == XvSetConstants.kAppGlobalMidiSources){
                 
                 Utils.postNotification(

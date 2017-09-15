@@ -26,6 +26,7 @@ public class XvSetConstants {
     //midi
     public static let kAppMidiSyncChanged:String = "kAppMidiSyncChanged"
     public static let kAppGlobalMidiDestinationsRequest:String = "kAppGlobalMidiDestinationsRequest"
+    public static let kAppGlobalMidiDestinationsChanged:String = "kAppGlobalMidiDestinationsChanged"
     public static let kAppGlobalMidiSourcesRequest:String = "kAppGlobalMidiSourcesRequest"
     public static let kAppGlobalMidiSourcesChanged:String = "kAppGlobalMidiSourcesChanged"
     public static let kInstrumentMidiDestinationsRequest:String = "kInstrumentMidiDestinationsRequest"
