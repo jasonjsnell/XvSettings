@@ -86,10 +86,20 @@ public class XvSetMainTableVC:TableVC {
                 name: XvSetConstants.kAppAbletonLinkViewControllerRequested,
                 userInfo: ["parentVC" : self])
             
+        } else if (key == XvSetConstants.kAppGlobalMidiDestinations ||
+            key == XvSetConstants.kAppGlobalMidiSources){
+            
+            if (!xvcdm.audioBusMidiBypass){
+                
+                loadCheckmarkTable(fromCell:cell)
+                
+            } else {
+                
+                _showAudiobusMidiBypassError()
+            }
+            
         } else if (
-            key == XvSetConstants.kAppMusicalScale ||
-                key == XvSetConstants.kAppGlobalMidiDestinations ||
-                key == XvSetConstants.kAppGlobalMidiSources) {
+            key == XvSetConstants.kAppMusicalScale) {
             
             //MARK: Musical scale
             

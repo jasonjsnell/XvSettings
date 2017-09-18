@@ -432,6 +432,7 @@ open class XvCoreDataManager {
     }
     
     public func getMidiSourceNames() -> [String] {
+        
         return midiSourceNames
     }
     
@@ -539,7 +540,11 @@ open class XvCoreDataManager {
         }
     }
     
-    
+    fileprivate var _audioBusMidiBypass:Bool = false
+    public var audioBusMidiBypass:Bool {
+        get { return _audioBusMidiBypass }
+        set { _audioBusMidiBypass = newValue }
+    }
     
     //used by core data helper, setting values during init and updating whole classes
     public func set(value:Any, forKey:String, forObject:NSManagedObject) {

@@ -14,7 +14,7 @@ class InstrumentTableVC:TableVC {
 
     override func disclosureRowSelected(cell:DisclosureCell, key:String){
         
-        if (key == XvSetConstants.kInstrumentMidiDestinations     ||
+        if (
             key == XvSetConstants.kInstrumentMidiSendChannel      ||
             key == XvSetConstants.kInstrumentMidiReceiveChannel   ||
             key == XvSetConstants.kInstrumentLoopLength           ||
@@ -23,6 +23,13 @@ class InstrumentTableVC:TableVC {
             
             loadCheckmarkTable(fromCell:cell)
             
+        } else if (key == XvSetConstants.kInstrumentMidiDestinations){
+            
+            if (!xvcdm.audioBusMidiBypass){
+                loadCheckmarkTable(fromCell:cell)
+            } else {
+                _showAudiobusMidiBypassError()
+            }
         }
     }
 

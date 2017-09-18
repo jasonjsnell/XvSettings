@@ -1396,6 +1396,19 @@ public class TableVC: UITableViewController {
         }
     }
     
+    //MARK: - ALERTS
+    internal func _showAudiobusMidiBypassError(){
+        
+        let alert = UIAlertController(
+            title: "Alert",
+            message: "Internal MIDI routing cannot be used while Audiobus is active.",
+            preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
     //MARK: - DEINT
     deinit {
         sectionFooterViews = nil
