@@ -27,6 +27,20 @@ class Utils {
         return Int(fromFloat)
     }
     
+    class func getInteger(fromAny: Any) -> Int? {
+        
+        if let valueAsInt:Int = fromAny as? Int {
+            
+            return valueAsInt
+            
+        } else {
+            
+            return nil
+        }
+        
+    }
+
+    
     class func getFloatHundredth(fromFloat:Float) -> Float {
         
         return round(100.0 * fromFloat) / 100.0

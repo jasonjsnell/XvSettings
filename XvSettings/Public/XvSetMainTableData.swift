@@ -124,29 +124,24 @@ public class XvSetMainTableData:TableData {
         
         //MARK: Musical scale
         
-        if let musicalScaleData:MusicalScaleData = MusicalScaleData() {
-            
-            let musicalScale:DisclosureCellData = DisclosureCellData(
-                withCheckmarkTableDataSource: musicalScaleData,
-                isVisible: true
-            )
-            
-            let musicalScaleSection:SectionData = SectionData(
-                header: "Musical Scale",
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 10,
-                cells: [musicalScale],
-                isVisible: true
-            )
-            
-            sections.append(musicalScaleSection)
-            
-        } else {
-            
-            print("SETTINGS: Error get musical scale data from core data in main table data")
-        }
+        let musicalScale:DisclosureCellData = DisclosureCellData(
+            key: XvSetConstants.kAppMusicalScale,
+            textLabel: Labels.MUSIC_SCALE_LABEL,
+            isVisible: true
+        )
+        
+        let musicalScaleSection:SectionData = SectionData(
+            header: "Musical Scale",
+            footerType: XvSetConstants.FOOTER_TYPE_NONE,
+            footerText: nil,
+            footerLink: nil,
+            footerHeight: 10,
+            cells: [musicalScale],
+            isVisible: true
+        )
+        
+        sections.append(musicalScaleSection)
+
         
     
         //MARK: Tempo

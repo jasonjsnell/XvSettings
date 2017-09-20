@@ -67,6 +67,7 @@ public class XvSetConstants {
     //MARK: App: Musical Scale
     
     public static let kAppMusicalScale:String = "musicalScale" //updates sequencer
+    public static let kAppMusicalScaleRootKey:String = "musicalScaleRootKey" //updates sequencer
     
     public static let MUSIC_SCALE_MAJOR:String = "musicScaleMajor"
     public static let MUSIC_SCALE_MINOR:String = "musicScaleMinor"

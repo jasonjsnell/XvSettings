@@ -99,11 +99,11 @@ public class XvSetMainTableVC:TableVC {
             }
             
         } else if (
+            
             key == XvSetConstants.kAppMusicalScale) {
             
             //MARK: Musical scale
-            
-            loadCheckmarkTable(fromCell:cell)
+            loadMusicalScaleTable()
             
         } else if (key.lowercased().range(of:"kit") != nil) {
             
@@ -142,5 +142,6 @@ public class XvSetMainTableVC:TableVC {
         self.present(alert, animated: true, completion: nil)
         
     }
+
     
 }

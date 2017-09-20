@@ -64,35 +64,38 @@ public class SliderCell: Cell {
     }
     
     
+    /*
+     launch or someone moves the slider. It shows sends in a value
+     what needs to happen
+     value var in data class needs to be set. can be integer or float
+     update the text label with either text printout of int, float, or substitute text
+     
+     */
+    
     //user moves handle, table vc handler calls this func
-    internal func set(withSliderValue:Float) -> Any? {
+    internal func set(withSliderValue:Float) -> Any {
         
-        if let formattedValue:Any = getFormattedValue(withSliderValue: withSliderValue) {
+        //get data obj
+        if let sliderData:SliderCellData = data as? SliderCellData {
             
-            setTextLabel(withValue: formattedValue)
+            //set value and text label
+            sliderData.setDataValue(withSliderValue: withSliderValue)
+            setTextLabel(withString: sliderData.getTextLabelString())
             
             //if there is a linked slider cell data, update it with same slider value
-            if let sliderData:SliderCellData = data as? SliderCellData {
+            if let linkedSliderCellData:SliderCellData = sliderData.linkedSliderCellData {
                 
-                if let linkedSliderCellData:SliderCellData = sliderData.linkedSliderCellData {
-                    
-                    linkedSliderCellData.set(withLinkedSliderValue: withSliderValue)
+                linkedSliderCellData.set(withLinkedSliderValue: withSliderValue)
                 
-                }
-                
-            } else {
-                
-                print("SETTINGS: Error: Unable to cast slider cell data as SliderCellData type during set withSliderValue")
-        
             }
-            
-            return formattedValue
             
         } else {
             
-            print("SETTINGS: Error: Unable to get formatted value from", withSliderValue, "during set withSliderValue")
-            return nil
+            print("SETTINGS: Error: Unable to access SliderCellData during SliderCell set withSliderValue")
+            
         }
+        
+        return true
         
         
     }
@@ -100,30 +103,15 @@ public class SliderCell: Cell {
     
     
     //called locally and during linked slider movement
-    internal func setTextLabel(withValue:Any) {
+    internal func setTextLabel(withString:String) {
         
-        textLabel?.text = baseText + ": " + String(describing: withValue)
+        textLabel?.text = baseText + ": " + withString
     }
     
     //called loally and during linked slider movement
     internal func setSliderPosition(withValue:Float) {
         
         slider.value = withValue
-    }
-    
-    internal func getFormattedValue(withSliderValue:Float) -> Any? {
-        
-        // cast data as slider data
-        if let sliderData:SliderCellData = data as? SliderCellData {
-            
-            //send slider value to data class for formatting
-            return sliderData.set(withSliderValue: withSliderValue)
-            
-        } else {
-            print("SETTINGS: Error: Unable to cast slider cell data as SliderCellData type during getFormattedValue")
-            return nil
-        }
-        
     }
     
 }

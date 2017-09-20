@@ -13,6 +13,8 @@ public class SliderCellData:CellData {
     internal var valueMin:Float
     internal var valueMax:Float
     
+    internal var substituteTextLabels:[String] = [] //used to display a text value instead of an int or float
+    
     internal var sliderCell:SliderCell?
     
     internal var linkedSliderCellData:SliderCellData?
@@ -46,7 +48,7 @@ public class SliderCellData:CellData {
         
     }
     
-    //MARK: SETTERS
+    //MARK: LINKED SLIDERS
     // Setters to allow linked slider cells
     internal func set(linkedSliderCellData:SliderCellData, asType:String) {
         self.linkedSliderCellData = linkedSliderCellData
@@ -75,31 +77,20 @@ public class SliderCellData:CellData {
                 ){
                 
                 // set local slider with linked slider value
-                let _:Any = set(withSliderValue: withLinkedSliderValue)
+                let _:Any = setDataValue(withSliderValue: withLinkedSliderValue)
                 
-                if let formattedValue:Any = sliderCell!.getFormattedValue(withSliderValue: withLinkedSliderValue) {
-                    
-                    sliderCell!.setSliderPosition(withValue: withLinkedSliderValue)
-                    sliderCell!.setTextLabel(withValue: formattedValue)
-                    
-                } else {
-                    
-                    print("SETTINGS: Error: Unable to get formatted value from", withLinkedSliderValue, "during set withLinkedSliderValue")
-                    
-                }
+                sliderCell!.setSliderPosition(withValue: withLinkedSliderValue)
+                sliderCell!.setTextLabel(withString: getTextLabelString())
                 
             }
-            
         }
-        
-        
     }
     
-    //MARK: FORMAT
-    // converts incoming slider handle data to correct data type
-    internal func set(withSliderValue: Float) -> Any {
-    
-        //check data type and convert incoming float to that
+    //MARK: SETTER
+    // sets local value var with incoming slider value
+    internal func setDataValue(withSliderValue: Float) {
+        
+        //if local data type is in
         if (dataType == XvSetConstants.DATA_TYPE_INTEGER){
             
             //convert float to int
@@ -108,16 +99,68 @@ public class SliderCellData:CellData {
             
         } else {
             
-            //float is default since slider values are floats
+            //else float is default since slider values are floats
             let floatValueHundredth:Float = Utils.getFloatHundredth(fromFloat: withSliderValue)
             value = floatValueHundredth
         }
-
-        return value
     
     }
     
-    //MARK: GETTERS
+    //MARK: GETTER
+    
+    internal func getTextLabelString() -> String {
+        
+        //if data type in int, and there are substitute text labels
+        if (dataType == XvSetConstants.DATA_TYPE_INTEGER && substituteTextLabels.count > 0){
+            
+            //confirm as int
+            if let intValue:Int = Utils.getInteger(fromAny: value) {
+                
+                //make sure it's within range of array
+                if (intValue < substituteTextLabels.count){
+                    
+                    //return label
+                    return substituteTextLabels[intValue]
+                    
+                } else {
+                    
+                    print("SETTINGS: Error: Value is out of range when attempting to access substitute text label in SliderCellData")
+                    return String(describing: value)
+                }
+
+            } else {
+                
+                print("SETTINGS: Error: Unable to convert value to Int during getTextLabelString in SliderCellData")
+            }
+            
+        }
+        
+        //else return a string version of the current value
+        return String(describing: value)
+    
+    }
+    
+    internal func set(substituteTextLabels:[String]){
+        
+        if (dataType == XvSetConstants.DATA_TYPE_INTEGER) {
+            
+            let range:Int = Int(valueMax) - Int(valueMin)
+            
+            if ((substituteTextLabels.count-1) == range){
+             
+                self.substituteTextLabels = substituteTextLabels
+            
+            } else {
+                print("SETTINGS: Error setting substitute text values on SliderCellData because range between valueMax and valueMin do not match the number in the incoming string array")
+            }
+            
+        } else {
+            print("SETTINGS: Error setting substitute text values on SliderCellData because data type is not an integer. Substitute text requires an interger to properly access the array.")
+        }
+    
+    }
+    
+    
     
     
 }

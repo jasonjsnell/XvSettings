@@ -38,6 +38,8 @@ public class Labels {
     
     //MARK: - App: Musical Scale
 
+    public static let MUSICAL_SCALE_ROOT_KEY_LABEL:String = "Root Key"
+    
     public static let MUSIC_SCALE_HEADER:String = "Musical Scale"
     public static let MUSIC_SCALE_LABEL:String = "Musical scale"
     

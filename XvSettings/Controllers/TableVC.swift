@@ -912,6 +912,14 @@ public class TableVC: UITableViewController {
                                 name: XvSetConstants.kAppTempoChanged,
                                 userInfo: nil
                             )
+                        
+                        } else if (sliderCellData.key == XvSetConstants.kAppMusicalScaleRootKey){
+                        
+                            //else if musical scale root key, post a notification for Core Data to update the musical scale
+                            Utils.postNotification(
+                                name: XvSetConstants.kAppMusicalScaleChanged,
+                                userInfo: nil
+                            )
                         }
                     }
                 }
@@ -1055,10 +1063,34 @@ public class TableVC: UITableViewController {
             
         } else {
             
-            print("SETTINGS: Nav is nil during loadInstrumentTable. Blocking push")
+            print("SETTINGS: Error: Nav is nil during loadInstrumentTable. Blocking push")
         }
         
     }
+    
+    internal func loadMusicalScaleTable(){
+        
+        if let _nav:UINavigationController = getNav() {
+            
+            if let musicalScaleTableData:MusicalScaleData = MusicalScaleData() {
+                
+                let vc:TableVC = TableVC()
+                vc.load(withDataSource: musicalScaleTableData)
+                vc.setNav(nav: _nav)
+                push(viewController: vc)
+                
+            } else {
+                
+                print("SETTINGS: Error when init MusicalScaleData during loadMusicalScaleTable")
+            }
+            
+            
+        } else {
+            
+            print("SETTINGS: Error: Nav is nil during loadMusicalScaleTable. Blocking push")
+        }
+    }
+    
 
     
     
