@@ -43,7 +43,7 @@
 		96DC44511EE63B5F0032DC9C /* ToggleCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44501EE63B5F0032DC9C /* ToggleCellData.swift */; };
 		96DC44531EE64DFA0032DC9C /* ButtonCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44521EE64DFA0032DC9C /* ButtonCellData.swift */; };
 		96DC44551EE6F8DC0032DC9C /* KitTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC44541EE6F8DC0032DC9C /* KitTableData.swift */; };
-		96F54F9B1F0A798A005021DB /* FadeOutDurationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F54F9A1F0A798A005021DB /* FadeOutDurationData.swift */; };
+		96F54F9B1F0A798A005021DB /* AmpReleaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F54F9A1F0A798A005021DB /* AmpReleaseData.swift */; };
 		96F54F9D1F0A7B77005021DB /* LoopLengthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F54F9C1F0A7B77005021DB /* LoopLengthData.swift */; };
 		96F54F9F1F0AAA7A005021DB /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F54F9E1F0AAA7A005021DB /* Labels.swift */; };
 /* End PBXBuildFile section */
@@ -87,7 +87,7 @@
 		96DC44501EE63B5F0032DC9C /* ToggleCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToggleCellData.swift; path = XvSettings/Data/Rows/ToggleCellData.swift; sourceTree = "<group>"; };
 		96DC44521EE64DFA0032DC9C /* ButtonCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonCellData.swift; path = XvSettings/Data/Rows/ButtonCellData.swift; sourceTree = "<group>"; };
 		96DC44541EE6F8DC0032DC9C /* KitTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KitTableData.swift; path = XvSettings/Data/Tables/KitTableData.swift; sourceTree = "<group>"; };
-		96F54F9A1F0A798A005021DB /* FadeOutDurationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FadeOutDurationData.swift; path = XvSettings/Data/Tables/Instances/FadeOutDurationData.swift; sourceTree = "<group>"; };
+		96F54F9A1F0A798A005021DB /* AmpReleaseData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AmpReleaseData.swift; path = XvSettings/Data/Tables/Instances/AmpReleaseData.swift; sourceTree = "<group>"; };
 		96F54F9C1F0A7B77005021DB /* LoopLengthData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoopLengthData.swift; path = XvSettings/Data/Tables/Instances/LoopLengthData.swift; sourceTree = "<group>"; };
 		96F54F9E1F0AAA7A005021DB /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Labels.swift; path = XvSettings/Data/Labels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -233,7 +233,7 @@
 		96C30CE11EF6C1F70058A64D /* Instances */ = {
 			isa = PBXGroup;
 			children = (
-				96F54F9A1F0A798A005021DB /* FadeOutDurationData.swift */,
+				96F54F9A1F0A798A005021DB /* AmpReleaseData.swift */,
 				960544871F0E220300FD3012 /* GlobalMidiDestinationsData.swift */,
 				960544891F0E29B300FD3012 /* GlobalMidiSourcesData.swift */,
 				9684A8571EF84B3300019AF1 /* InstrumentMidiDestinationsData.swift */,
@@ -330,7 +330,7 @@
 			files = (
 				966F4A421E84BDDA00154669 /* SectionData.swift in Sources */,
 				966F4A621E84BE4300154669 /* Footer.swift in Sources */,
-				96F54F9B1F0A798A005021DB /* FadeOutDurationData.swift in Sources */,
+				96F54F9B1F0A798A005021DB /* AmpReleaseData.swift in Sources */,
 				9684A8481EF7197000019AF1 /* XvSetConstants.swift in Sources */,
 				966F4A401E84BDD300154669 /* TableData.swift in Sources */,
 				96F54F9D1F0A7B77005021DB /* LoopLengthData.swift in Sources */,

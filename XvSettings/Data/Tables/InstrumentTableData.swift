@@ -117,30 +117,30 @@ public class InstrumentTableData:TableData {
         
         //MARK: Duration
         
-        if let fadeOutDurationData:FadeOutDurationData = FadeOutDurationData(withInstrDataObj: instrumentDataObj)
+        if let ampReleaseData:AmpReleaseData = AmpReleaseData(withInstrDataObj: instrumentDataObj)
             
             
             {
                 
-                let fadeOutDuration:DisclosureCellData = DisclosureCellData(
-                    withCheckmarkTableDataSource: fadeOutDurationData,
+                let ampRelease:DisclosureCellData = DisclosureCellData(
+                    withCheckmarkTableDataSource: ampReleaseData,
                     isVisible: true)
                 
-                let durationSection:SectionData = SectionData(
+                let ampReleaseSection:SectionData = SectionData(
                     header: "",
                     footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                    footerText: ["Duration determines how many measures the note will play before fading out and regenerating."],
+                    footerText: ["Release determines how many measures the note will play before fading out and regenerating."],
                     footerLink: nil,
                     footerHeight: 50,
-                    cells: [fadeOutDuration],
+                    cells: [ampRelease],
                     isVisible: true
                 )
                 
-                sections.append(durationSection)
+                sections.append(ampReleaseSection)
             
         } else {
             
-            print("SETTINGS: Data is invalid when creating composition section")
+            print("SETTINGS: Data is invalid when creating release section")
             
         }
         

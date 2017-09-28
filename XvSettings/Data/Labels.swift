@@ -95,13 +95,13 @@ public class Labels {
     
     //MARK: - Instrument: Fade out
     
-    public static let FADE_OUT_DURATION_HEADER:String = "Duration"
-    public static let FADE_OUT_DURATION_LABEL:String = "Duration"
+    public static let AMP_RELEASE_HEADER:String = "Duration"
+    public static let AMP_RELEASE_LABEL:String = "Duration"
     
-    public static let FADE_OUT_DURATION_MEASURE_8:String = "8 measures"
-    public static let FADE_OUT_DURATION_MEASURE_16:String = "16 measures"
-    public static let FADE_OUT_DURATION_MEASURE_32:String = "32 measures"
-    public static let FADE_OUT_DURATION_MEASURE_64:String = "64 measures"
+    public static let AMP_RELEASE_MEASURE_8:String = "8 measures"
+    public static let AMP_RELEASE_MEASURE_16:String = "16 measures"
+    public static let AMP_RELEASE_MEASURE_32:String = "32 measures"
+    public static let AMP_RELEASE_MEASURE_64:String = "64 measures"
     
     
     //MARK: - Instrument: Loop length
@@ -140,7 +140,7 @@ public class Labels {
     public static let QUANTIZATION_1_1:String = "1/1 note"
     
     //MARK: - Instrument: Regenerate
-    public static let REGENERATE_LABEL:String = "Regenerate at beginning of loop"
+    public static let REGENERATE_LABEL:String = "Quantize regeneration to pattern"
     
     
 }

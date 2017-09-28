@@ -9,13 +9,13 @@
 import Foundation
 import CoreData
 
-class FadeOutDurationData:CheckmarkTableData {
+class AmpReleaseData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
     public init?(withInstrDataObj:NSManagedObject){
         
-        let key:String = XvSetConstants.kInstrumentFadeOutDuration
+        let key:String = XvSetConstants.kInstrumentAmpRelease
         
         if let value:Int = _xvcdm.getInteger(forKey: key, forObject: withInstrDataObj){
             
@@ -25,12 +25,12 @@ class FadeOutDurationData:CheckmarkTableData {
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
                 defaultValue: value,
                 possibleValues: [8, 16, 32, 64],
-                textLabel: Labels.FADE_OUT_DURATION_LABEL,
+                textLabel: Labels.AMP_RELEASE_LABEL,
                 detailTextLabels: [
-                    Labels.FADE_OUT_DURATION_MEASURE_8,
-                    Labels.FADE_OUT_DURATION_MEASURE_16,
-                    Labels.FADE_OUT_DURATION_MEASURE_32,
-                    Labels.FADE_OUT_DURATION_MEASURE_64
+                    Labels.AMP_RELEASE_MEASURE_8,
+                    Labels.AMP_RELEASE_MEASURE_16,
+                    Labels.AMP_RELEASE_MEASURE_32,
+                    Labels.AMP_RELEASE_MEASURE_64
                 ],
                 levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
                 isVisible: true
@@ -39,7 +39,7 @@ class FadeOutDurationData:CheckmarkTableData {
             
             let section:SectionData = SectionData(
                 
-                header: Labels.FADE_OUT_DURATION_HEADER,
+                header: Labels.AMP_RELEASE_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,
@@ -53,7 +53,7 @@ class FadeOutDurationData:CheckmarkTableData {
             
         } else {
             
-            print("SETTINGS: Error: Unable to get musical scale from core data in FadeOutDurationData")
+            print("SETTINGS: Error: Unable to get musical scale from core data in ampReleaseData")
             return nil
         }
     }

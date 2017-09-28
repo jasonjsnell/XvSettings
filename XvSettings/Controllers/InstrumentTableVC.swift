@@ -18,7 +18,7 @@ class InstrumentTableVC:TableVC {
             key == XvSetConstants.kInstrumentMidiSendChannel      ||
             key == XvSetConstants.kInstrumentMidiReceiveChannel   ||
             key == XvSetConstants.kInstrumentLoopLength           ||
-            key == XvSetConstants.kInstrumentFadeOutDuration ||
+            key == XvSetConstants.kInstrumentAmpRelease ||
             key == XvSetConstants.kInstrumentQuantization ){
             
             loadCheckmarkTable(fromCell:cell)
