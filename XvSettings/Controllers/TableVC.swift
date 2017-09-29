@@ -843,7 +843,7 @@ public class TableVC: UITableViewController {
     
     //MARK: - FOOTER
     //user taps link is settings footer
-    internal func footerWithLinkWasTapped(sender:UITapGestureRecognizer){
+    @objc internal func footerWithLinkWasTapped(sender:UITapGestureRecognizer){
         
         if let footer:Footer = sender.view as? Footer {
             
@@ -873,7 +873,7 @@ public class TableVC: UITableViewController {
     fileprivate let SLIDER_INT_NON_VALUE:Int = -99999
     fileprivate let SLIDER_DOUBLE_NON_VALUE:Double = -99999.0
     
-    internal func sliderChanged(_ sender:UISlider) {
+    @objc internal func sliderChanged(_ sender:UISlider) {
         
         //validate cell
         if let sliderCell:SliderCell = sender.superview?.superview as? SliderCell {
@@ -882,47 +882,48 @@ public class TableVC: UITableViewController {
             if let sliderCellData:SliderCellData = sliderCell.data as? SliderCellData {
                 
                 //get value of slider
-                if let newValue:Any = sliderCell.set(withSliderValue: sender.value) {
+                
+                let newValue:Any = sliderCell.set(withSliderValue: sender.value)
+                
+                //if new...
+                if (_isSliderValueNew(newValue: newValue)){
                     
-                    //if new...
-                    if (_isSliderValueNew(newValue: newValue)){
+                    //set core data
+                    _setCoreData(
+                        level: sliderCellData.levelType,
+                        value: newValue,
+                        key: sliderCellData.key,
+                        multi: false)
+                    
+                    //if there is a linked cell...
+                    if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
                         
-                        //set core data
+                        //save its data too
                         _setCoreData(
-                            level: sliderCellData.levelType,
-                            value: newValue,
-                            key: sliderCellData.key,
+                            level: linkedSliderCellData.levelType,
+                            value: linkedSliderCellData.value,
+                            key: linkedSliderCellData.key,
                             multi: false)
+                    }
+                    
+                    //if tempo, post notification for sequencer
+                    if (sliderCellData.key == XvSetConstants.kAppTempo){
                         
-                        //if there is a linked cell...
-                        if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
-                            
-                            //save its data too
-                            _setCoreData(
-                                level: linkedSliderCellData.levelType,
-                                value: linkedSliderCellData.value,
-                                key: linkedSliderCellData.key,
-                                multi: false)
-                        }
+                        Utils.postNotification(
+                            name: XvSetConstants.kAppTempoChanged,
+                            userInfo: nil
+                        )
                         
-                        //if tempo, post notification for sequencer
-                        if (sliderCellData.key == XvSetConstants.kAppTempo){
-                            
-                            Utils.postNotification(
-                                name: XvSetConstants.kAppTempoChanged,
-                                userInfo: nil
-                            )
+                    } else if (sliderCellData.key == XvSetConstants.kAppMusicalScaleRootKey){
                         
-                        } else if (sliderCellData.key == XvSetConstants.kAppMusicalScaleRootKey){
-                        
-                            //else if musical scale root key, post a notification for Core Data to update the musical scale
-                            Utils.postNotification(
-                                name: XvSetConstants.kAppMusicalScaleChanged,
-                                userInfo: nil
-                            )
-                        }
+                        //else if musical scale root key, post a notification for Core Data to update the musical scale
+                        Utils.postNotification(
+                            name: XvSetConstants.kAppMusicalScaleChanged,
+                            userInfo: nil
+                        )
                     }
                 }
+                
                 
             } else {
                 
@@ -937,7 +938,7 @@ public class TableVC: UITableViewController {
     }
     
     //save the slider value when the user has released it
-    internal func sliderEnded(_ sender:UISlider) {
+    @objc internal func sliderEnded(_ sender:UISlider) {
         
         //reset both slider vars
         currSliderIntValue = SLIDER_INT_NON_VALUE
@@ -971,7 +972,7 @@ public class TableVC: UITableViewController {
 
     //MARK: - TOGGLE SWITCH
 
-    internal func toggleSwitchChanged(_ sender:UISwitch) {
+    @objc internal func toggleSwitchChanged(_ sender:UISwitch) {
         
         //if cell data is valid...
         if let toggleCellData:CellData = getToggleCellData(fromSwitch: sender) {

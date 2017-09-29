@@ -49,15 +49,17 @@ class Footer:UILabel {
         url = link
         
         //set styles
-        let normalStyle:[String:Any] = [
-            NSFontAttributeName : UIFont.systemFont(ofSize: TEXT_SIZE),
-            NSForegroundColorAttributeName : UIColor.gray]
+        let normalStyle:[NSAttributedStringKey:Any] = [
+            NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue) : UIFont.systemFont(ofSize: TEXT_SIZE),
+            NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue) : UIColor.gray
+        ]
 
         
-        let underlinedStyle:[String:Any] = [
-            NSFontAttributeName : UIFont.systemFont(ofSize: TEXT_SIZE),
-            NSForegroundColorAttributeName : UIColor.gray,
-            NSUnderlineStyleAttributeName : 1]
+        let underlinedStyle:[NSAttributedStringKey:Any] = [
+            NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue) : UIFont.systemFont(ofSize: TEXT_SIZE),
+            NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue) : UIColor.gray,
+            NSAttributedStringKey(rawValue: NSAttributedStringKey.underlineStyle.rawValue) : 1
+        ]
         
         //construct strings
         let attributedStr:NSMutableAttributedString = NSMutableAttributedString(string:"")

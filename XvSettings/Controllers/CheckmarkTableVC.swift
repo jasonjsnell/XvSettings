@@ -161,7 +161,7 @@ public class CheckmarkTableVC:TableVC {
         }
     }
     
-    internal func refresh(_ sender:AnyObject) {
+    @objc internal func refresh(_ sender:AnyObject) {
        
         if (debug){
             print("SETTINGS: Refresh table")
