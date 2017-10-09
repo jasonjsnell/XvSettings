@@ -17,7 +17,7 @@ public class SliderCellData:CellData {
     
     internal var sliderCell:SliderCell?
     
-    //TODO: uncomment if using linked sliders
+    //TODO: Future: uncomment if using linked sliders
     //internal var linkedSliderCellData:SliderCellData?
     //internal var linkedSliderCellDataType:String?
 
@@ -51,7 +51,7 @@ public class SliderCellData:CellData {
     
     //MARK: LINKED SLIDERS
     /*
-     //TODO: uncomment for linked sliders
+     //TODO: Future: uncomment for linked sliders
     // Setters to allow linked slider cells
     internal func set(linkedSliderCellData:SliderCellData, asType:String) {
         self.linkedSliderCellData = linkedSliderCellData
@@ -63,7 +63,7 @@ public class SliderCellData:CellData {
         self.sliderCell = sliderCell
     }
 
-    //TODO: uncomment for linked sliders
+    //TODO: Future: uncomment for linked sliders
     /*
     internal func set(withLinkedSliderValue:Float) {
         

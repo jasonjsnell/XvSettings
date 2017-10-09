@@ -893,7 +893,7 @@ public class TableVC: UITableViewController {
                             multi: false)
                         
                         /*
-                         //TODO: uncomment if there are linked sliders
+                         //TODO: Future: uncomment if there are linked sliders
                         //if there is a linked cell...
                         if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
                             
