@@ -865,13 +865,10 @@ public class TableVC: UITableViewController {
     //MARK: - SLIDER
     
     /*
-     Slider data is either int or double
      Update the core data and instrument / app value when the slider is being dragged, as long as it is a new value. Slider values reset when the handle is reset
      */
-    fileprivate var currSliderIntValue:Int  = -99999
-    fileprivate var currSliderDoubleValue:Double  = -99999.0
-    fileprivate let SLIDER_INT_NON_VALUE:Int = -99999
-    fileprivate let SLIDER_DOUBLE_NON_VALUE:Double = -99999.0
+    fileprivate var currSliderValue:Any  = -99999
+    fileprivate let SLIDER_NON_VALUE:Int = -99999
     
     @objc internal func sliderChanged(_ sender:UISlider) {
         
@@ -881,49 +878,54 @@ public class TableVC: UITableViewController {
             //validate data
             if let sliderCellData:SliderCellData = sliderCell.data as? SliderCellData {
                 
-                //get value of slider
+                //set slider cell
                 
-                let newValue:Any = sliderCell.set(withSliderValue: sender.value)
-                
-                //if new...
-                if (_isSliderValueNew(newValue: newValue)){
+                if let sliderValue:Any = sliderCell.set(withSliderValue: sender.value) {
                     
-                    //set core data
-                    _setCoreData(
-                        level: sliderCellData.levelType,
-                        value: newValue,
-                        key: sliderCellData.key,
-                        multi: false)
-                    
-                    //if there is a linked cell...
-                    if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
+                    //if new...
+                    if (_isSliderValueNew(newValue: sliderValue)){
                         
-                        //save its data too
+                        //set core data
                         _setCoreData(
-                            level: linkedSliderCellData.levelType,
-                            value: linkedSliderCellData.value,
-                            key: linkedSliderCellData.key,
+                            level: sliderCellData.levelType,
+                            value: sliderValue,
+                            key: sliderCellData.key,
                             multi: false)
+                        
+                        /*
+                         //TODO: uncomment if there are linked sliders
+                        //if there is a linked cell...
+                        if let linkedSliderCellData:SliderCellData = sliderCellData.linkedSliderCellData {
+                            
+                            //save its data too
+                            _setCoreData(
+                                level: linkedSliderCellData.levelType,
+                                value: linkedSliderCellData.value,
+                                key: linkedSliderCellData.key,
+                                multi: false)
+                        }*/
+                        
+                        //if tempo, post notification for sequencer
+                        if (sliderCellData.key == XvSetConstants.kAppTempo){
+                            
+                            Utils.postNotification(
+                                name: XvSetConstants.kAppTempoChanged,
+                                userInfo: nil
+                            )
+                            
+                        } else if (sliderCellData.key == XvSetConstants.kAppMusicalScaleRootKey){
+                            
+                            //else if musical scale root key, post a notification for Core Data to update the musical scale
+                            Utils.postNotification(
+                                name: XvSetConstants.kAppMusicalScaleChanged,
+                                userInfo: nil
+                            )
+                        }
                     }
                     
-                    //if tempo, post notification for sequencer
-                    if (sliderCellData.key == XvSetConstants.kAppTempo){
-                        
-                        Utils.postNotification(
-                            name: XvSetConstants.kAppTempoChanged,
-                            userInfo: nil
-                        )
-                        
-                    } else if (sliderCellData.key == XvSetConstants.kAppMusicalScaleRootKey){
-                        
-                        //else if musical scale root key, post a notification for Core Data to update the musical scale
-                        Utils.postNotification(
-                            name: XvSetConstants.kAppMusicalScaleChanged,
-                            userInfo: nil
-                        )
-                    }
+                } else {
+                    print("SETTINGS: Error setting slideCell with slider value during sliderChanged")
                 }
-                
                 
             } else {
                 
@@ -940,31 +942,18 @@ public class TableVC: UITableViewController {
     //save the slider value when the user has released it
     @objc internal func sliderEnded(_ sender:UISlider) {
         
-        //reset both slider vars
-        currSliderIntValue = SLIDER_INT_NON_VALUE
-        currSliderDoubleValue = SLIDER_DOUBLE_NON_VALUE
+        //reset slider var
+        currSliderValue = SLIDER_NON_VALUE
     }
     
     fileprivate func _isSliderValueNew(newValue:Any) -> Bool {
         
-        //int
-        if let newIntValue:Int = newValue as? Int {
+        //compare values as strings
+        if (String(describing: newValue) != String(describing: currSliderValue)) {
             
-            //float
-            if (newIntValue != currSliderIntValue) {
-                
-                currSliderIntValue = newIntValue
-                return true
-            }
-            
-        } else if let newDoubleValue:Double = newValue as? Double {
-            
-            //float
-            if (newDoubleValue != currSliderDoubleValue){
-                
-                currSliderDoubleValue = newDoubleValue
-                return true
-            }
+            //if the same, return true
+            currSliderValue = newValue
+            return true
         }
         
         return false

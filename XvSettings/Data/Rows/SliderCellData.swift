@@ -17,8 +17,9 @@ public class SliderCellData:CellData {
     
     internal var sliderCell:SliderCell?
     
-    internal var linkedSliderCellData:SliderCellData?
-    internal var linkedSliderCellDataType:String?
+    //TODO: uncomment if using linked sliders
+    //internal var linkedSliderCellData:SliderCellData?
+    //internal var linkedSliderCellDataType:String?
 
     internal var dataType:String
     
@@ -49,16 +50,21 @@ public class SliderCellData:CellData {
     }
     
     //MARK: LINKED SLIDERS
+    /*
+     //TODO: uncomment for linked sliders
     // Setters to allow linked slider cells
     internal func set(linkedSliderCellData:SliderCellData, asType:String) {
         self.linkedSliderCellData = linkedSliderCellData
         self.linkedSliderCellDataType = asType
     }
+     */
     
     internal func set(sliderCell:SliderCell) {
         self.sliderCell = sliderCell
     }
 
+    //TODO: uncomment for linked sliders
+    /*
     internal func set(withLinkedSliderValue:Float) {
         
         if (sliderCell != nil){
@@ -84,11 +90,12 @@ public class SliderCellData:CellData {
                 
             }
         }
-    }
+    } */
     
     //MARK: SETTER
     // sets local value var with incoming slider value
-    internal func setDataValue(withSliderValue: Float) {
+    // return the converted value
+    internal func setDataValue(withSliderValue: Float) -> Any {
         
         //if local data type is in
         if (dataType == XvSetConstants.DATA_TYPE_INTEGER){
@@ -104,6 +111,7 @@ public class SliderCellData:CellData {
             value = floatValueHundredth
         }
     
+        return value
     }
     
     //MARK: GETTER

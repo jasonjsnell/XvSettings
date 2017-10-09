@@ -73,29 +73,31 @@ public class SliderCell: Cell {
      */
     
     //user moves handle, table vc handler calls this func
-    internal func set(withSliderValue:Float) -> Any {
+    internal func set(withSliderValue:Float) -> Any? {
         
         //get data obj
         if let sliderData:SliderCellData = data as? SliderCellData {
             
-            //set value and text label
-            sliderData.setDataValue(withSliderValue: withSliderValue)
+            //set text label and data
             setTextLabel(withString: sliderData.getTextLabelString())
+            return sliderData.setDataValue(withSliderValue: withSliderValue)
             
             //if there is a linked slider cell data, update it with same slider value
-            if let linkedSliderCellData:SliderCellData = sliderData.linkedSliderCellData {
+            //TODO: Future: uncomment if linked sliders are needed
+            /*if let linkedSliderCellData:SliderCellData = sliderData.linkedSliderCellData {
                 
                 linkedSliderCellData.set(withLinkedSliderValue: withSliderValue)
                 
-            }
+            }*/
+            
             
         } else {
             
             print("SETTINGS: Error: Unable to access SliderCellData during SliderCell set withSliderValue")
-            
+            return nil
         }
         
-        return true
+        
         
         
     }
