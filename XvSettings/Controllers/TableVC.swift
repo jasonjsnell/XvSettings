@@ -1381,6 +1381,7 @@ public class TableVC: UITableViewController {
     
     //MARK: - CORE DATA -
     
+    //when a value is changed in the settings panel, this func saves it to core data and notifies parent app so it can update the instrument
     fileprivate func _setCoreData(level:String, value:Any, key:String, multi:Bool){
         
         //if (debug){
