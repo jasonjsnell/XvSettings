@@ -27,7 +27,7 @@ open class XvCoreDataManager {
     //one list of kits for quick access
     fileprivate var kits:[NSManagedObject]?
     
-    //these are the only vars that need to come in externally (from MIDI framework) when opening the settings panel
+    //these are the vars that need to come in externally (from MIDI framework) when opening the settings panel
     fileprivate var midiDestinationNames:[String] = []
     fileprivate var midiSourceNames:[String] = []
     
