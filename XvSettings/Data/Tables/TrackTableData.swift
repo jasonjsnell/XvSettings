@@ -1,5 +1,5 @@
 //
-//  InstrumentTableData.swift
+//  TrackTableData.swift
 //  XvSettings
 //
 //  Created by Jason Snell on 6/19/17.
@@ -9,42 +9,42 @@
 import Foundation
 import CoreData
 
-public class InstrumentTableData:TableData {
+public class TrackTableData:TableData {
     
-    public init(instrumentDataObj:NSManagedObject){
+    public init(trackDataObj:NSManagedObject){
         
         super.init()
         
         //save for future ref
-        xvcdm.set(currInstrument: instrumentDataObj)
+        xvcdm.set(currTrack: trackDataObj)
         
         //MARK: Header
-        if let instrumentName:String = xvcdm.getString(
-            forKey: XvSetConstants.kInstrumentName,
-            forObject: instrumentDataObj
+        if let trackDisplayName:String = xvcdm.getString(
+            forKey: XvSetConstants.kTrackDisplayName,
+            forObject: trackDataObj
             ) {
             
-            title = instrumentName
+            title = trackDisplayName
             
         } else {
-            print("SETTINGS: Error getting instrument name for instrument table header")
+            print("SETTINGS: Error getting track display name for track table header")
         }
         
         //MARK: Sample
-        if let audioEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kInstrumentAudioEnabled, forObject: instrumentDataObj) {
+        if let audioEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kTrackAudioEnabled, forObject: trackDataObj) {
             
             let audioEnabled:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kInstrumentAudioEnabled,
+                key: XvSetConstants.kTrackAudioEnabled,
                 value: audioEnabledBool,
                 textLabel: Labels.SAMPLE_LABEL,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
             )
             
             let sampleSection:SectionData = SectionData(
                 header: Labels.SAMPLE_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["Activates audio playback for this instrument."],
+                footerText: ["Activates audio playback for this track."],
                 footerLink: nil,
                 footerHeight: 50,
                 cells: [audioEnabled],
@@ -61,7 +61,7 @@ public class InstrumentTableData:TableData {
        
         
         //MARK: Quantization
-        if let quantizationData:QuantizationData = QuantizationData(withInstrDataObj: instrumentDataObj)
+        if let quantizationData:QuantizationData = QuantizationData(withInstrDataObj: trackDataObj)
             
         {
             
@@ -89,7 +89,7 @@ public class InstrumentTableData:TableData {
         
         //MARK: Loop length
         
-        if let loopLengthData:LoopLengthData = LoopLengthData(withInstrDataObj: instrumentDataObj)
+        if let loopLengthData:LoopLengthData = LoopLengthData(withInstrDataObj: trackDataObj)
             
         {
             
@@ -117,7 +117,7 @@ public class InstrumentTableData:TableData {
         
         //MARK: Duration
         
-        if let ampReleaseData:AmpReleaseData = AmpReleaseData(withInstrDataObj: instrumentDataObj)
+        if let ampReleaseData:AmpReleaseData = AmpReleaseData(withInstrDataObj: trackDataObj)
             
             
             {
@@ -146,40 +146,40 @@ public class InstrumentTableData:TableData {
         
         //MARK: Volume
         if let volumeFloat:Float = xvcdm.getFloat(
-            forKey: XvSetConstants.kInstrumentVolume,
-            forObject: instrumentDataObj),
+            forKey: XvSetConstants.kTrackVolume,
+            forObject: trackDataObj),
             
             let fadeOutBool:Bool = xvcdm.getBool(
-                forKey: XvSetConstants.kInstrumentVolumeLock,
-                forObject: instrumentDataObj)
+                forKey: XvSetConstants.kTrackVolumeLock,
+                forObject: trackDataObj)
             
         
         {
             
             let volume:SliderCellData = SliderCellData(
-                key: XvSetConstants.kInstrumentVolume,
+                key: XvSetConstants.kTrackVolume,
                 value: volumeFloat,
                 valueMin: 0.01,
                 valueMax: 1.0,
                 textLabel: Labels.VOLUME_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_FLOAT,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true)
             
            
 
             let volumeLock:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kInstrumentVolumeLock,
+                key: XvSetConstants.kTrackVolumeLock,
                 value: fadeOutBool,
                 textLabel: "Volume Lock",
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
             )
             
             let soundSection:SectionData = SectionData(
                 header: Labels.VOLUME_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["This prevents the instrument from ever fading out."],
+                footerText: ["This prevents the track from ever fading out."],
                 footerLink: nil,
                 footerHeight: 50,
                 cells: [volume, volumeLock],
@@ -196,64 +196,64 @@ public class InstrumentTableData:TableData {
         
         //MARK: Sound: Pitch
         if let tuneInt:Int = xvcdm.getInteger(
-            forKey: XvSetConstants.kInstrumentTune,
-            forObject: instrumentDataObj),
+            forKey: XvSetConstants.kTrackTune,
+            forObject: trackDataObj),
             
             let pitchEnabledBool:Bool = xvcdm.getBool(
-                forKey: XvSetConstants.kInstrumentPitchEnabled,
-                forObject: instrumentDataObj),
+                forKey: XvSetConstants.kTrackPitchEnabled,
+                forObject: trackDataObj),
             
             let randomizedPitchBool:Bool = xvcdm.getBool(
-                forKey: XvSetConstants.kInstrumentRandomizedPitch,
-                forObject: instrumentDataObj),
+                forKey: XvSetConstants.kTrackRandomizedPitch,
+                forObject: trackDataObj),
             
             let octaveCenterInt:Int = xvcdm.getInteger(
-                forKey: XvSetConstants.kInstrumentOctaveCenter,
-                forObject: instrumentDataObj),
+                forKey: XvSetConstants.kTrackOctaveCenter,
+                forObject: trackDataObj),
             
             let octaveRangeInt:Int = xvcdm.getInteger(
-                forKey: XvSetConstants.kInstrumentOctaveRange,
-                forObject: instrumentDataObj)
+                forKey: XvSetConstants.kTrackOctaveRange,
+                forObject: trackDataObj)
         {
             
             let tune:SliderCellData = SliderCellData(
-                key: XvSetConstants.kInstrumentTune,
+                key: XvSetConstants.kTrackTune,
                 value: Float(tuneInt),
                 valueMin: -6,
                 valueMax: 6,
                 textLabel: Labels.TUNE_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true)
             
             let pitchEnabled:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kInstrumentPitchEnabled,
+                key: XvSetConstants.kTrackPitchEnabled,
                 value: pitchEnabledBool,
                 textLabel: Labels.PITCH_ENABLED_LABEL,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
             )
             
             pitchEnabled.visibilityTargets = [[sections.count, 2, 3, 4]]
             
             let octaveCenter:SliderCellData = SliderCellData(
-                key: XvSetConstants.kInstrumentOctaveCenter,
+                key: XvSetConstants.kTrackOctaveCenter,
                 value: Float(octaveCenterInt),
                 valueMin: -2,
                 valueMax: 8,
                 textLabel: Labels.OCTAVE_CENTER_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: pitchEnabledBool)
             
             let octaveRange:SliderCellData = SliderCellData(
-                key: XvSetConstants.kInstrumentOctaveRange,
+                key: XvSetConstants.kTrackOctaveRange,
                 value: Float(octaveRangeInt),
                 valueMin: 1,
                 valueMax: 10,
                 textLabel: Labels.OCTAVE_RANGE_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: pitchEnabledBool)
             
             //create link between highest and lowest slider cell data objects
@@ -263,10 +263,10 @@ public class InstrumentTableData:TableData {
             
             
             let randomizedPitch:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kInstrumentRandomizedPitch,
+                key: XvSetConstants.kTrackRandomizedPitch,
                 value: randomizedPitchBool,
                 textLabel: Labels.RANDOMIZED_PITCH_LABEL,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: pitchEnabledBool
             )
             
@@ -293,19 +293,19 @@ public class InstrumentTableData:TableData {
         //MARK: MIDI send
         //make sure midi core data is valid
         if let midiSendEnabledBool:Bool = xvcdm.getBool(
-            forKey: XvSetConstants.kInstrumentMidiSendEnabled,
-            forObject: instrumentDataObj),
+            forKey: XvSetConstants.kTrackMidiSendEnabled,
+            forObject: trackDataObj),
             
-            let midiSendChannelData:MidiSendChannelData = MidiSendChannelData(withInstrDataObj: instrumentDataObj),
+            let midiSendChannelData:MidiSendChannelData = MidiSendChannelData(withInstrDataObj: trackDataObj),
             
-            let midiDestinationsData:InstrumentMidiDestinationsData = InstrumentMidiDestinationsData(withInstrDataObj: instrumentDataObj)
+            let midiDestinationsData:TrackMidiDestinationsData = TrackMidiDestinationsData(withInstrDataObj: trackDataObj)
         {
             
             let midiSendEnabled:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kInstrumentMidiSendEnabled,
+                key: XvSetConstants.kTrackMidiSendEnabled,
                 value: midiSendEnabledBool,
                 textLabel: "MIDI Send",
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
             )
             
@@ -334,20 +334,20 @@ public class InstrumentTableData:TableData {
             sections.append(midiSendSection)
     
         } else {
-            print("SETTINGS: Error: Unable to initialize midiSendSection in instrument table")
+            print("SETTINGS: Error: Unable to initialize midiSendSection in track table")
         }
         
         //MARK: MIDI Receive
         //make sure core data is valid
-        if let midiReceiveEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kInstrumentMidiReceiveEnabled, forObject: instrumentDataObj),
-            let midiReceiveChannelData:MidiReceiveChannelData = MidiReceiveChannelData(withInstrDataObj: instrumentDataObj)
+        if let midiReceiveEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kTrackMidiReceiveEnabled, forObject: trackDataObj),
+            let midiReceiveChannelData:MidiReceiveChannelData = MidiReceiveChannelData(withInstrDataObj: trackDataObj)
         {
             
             let midiReceiveEnabled:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kInstrumentMidiReceiveEnabled,
+                key: XvSetConstants.kTrackMidiReceiveEnabled,
                 value: midiReceiveEnabledBool,
                 textLabel: "MIDI Receive",
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
             )
             
@@ -371,7 +371,7 @@ public class InstrumentTableData:TableData {
             sections.append(midiReceiveSection)
             
         } else {
-            print("SETTINGS: Error: Unable to initialize midiReceiveSection in instrument table")
+            print("SETTINGS: Error: Unable to initialize midiReceiveSection in track table")
         }
         
         

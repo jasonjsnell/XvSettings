@@ -41,10 +41,10 @@ public class CheckmarkTableVC:TableVC {
                     name: XvSetConstants.kAppGlobalMidiDestinationsRequest,
                     userInfo: ["checkmarkTableVC" : self])
             
-            } else if (checkmarkTableData.key == XvSetConstants.kInstrumentMidiDestinations){
+            } else if (checkmarkTableData.key == XvSetConstants.kTrackMidiDestinations){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kInstrumentMidiDestinationsRequest,
+                    name: XvSetConstants.kTrackMidiDestinationsRequest,
                     userInfo: ["checkmarkTableVC" : self])
             }
         }
@@ -112,19 +112,19 @@ public class CheckmarkTableVC:TableVC {
                     print("SETTINGS: Unable to cast checkmark table data as GlobalMidiSourcesData during reloadTableAfterMidiUpdate")
                 }
             
-            } else if (checkmarkTableData.key == XvSetConstants.kInstrumentMidiDestinations){
+            } else if (checkmarkTableData.key == XvSetConstants.kTrackMidiDestinations){
                 
-                if let instrumentMidiDestinationsData:InstrumentMidiDestinationsData = checkmarkTableData as? InstrumentMidiDestinationsData {
+                if let trackMidiDestinationsData:TrackMidiDestinationsData = checkmarkTableData as? TrackMidiDestinationsData {
                     
                     //refresh table data
-                    instrumentMidiDestinationsData.refresh()
+                    trackMidiDestinationsData.refresh()
                     
                     // reload this table vc with new data
-                    load(withDataSource: instrumentMidiDestinationsData)
+                    load(withDataSource: trackMidiDestinationsData)
                     
                 } else {
                     
-                    print("SETTINGS: Unable to cast checkmark table data as InstrumentMidiDestinationsData during reloadTableAfterMidiUpdate")
+                    print("SETTINGS: Unable to cast checkmark table data as TrackMidiDestinationsData during reloadTableAfterMidiUpdate")
                 }
             }
             
@@ -151,7 +151,7 @@ public class CheckmarkTableVC:TableVC {
             
             if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources ||
                 checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations ||
-                checkmarkTableData.key == XvSetConstants.kInstrumentMidiDestinations){
+                checkmarkTableData.key == XvSetConstants.kTrackMidiDestinations){
                 
                 // set up the refresh control
                 let refreshControl:UIRefreshControl = UIRefreshControl()
@@ -181,10 +181,10 @@ public class CheckmarkTableVC:TableVC {
                     name: XvSetConstants.kAppGlobalMidiDestinationsRequest,
                     userInfo: ["checkmarkTableVC" : self])
             
-            } else if (checkmarkTableData.key == XvSetConstants.kInstrumentMidiDestinations){
+            } else if (checkmarkTableData.key == XvSetConstants.kTrackMidiDestinations){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kInstrumentMidiDestinationsRequest,
+                    name: XvSetConstants.kTrackMidiDestinationsRequest,
                     userInfo: ["checkmarkTableVC" : self])
             }
         }

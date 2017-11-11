@@ -5,12 +5,12 @@
 //  Created by Jason Snell on 6/19/17.
 //  Copyright © 2017 Jason J. Snell. All rights reserved.
 //
-// This is for instrument level midi destinations
+// This is for track level midi destinations
 
 import Foundation
 import CoreData
 
-class InstrumentMidiDestinationsData:CheckmarkTableData {
+class TrackMidiDestinationsData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
@@ -21,7 +21,7 @@ class InstrumentMidiDestinationsData:CheckmarkTableData {
     public init?(withInstrDataObj:NSManagedObject){
         
         self.instrDataObj = withInstrDataObj
-        let key:String = XvSetConstants.kInstrumentMidiDestinations
+        let key:String = XvSetConstants.kTrackMidiDestinations
         
         super.init(
             
@@ -31,7 +31,7 @@ class InstrumentMidiDestinationsData:CheckmarkTableData {
             possibleValues: [],
             textLabel: Labels.MIDI_DESTINATION_LABEL,
             detailTextLabels: [],
-            levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+            levelType: XvSetConstants.LEVEL_TYPE_TRACK,
             isVisible: true
         )
         

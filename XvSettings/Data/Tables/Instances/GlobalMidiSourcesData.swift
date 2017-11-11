@@ -6,7 +6,7 @@
 //  Copyright © 2017 Jason J. Snell. All rights reserved.
 //
 
-// This is for app level midi destinations, which instruments can default to
+// This is for app level midi destinations, which tracks can default to
 
 import Foundation
 import CoreData

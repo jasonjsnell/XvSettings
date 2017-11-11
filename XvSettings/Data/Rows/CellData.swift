@@ -28,7 +28,7 @@ public class CellData {
     //checkmark, toggle, disclosure, button
     internal var displayType:String
     
-    //level type, does the cell change a var on the app, kit, or instrument level
+    //level type, does the cell change a var on the app or track level
     internal var levelType:String
     
 

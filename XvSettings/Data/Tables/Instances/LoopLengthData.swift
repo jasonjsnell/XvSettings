@@ -15,7 +15,7 @@ class LoopLengthData:CheckmarkTableData {
     
     public init?(withInstrDataObj:NSManagedObject){
         
-        let key:String = XvSetConstants.kInstrumentLoopLength
+        let key:String = XvSetConstants.kTrackLoopLength
         
         if let value:Int = _xvcdm.getInteger(forKey: key, forObject: withInstrDataObj){
             
@@ -32,7 +32,7 @@ class LoopLengthData:CheckmarkTableData {
                     Labels.LOOP_LENGTH_MEASURE_4,
                     Labels.LOOP_LENGTH_MEASURE_8,
                 ],
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
                 
             )

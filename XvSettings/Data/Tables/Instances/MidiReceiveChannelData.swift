@@ -15,7 +15,7 @@ class MidiReceiveChannelData:CheckmarkTableData {
     
     public init?(withInstrDataObj:NSManagedObject){
         
-        let key:String = XvSetConstants.kInstrumentMidiReceiveChannel
+        let key:String = XvSetConstants.kTrackMidiReceiveChannel
         
         if let defaultValue:Int = _xvcdm.getInteger(forKey: key, forObject: withInstrDataObj) {
             
@@ -37,7 +37,7 @@ class MidiReceiveChannelData:CheckmarkTableData {
                 possibleValues: possibleValues,
                 textLabel: Labels.MIDI_RECEIVE_LABEL,
                 detailTextLabels: labels,
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
             )
             

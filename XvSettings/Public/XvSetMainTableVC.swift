@@ -47,17 +47,13 @@ public class XvSetMainTableVC:TableVC {
      
         super.checkmarkRowSelected(cell: cell, indexPath: indexPath)
         
-        if let cellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
+        //TODO: Is this being used? Was for choosing a new kit, but now???
+        print("SETTINGS: CHECK: Is this being used?")
+        
+        /*if let cellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
             
-             //post notication for main table checkmark cells
-             if (cellData.key == XvSetConstants.kAppSelectedKit){
-             
-                Utils.postNotification(
-                    name: XvSetConstants.kAppSelectedKitChanged,
-                    userInfo: nil
-                )
-             }
-        }
+            //nothing???
+        }*/
     }
     
     
@@ -105,18 +101,10 @@ public class XvSetMainTableVC:TableVC {
             //MARK: Musical scale
             loadMusicalScaleTable()
             
-        } else if (key.lowercased().range(of:"kit") != nil) {
-            
-            //MARK: Instrument kit
-            
-            if let kitDataObj:NSManagedObject = xvcdm.getKit(withID: key) {
-                
-                loadKitTable(fromDataObj: kitDataObj)
-                
-            } else {
-                print("SETTINGS: Core data for", key, "not found during disclosureRowSelected")
-            }
+        } else {
+            print("SETTINGS: Core data for", key, "not found during disclosureRowSelected")
         }
+        
     }
 
     //MARK: Private

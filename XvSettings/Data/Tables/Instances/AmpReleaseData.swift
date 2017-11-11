@@ -15,7 +15,7 @@ class AmpReleaseData:CheckmarkTableData {
     
     public init?(withInstrDataObj:NSManagedObject){
         
-        let key:String = XvSetConstants.kInstrumentAmpRelease
+        let key:String = XvSetConstants.kTrackAmpRelease
         
         if let value:Int = _xvcdm.getInteger(forKey: key, forObject: withInstrDataObj){
             
@@ -32,7 +32,7 @@ class AmpReleaseData:CheckmarkTableData {
                     Labels.AMP_RELEASE_MEASURE_32,
                     Labels.AMP_RELEASE_MEASURE_64
                 ],
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
                 
             )

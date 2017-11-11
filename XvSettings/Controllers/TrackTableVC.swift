@@ -1,5 +1,5 @@
 //
-//  InstrumentTableVC.swift
+//  TrackTableVC.swift
 //  XvSettings
 //
 //  Created by Jason Snell on 6/18/17.
@@ -9,21 +9,21 @@
 import UIKit
 import CoreData
 
-class InstrumentTableVC:TableVC {
+class TrackTableVC:TableVC {
 
 
     override func disclosureRowSelected(cell:DisclosureCell, key:String){
         
         if (
-            key == XvSetConstants.kInstrumentMidiSendChannel      ||
-            key == XvSetConstants.kInstrumentMidiReceiveChannel   ||
-            key == XvSetConstants.kInstrumentLoopLength           ||
-            key == XvSetConstants.kInstrumentAmpRelease ||
-            key == XvSetConstants.kInstrumentQuantization ){
+            key == XvSetConstants.kTrackMidiSendChannel      ||
+            key == XvSetConstants.kTrackMidiReceiveChannel   ||
+            key == XvSetConstants.kTrackLoopLength           ||
+            key == XvSetConstants.kTrackAmpRelease ||
+            key == XvSetConstants.kTrackQuantization ){
             
             loadCheckmarkTable(fromCell:cell)
             
-        } else if (key == XvSetConstants.kInstrumentMidiDestinations){
+        } else if (key == XvSetConstants.kTrackMidiDestinations){
             
             if (!xvcdm.audioBusMidiBypass){
                 loadCheckmarkTable(fromCell:cell)

@@ -81,19 +81,19 @@ public class Labels {
         ]
     }
     
-    //MARK: - Instrument: Kit Selection
+    //MARK: - Track: Kit Selection
     public static let KIT_SELECTION_HEADER:String = "Select a Kit"
     public static let KIT_CUSTOMIZATION_HEADER:String = "Customize"
     
-    //MARK: - Instrument: Sample
+    //MARK: - Track: Sample
     
     public static let SAMPLE_HEADER:String = "Sample"
     public static let SAMPLE_LABEL:String = "Sample playback"
     
-    //MARK: - Instrument: Composition
+    //MARK: - Track: Composition
     public static let COMPOSITION_HEADER:String = "Composition"
     
-    //MARK: - Instrument: Fade out
+    //MARK: - Track: Fade out
     
     public static let AMP_RELEASE_HEADER:String = "Duration"
     public static let AMP_RELEASE_LABEL:String = "Duration"
@@ -104,7 +104,7 @@ public class Labels {
     public static let AMP_RELEASE_MEASURE_64:String = "64 measures"
     
     
-    //MARK: - Instrument: Loop length
+    //MARK: - Track: Loop length
     
     public static let LOOP_LENGTH_HEADER:String = "Loop Length"
     public static let LOOP_LENGTH_LABEL:String = "Loop length"
@@ -115,7 +115,7 @@ public class Labels {
     public static let LOOP_LENGTH_MEASURE_8:String = "8 measures (full pattern)"
     
     
-    //MARK: - Instrument: Sound
+    //MARK: - Track: Sound
     public static let VOLUME_HEADER:String = "Volume"
     
     public static let VOLUME_LABEL:String = "Volume"
@@ -128,7 +128,7 @@ public class Labels {
     public static let OCTAVE_CENTER_LABEL:String = "Octave"
     public static let OCTAVE_RANGE_LABEL:String = "Octave range"
     
-    //MARK: - Instrument: Quantization
+    //MARK: - Track: Quantization
     
     public static let QUANTIZATION_LABEL:String = "Quantization"
     public static let QUANTIZATION_HEADER:String = "Quantization"
@@ -139,7 +139,7 @@ public class Labels {
     public static let QUANTIZATION_1_2:String = "1/2 note"
     public static let QUANTIZATION_1_1:String = "1/1 note"
     
-    //MARK: - Instrument: Regenerate
+    //MARK: - Track: Regenerate
     public static let REGENERATE_LABEL:String = "Quantize regeneration to pattern"
     
     

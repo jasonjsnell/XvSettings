@@ -8,7 +8,7 @@
 /*
  There are active and passive vars
  Passive vars are settings inside of core data that are not stored outside of core data. They are referrred to direct in core data when needed, like bgMode.
- Active vars also live outside of core data and need to be pushed to other parts of the app when updated, like into an instrument class, or need to change something instantly, like changing the song tempo when changing the tempo slider. These require post notifcations to do an update outside the framework
+ Active vars also live outside of core data and need to be pushed to other parts of the app when updated, like into an track class, or need to change something instantly, like changing the song tempo when changing the tempo slider. These require post notifcations to do an update outside the framework
  
 */
 
@@ -20,7 +20,6 @@ public class XvSetConstants {
     
     //app
     public static let kAppTempoChanged:String = "kAppTempoChanged"
-    public static let kAppSelectedKitChanged:String = "kAppSelectedKitChanged"
     public static let kAppMusicalScaleChanged:String = "kAppMusicalScaleChanged"
     
     //midi
@@ -29,18 +28,18 @@ public class XvSetConstants {
     public static let kAppGlobalMidiDestinationsChanged:String = "kAppGlobalMidiDestinationsChanged"
     public static let kAppGlobalMidiSourcesRequest:String = "kAppGlobalMidiSourcesRequest"
     public static let kAppGlobalMidiSourcesChanged:String = "kAppGlobalMidiSourcesChanged"
-    public static let kInstrumentMidiDestinationsRequest:String = "kInstrumentMidiDestinationsRequest"
+    public static let kTrackMidiDestinationsRequest:String = "kTrackMidiDestinationsRequest"
     
-    //instrument data
-    public static let kInstrumentValueChanged:String = "kInstrumentValueChanged"
+    //track data
+    public static let kTrackValueChanged:String = "kTrackValueChanged"
     
     
     
     //button commands
     public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
     public static let kAppRearrangeButtonTapped:String = "kAppRearrangeButtonTapped"
-    public static let kKitResetAIButtonTapped:String = "kKitResetAIButtonTapped"
-    public static let kKitRestoreFactorySettingsButtonTapped:String = "kKitRestoreFactorySettingsButtonTapped"
+    public static let kAppResetAIButtonTapped:String = "kAppResetAIButtonTapped"
+    public static let kAppRestoreFactorySettingsButtonTapped:String = "kAppRestoreFactorySettingsButtonTapped"
     
     
     
@@ -51,8 +50,10 @@ public class XvSetConstants {
     public static let kAppBackgroundModeEnabled:String = "backgroundModeEnabled" // passive
     public static let kAppAbletonLinkEnabled:String = "abletonLinkEnabled" // passive
     public static let kAppTempo:String = "userTempo" //updates sequencer and ABL Link
-    public static let kAppSelectedKit:String = "selectedKit"
-    
+    public static let kAppTracks:String = "tracks" //array of track objects
+    public static let kAppArtificialIntelligence = "artificialIntelligence" // passive
+    public static let kAppFactorySettings = "kAppFactorySettings" // passive
+    public static let kAppRearrange = "kAppRearrange" // passive
     
     //MARK: App: MIDI
     public static let kAppGlobalMidiDestinations:String = "globalMidiDestinations" // passive
@@ -113,52 +114,41 @@ public class XvSetConstants {
     public static let TOUR_IN_QUEUE:String = "tourInQueue"
     public static let TOUR_COMPLETE:String = "tourComplete"
     
-    //MARK: - Kit -
-    public static let kKitEntity:String = "Kit"
-    public static let kKitID:String = "id"
-    public static let kKitName:String = "name"
-    public static let kKitInstruments:String = "instruments"
-    public static let kKitArtificialIntelligence = "artificialIntelligence"
-    public static let kKitFactorySettings = "kKitFactorySettings"
-    public static let kAppRearrange = "kAppRearrange"
+    //MARK: - Track -
     
-    //MARK: - Instrument -
+    public static let kTrackEntity:String = "Track"
     
-    public static let kInstrumentEntity:String = "Instrument"
+ 
+  
+    //all update XvTrack object with same id as core data object
+    public static let kTrackAudioEnabled:String = "audioEnabled"
+    public static let kTrackAbbreviatedName:String = "abbreviatedName"
     
-    public static let kInstrumentID:String = "id"
-    public static let kInstrumentName:String = "name"
+    public static let kTrackAmpAttack:String = "ampAttack"
+    public static let kTrackAmpDecay:String = "ampDecay"
+    public static let kTrackAmpSustain:String = "ampSustain"
+    public static let kTrackAmpRelease:String = "ampRelease"
     
-    //set by kit data object
-    public static let kInstrumentKit:String = "kit"
-    
-    //all update XvInstrument object with same id as core data object
-    public static let kInstrumentAudioEnabled:String = "audioEnabled"
-    
-    public static let kInstrumentAmpAttack:String = "ampAttack"
-    public static let kInstrumentAmpDecay:String = "ampDecay"
-    public static let kInstrumentAmpSustain:String = "ampSustain"
-    public static let kInstrumentAmpRelease:String = "ampRelease"
-    
-    
-    public static let kInstrumentLifetimeKeyTallies = "lifetimeKeyTallies"
-    public static let kInstrumentLoopLength:String = "loopLength"
-    public static let kInstrumentMidiDestinations:String = "instrumentMidiDestinations"
-    public static let kInstrumentMidiReceiveChannel:String = "midiReceiveChannel"
-    public static let kInstrumentMidiReceiveEnabled:String = "midiReceiveEnabled"
-    public static let kInstrumentMidiSendChannel:String = "midiSendChannel"
-    public static let kInstrumentMidiSendEnabled:String = "midiSendEnabled"
-    public static let kInstrumentOctaveCenter:String = "octaveCenter"
-    public static let kInstrumentOctaveRange:String = "octaveRange"
-    public static let kInstrumentPan:String = "pan"
-    public static let kInstrumentPitchEnabled:String = "pitchEnabled"
-    public static let kInstrumentPosition:String = "position"
-    public static let kInstrumentQuantization:String = "quantization"
-    public static let kInstrumentRandomizedPitch:String = "randomizedPitch"
-    public static let kInstrumentRegenerateAtBeginningOfPattern:String = "regenerateAtBeginningOfPattern"
-    public static let kInstrumentTune:String = "tune"
-    public static let kInstrumentVolume:String = "volume"
-    public static let kInstrumentVolumeLock:String = "volumeLock"
+    public static let kTrackDisplayName:String = "displayName"
+    public static let kTrackLifetimeKeyTallies = "lifetimeKeyTallies"
+    public static let kTrackLoopLength:String = "loopLength"
+    public static let kTrackMidiDestinations:String = "trackMidiDestinations"
+    public static let kTrackMidiReceiveChannel:String = "midiReceiveChannel"
+    public static let kTrackMidiReceiveEnabled:String = "midiReceiveEnabled"
+    public static let kTrackMidiSendChannel:String = "midiSendChannel"
+    public static let kTrackMidiSendEnabled:String = "midiSendEnabled"
+    public static let kTrackOctaveCenter:String = "octaveCenter"
+    public static let kTrackOctaveRange:String = "octaveRange"
+    public static let kTrackPan:String = "pan"
+    public static let kTrackPitchEnabled:String = "pitchEnabled"
+    public static let kTrackPosition:String = "position"
+    public static let kTrackQuantization:String = "quantization"
+    public static let kTrackRandomizedPitch:String = "randomizedPitch"
+    public static let kTrackRegenerateAtBeginningOfPattern:String = "regenerateAtBeginningOfPattern"
+    public static let kTrackSampleFileName:String = "sampleFileName"
+    public static let kTrackTune:String = "tune"
+    public static let kTrackVolume:String = "volume"
+    public static let kTrackVolumeLock:String = "volumeLock"
     
     public static let MIDI_DESTINATION_GLOBAL:String = "Global"
     public static let MIDI_DESTINATION_OMNI:String = "Omni"
@@ -197,8 +187,7 @@ public class XvSetConstants {
     //MARK: - Level types -
     public static let LEVEL_TYPE_NONE:String = "levelNone"
     public static let LEVEL_TYPE_APP:String = "levelApp"
-    public static let LEVEL_TYPE_KIT:String = "levelKit"
-    public static let LEVEL_TYPE_INSTRUMENT:String = "levelInstrument"
+    public static let LEVEL_TYPE_TRACK:String = "levelTrack"
     
     //MARK: - Linked slider types -
     public static let LISTENER_MAX:String = "listernerMax"

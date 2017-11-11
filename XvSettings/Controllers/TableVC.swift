@@ -532,18 +532,18 @@ public class TableVC: UITableViewController {
                 name: XvSetConstants.kAppRearrangeButtonTapped,
                 userInfo: nil)
             
-        } else if (key == XvSetConstants.kKitArtificialIntelligence){
+        } else if (key == XvSetConstants.kAppArtificialIntelligence){
             
             let alert = UIAlertController(
                 title: "Reset",
-                message: "Are you sure you want to reset the kit's AI memory?",
+                message: "Are you sure you want to reset the AI memory?",
                 preferredStyle: UIAlertControllerStyle.alert)
             
             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
                 UIAlertAction in
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kKitResetAIButtonTapped,
+                    name: XvSetConstants.kAppResetAIButtonTapped,
                     userInfo: nil)
                 
             }
@@ -557,18 +557,18 @@ public class TableVC: UITableViewController {
             self.present(alert, animated: true, completion: nil)
             
             
-        } else if (key == XvSetConstants.kKitFactorySettings){
+        } else if (key == XvSetConstants.kAppFactorySettings){
             
             let alert = UIAlertController(
                 title: "Restore",
-                message: "Are you sure you want to restore this kit to its factory settings?",
+                message: "Are you sure you want to restore the app to its factory settings?",
                 preferredStyle: UIAlertControllerStyle.alert)
             
             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
                 UIAlertAction in
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kKitRestoreFactorySettingsButtonTapped,
+                    name: XvSetConstants.kAppRestoreFactorySettingsButtonTapped,
                     userInfo: nil)
                 
             }
@@ -731,7 +731,7 @@ public class TableVC: UITableViewController {
     
     fileprivate func _getArrayOfValues(level:String, key:String, value:Any) -> [Any]{
         
-        //1. get existing values based on level type (app, kit, instrument)
+        //1. get existing values based on level type (app or track)
         //var to populate and return
         var existingValueArray:[Any] = []
         
@@ -740,7 +740,7 @@ public class TableVC: UITableViewController {
             // if app...
             if let app:NSManagedObject = xvcdm.getApp() {
                 
-                // get value for key with this kit
+                // get value for key
                 if let existingAppValue:Any = xvcdm.getAny(forKey: key, forObject: app) {
                     
                     //is this value an array?
@@ -759,52 +759,28 @@ public class TableVC: UITableViewController {
                 print("SETTINGS: Error getting app during _getArrayOfValues")
             }
             
-        } else if (level == XvSetConstants.LEVEL_TYPE_KIT) {
+        } else if (level == XvSetConstants.LEVEL_TYPE_TRACK) {
             
-            // if kit...
-            if let currKit:NSManagedObject = xvcdm.getCurrKit() {
+            // if track...
+            if let currTrack:NSManagedObject = xvcdm.getCurrTrack() {
                 
-                // get value for key with this kit
-                if let existingKitValue:Any = xvcdm.getAny(forKey: key, forObject: currKit) {
+                // get value for key with this track
+                if let existingTrackValue:Any = xvcdm.getAny(forKey: key, forObject: currTrack) {
                     
                     //is this value an array?
-                    if let existingKitValueArray:[Any] = existingKitValue as? [Any] {
+                    if let existingTrackValueArray:[Any] = existingTrackValue as? [Any] {
                         
-                        existingValueArray = existingKitValueArray
+                        existingValueArray = existingTrackValueArray
                     }
                     
                 } else {
                     
-                    print("SETTINGS: Error getting curr kit value during _getArrayOfValues")
+                    print("SETTINGS: Error getting curr track value during _getArrayOfValues")
                 }
                 
             } else {
                 
-                print("SETTINGS: Error getting curr kit during _getArrayOfValues")
-            }
-            
-        } else if (level == XvSetConstants.LEVEL_TYPE_INSTRUMENT) {
-            
-            // if instrument...
-            if let currInstrument:NSManagedObject = xvcdm.getCurrInstrument() {
-                
-                // get value for key with this instrument
-                if let existingInstrumentValue:Any = xvcdm.getAny(forKey: key, forObject: currInstrument) {
-                    
-                    //is this value an array?
-                    if let existingInstrumentValueArray:[Any] = existingInstrumentValue as? [Any] {
-                        
-                        existingValueArray = existingInstrumentValueArray
-                    }
-                    
-                } else {
-                    
-                    print("SETTINGS: Error getting curr instrument value during _getArrayOfValues")
-                }
-                
-            } else {
-                
-                print("SETTINGS: Error getting curr instrument during _getArrayOfValues")
+                print("SETTINGS: Error getting curr track during _getArrayOfValues")
             }
         }
         
@@ -835,7 +811,7 @@ public class TableVC: UITableViewController {
     
     //MARK: - DISCLOSURE CELL
     
-    //overriden by instrument and kit tables
+    //overriden by track tables
     internal func disclosureRowSelected(cell:DisclosureCell, key:String){
         
     }
@@ -865,7 +841,7 @@ public class TableVC: UITableViewController {
     //MARK: - SLIDER
     
     /*
-     Update the core data and instrument / app value when the slider is being dragged, as long as it is a new value. Slider values reset when the handle is reset
+     Update the core data and track / app value when the slider is being dragged, as long as it is a new value. Slider values reset when the handle is reset
      */
     fileprivate var currSliderValue:Any  = -99999
     fileprivate let SLIDER_NON_VALUE:Int = -99999
@@ -1025,35 +1001,19 @@ public class TableVC: UITableViewController {
         
     }
     
-    internal func loadKitTable(fromDataObj: NSManagedObject) {
+    internal func loadTrackTable(fromDataObj: NSManagedObject) {
         
         if let _nav:UINavigationController = getNav() {
             
-            let kitTableData:KitTableData = KitTableData(kitDataObj: fromDataObj)
-            let vc:KitTableVC = KitTableVC()
-            vc.load(withDataSource: kitTableData)
-            vc.setNav(nav: _nav)
-            push(viewController: vc)
-            
-        } else {
-            
-            print("SETTINGS: Nav is nil during loadKitTable. Blocking push")
-        }
-    }
-    
-    internal func loadInstrumentTable(fromDataObj: NSManagedObject) {
-        
-        if let _nav:UINavigationController = getNav() {
-            
-            let instrTableData:InstrumentTableData = InstrumentTableData(instrumentDataObj: fromDataObj)
-            let vc:InstrumentTableVC = InstrumentTableVC()
+            let instrTableData:TrackTableData = TrackTableData(trackDataObj: fromDataObj)
+            let vc:TrackTableVC = TrackTableVC()
             vc.load(withDataSource: instrTableData)
             vc.setNav(nav: _nav)
             push(viewController: vc)
             
         } else {
             
-            print("SETTINGS: Error: Nav is nil during loadInstrumentTable. Blocking push")
+            print("SETTINGS: Error: Nav is nil during loadTrackTable. Blocking push")
         }
         
     }
@@ -1381,40 +1341,35 @@ public class TableVC: UITableViewController {
     
     //MARK: - CORE DATA -
     
-    //when a value is changed in the settings panel, this func saves it to core data and notifies parent app so it can update the instrument
+    //when a value is changed in the settings panel, this func saves it to core data and notifies parent app so it can update the track
     fileprivate func _setCoreData(level:String, value:Any, key:String, multi:Bool){
         
         //if (debug){
             print("SETTINGS: TableVC: Set CoreData", level, value, key)
         //}
         
-        //set core data value based on level (app, kit, or instrument)
+        //set core data value based on level (app or track)
         
         if (level == XvSetConstants.LEVEL_TYPE_APP){
         
             xvcdm.setApp(value: value, forKey: key)
             let _:Bool = xvcdm.save()
             
-        } else if (level == XvSetConstants.LEVEL_TYPE_KIT){
+        } else if (level == XvSetConstants.LEVEL_TYPE_TRACK){
             
-            xvcdm.setCurrKit(value: value, forKey: key)
+            xvcdm.setCurrTrack(value: value, forKey: key)
             let _:Bool = xvcdm.save()
             
-        } else if (level == XvSetConstants.LEVEL_TYPE_INSTRUMENT){
-            
-            xvcdm.setCurrInstrument(value: value, forKey: key)
-            let _:Bool = xvcdm.save()
-            
-            if let instrumentDataObj:NSManagedObject = xvcdm.getCurrInstrument() {
+            if let trackDataObj:NSManagedObject = xvcdm.getCurrTrack() {
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kInstrumentValueChanged,
-                    userInfo: ["instrumentDataObj" : instrumentDataObj]
+                    name: XvSetConstants.kTrackValueChanged,
+                    userInfo: ["trackDataObj" : trackDataObj]
                 )
             
             } else {
                 
-                print("SETTINGS: Error getting current instrument during setCoreData")
+                print("SETTINGS: Error getting current track during setCoreData")
             }
         }
     }

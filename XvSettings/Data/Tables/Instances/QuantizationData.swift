@@ -15,7 +15,7 @@ class QuantizationData:CheckmarkTableData {
     
     public init?(withInstrDataObj:NSManagedObject){
         
-        let key:String = XvSetConstants.kInstrumentQuantization
+        let key:String = XvSetConstants.kTrackQuantization
         
         if let value:Int = _xvcdm.getInteger(forKey: key, forObject: withInstrDataObj){
 
@@ -34,7 +34,7 @@ class QuantizationData:CheckmarkTableData {
                     Labels.QUANTIZATION_1_1,
                     
                 ],
-                levelType: XvSetConstants.LEVEL_TYPE_INSTRUMENT,
+                levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
                 
             )

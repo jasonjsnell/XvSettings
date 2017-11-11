@@ -26,7 +26,7 @@ public class CheckmarkTableData:TableData {
     fileprivate var detailTextLabel:String // curr right-side text label
     internal var detailTextLabels:[String] //all the possible right-side text labels / name of checkmark cells in table
     
-    //level type: app, kit, or instrument
+    //level type: app or track
     fileprivate var levelType:String
     
     //visibility

@@ -21,11 +21,8 @@ open class XvCoreDataManager {
     
     //single app var for quick access
     fileprivate var app:NSManagedObject?
-    fileprivate var currKit:NSManagedObject?
-    fileprivate var currInstrument:NSManagedObject?
+    fileprivate var currTrack:NSManagedObject?
     
-    //one list of kits for quick access
-    fileprivate var kits:[NSManagedObject]?
     
     //these are the vars that need to come in externally (from MIDI framework) when opening the settings panel
     fileprivate var midiDestinationNames:[String] = []
@@ -121,155 +118,92 @@ open class XvCoreDataManager {
         
     }
     
-    public func getKits() -> [NSManagedObject]? {
+    // get track array from the app objects relationship variable "tracks"
+    public func getTracks() -> [NSManagedObject?]? {
         
-        print("CDM: Get Kits")
-        
-        if (managedContext != nil){
+        if let _app:NSManagedObject = getApp(){
             
-            //if kit var is already set, return it
-            if (kits != nil){
+            //cast as NSSet
+            if let tracksSet:NSSet = _app.value(forKey: XvSetConstants.kAppTracks) as? NSSet {
                 
-                return kits
-            } else {
-                
-                if let kitsArr:[NSManagedObject] = _getManagedObjectArray(
-                    fromEntityName: XvSetConstants.kKitEntity,
-                    sortKey: "id") {
+                //cast as NSManagedObject array
+                if let unsortedTrackObjArray:[NSManagedObject] = tracksSet.allObjects as? [NSManagedObject] {
                     
-                    set(kits: kitsArr)
-                    return kitsArr
+                    //create blank array of nil objects
+                    var sortedTrackObjArr = [NSManagedObject?](
+                        repeating: nil,
+                        count: unsortedTrackObjArray.count
+                    )
                     
-                } else {
-                    return nil
-                }
-            }
-            
-        } else {
-            print("CDM: Error: Managed context is nil during getKits")
-            return nil
-        }
-        
-    }
-    
-    public func getKit(withID:String) -> NSManagedObject? {
-        
-        print("CDM: Get kit with ID", withID)
-        
-        if let kits:[NSManagedObject] = getKits() {
-            
-            for kit in kits {
-                
-                if let kitID:String = kit.value(forKey: XvSetConstants.kKitID) as? String {
-                    
-                    if (kitID == withID){
-                        return kit
-                    }
-                    
-                } else {
-                    print("CDM: Error finding kit ID during during getKit(withID)")
-                    return nil
-                }
-            }
-            
-            print("CDM: Error finding kit with id", withID)
-            return nil
-            
-        } else {
-            print("CDM: Error: Unable to get kits during getKit(withID)")
-            return nil
-        }
-    }
-    
-    public func getCurrKit() -> NSManagedObject? {
-        
-        return currKit
-    }
-    
-    
-    // get instruments array from a kit objects relationship variable "instruments"
-    public func getInstruments(forKitObject:NSManagedObject) -> [NSManagedObject?]? {
-        
-        //cast as NSSet
-        if let instrumentsSet:NSSet = forKitObject.value(forKey: XvSetConstants.kKitInstruments) as? NSSet {
-            
-            //cast as NSManagedObject array
-            if let unsortedInstrumentObjArray:[NSManagedObject] = instrumentsSet.allObjects as? [NSManagedObject] {
-                
-                //create blank array of nil objects
-                var sortedInstrumentObjArr = [NSManagedObject?](
-                    repeating: nil,
-                    count: unsortedInstrumentObjArray.count
-                )
-                
-                //go through unsorted object array
-                for unsortedObj in unsortedInstrumentObjArray {
-                    
-                    //grab position var
-                    if let position:Int = unsortedObj.value(forKey: XvSetConstants.kInstrumentPosition) as? Int {
+                    //go through unsorted object array
+                    for unsortedObj in unsortedTrackObjArray {
                         
-                        //and place content in that position in the sorted array
-                        sortedInstrumentObjArr[position] = unsortedObj
-                    } else {
-                        print("CDM: Error getting position from unsorted object during getInstruments")
-                    }
-                    
-                }
-                
-                return sortedInstrumentObjArr
-                
-            } else {
-                print("CDM: Error getting instrument managed object array for kit", forKitObject)
-                return nil
-            }
-            
-        } else {
-            print("CDM: Error getting instruments NSSet for kit", forKitObject)
-            return nil
-        }
-    }
-    
-    public func getInstrumentInCurrKit(forID:String) -> NSManagedObject? {
-        
-        //grab all instruments in this kit obj
-        if (currKit != nil) {
-            
-            if let instrumentObjs:[NSManagedObject] = getInstruments(forKitObject: currKit!) as? [NSManagedObject] {
-                
-                //loop through them
-                for instrumentObj in instrumentObjs {
-                    
-                    //grab the id
-                    if let id:String = getString(forKey: XvSetConstants.kInstrumentID, forObject: instrumentObj) {
-                        
-                        //if it matches the incoming id, return the instr data obj
-                        if (id == forID) {
+                        //grab position var
+                        if let position:Int = unsortedObj.value(forKey: XvSetConstants.kTrackPosition) as? Int {
                             
-                            return instrumentObj
+                            //and place content in that position in the sorted array
+                            sortedTrackObjArr[position] = unsortedObj
+                        } else {
+                            print("CDM: Error getting position from unsorted object during getTracks")
                         }
-                    } else {
-                        print("CDM: Error getting instrument ID during getInstrumentInCurrKit")
+                        
                     }
+                    
+                    return sortedTrackObjArr
+                    
+                } else {
+                    print("CDM: Error getting track managed object array during getTracks")
+                    return nil
                 }
                 
-                //else return nil
-                return nil
-                
             } else {
-                
-                print("CDM: Error getting instruments during getInstrument")
+                print("CDM: Error getting tracks NSSet during getTracks")
                 return nil
             }
             
         } else {
-            print("currKit is nil during getInstrument")
+            print("CDM: Error geting app object during getTracks")
+            return nil
+        }
+        
+        
+        
+    }
+    
+    public func getTrack(forPosition:Int) -> NSManagedObject? {
+        
+        //get tracks
+        if let trackObjs:[NSManagedObject] = getTracks() as? [NSManagedObject] {
+            
+            //loop through them
+            for trackObj in trackObjs {
+                
+                //grab the position
+                if let position:Int = getInteger(forKey: XvSetConstants.kTrackPosition, forObject: trackObj) {
+                    
+                    //if it matches the incoming id, return the instr data obj
+                    if (position == forPosition) {
+                        
+                        return trackObj
+                    }
+                } else {
+                    print("CDM: Error getting track position during getTrack forPosition")
+                }
+            }
+            
+            //else return nil
+            return nil
+            
+        } else {
+            
+            print("CDM: Error getting tracks during getTrack forPosition")
             return nil
         }
     }
     
-    public func getCurrInstrument() -> NSManagedObject? {
+    public func getCurrTrack() -> NSManagedObject? {
         
-        return currInstrument
+        return currTrack
     }
     
     //MARK: - ACCESSORS FOR APP LEVEL VARS
@@ -497,18 +431,10 @@ open class XvCoreDataManager {
         self.app = app
     }
     
-    public func set(kits:[NSManagedObject]) {
-        self.kits = kits
-    }
     
-    public func set(currKit:NSManagedObject) {
-        print("CDM: currKit is now", currKit.value(forKey: "id") as Any)
-        self.currKit = currKit
-    }
-    
-    public func set(currInstrument:NSManagedObject) {
-        print("CDM: currInstrument is now", currInstrument.value(forKey: "id") as Any)
-        self.currInstrument = currInstrument
+    public func set(currTrack:NSManagedObject) {
+        print("CDM: currTrack is now", currTrack.value(forKey: "id") as Any)
+        self.currTrack = currTrack
     }
     
     public func setApp(value:Any, forKey:String) {
@@ -521,22 +447,14 @@ open class XvCoreDataManager {
             print("CDM: Unable to get app object during setAppValue")
         }
     }
+
     
-    public func setCurrKit(value:Any, forKey:String) {
+    public func setCurrTrack(value:Any, forKey:String) {
         
-        if (currKit != nil) {
-            set(value: value, forKey: forKey, forObject: currKit!)
+        if (currTrack != nil) {
+            set(value: value, forKey: forKey, forObject: currTrack!)
         } else {
-            print("CDM: Unable to get curr kit during setCurrKitValue")
-        }
-    }
-    
-    public func setCurrInstrument(value:Any, forKey:String) {
-        
-        if (currInstrument != nil) {
-            set(value: value, forKey: forKey, forObject: currInstrument!)
-        } else {
-            print("CDM: Unable to get curr instrument during setCurrKitValue")
+            print("CDM: Unable to get curr track during setCurrTrack")
         }
     }
     
@@ -554,7 +472,7 @@ open class XvCoreDataManager {
         if (debug){
             if let objectID:String = getString(forKey: "id", forObject: forObject) {
                 
-                if (forKey != XvSetConstants.kInstrumentLifetimeKeyTallies){
+                if (forKey != XvSetConstants.kTrackLifetimeKeyTallies){
                     print("CDM: Set", forKey, "to", value, "for", objectID)
                 }
             }

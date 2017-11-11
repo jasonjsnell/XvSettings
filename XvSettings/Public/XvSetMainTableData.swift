@@ -11,11 +11,11 @@
 
 /*
  Basic data flow:
- 1. At launch, pull info from core data to instrument classes
- 2. During play, info is grabbed from instrument classes
+ 1. At launch, pull info from core data to track classes
+ 2. During play, info is grabbed from track classes
  3. Settings panel loads the core data info
  4. Settings panel changes core data info
- 4. When settings panel is closed, push core data to instrument classes
+ 4. When settings panel is closed, push core data to track classes
  */
 
 import Foundation
@@ -33,92 +33,57 @@ public class XvSetMainTableData:TableData {
         
         title = "Settings"
         
+        //MARK: Tracks section
         
-        
-        //MARK: Kits
-        
-        var kitCheckmarkCellDataArray:[CheckmarkCellData] = []
-        var kitDisclosureCellDataArray:[DisclosureCellData] = []
-        
-        // Loop through the instrument kits and prep two sections
-        // 1. Section to select the current kit
-        // 2. Section to customize any kit
-        
-        if let kits:[NSManagedObject] = xvcdm.getKits() {
+        //try to get tracks data array from core data
+        if let tracksDataObjs:[NSManagedObject] = xvcdm.getTracks() as? [NSManagedObject] {
             
-            for i in 0..<kits.count {
+            var trackDisclosureCellDataArray:[DisclosureCellData] = []
+            
+            //TODO: if track identification happens through position, what about when the tracks change position? Can they? Or is the position fixed like the MC-50 or Akai? And any "swapping" that occurs would transfer the data but never change the actual track's position?
+            
+            // loop through each track
+            for tracksDataObj in tracksDataObjs {
                 
-                let kit:NSManagedObject = kits[i]
-                
-                if let id:String = xvcdm.getString(forKey: XvSetConstants.kKitID, forObject: kit),
-                    let name:String = xvcdm.getString(forKey: XvSetConstants.kKitName, forObject: kit) {
+                if let displayName:String = xvcdm.getString(
+                    forKey: XvSetConstants.kTrackDisplayName,
+                    forObject: tracksDataObj
+                    ),
                     
-                    var isSelected:Bool = false
+                    //TODO: what to use instead of ID? position as a string, as a key?
+                    let position:Int = xvcdm.getInteger(
+                        forKey: XvSetConstants.kTrackPosition,
+                        forObject: tracksDataObj
+                    ) {
                     
-                    if (xvcdm.getAppString(forKey: XvSetConstants.kAppSelectedKit) == id){
-                        isSelected = true
-                    }
-                    
-                    
-                    let instrumentKitCheckmarkCellData:CheckmarkCellData = CheckmarkCellData(
-                        key: XvSetConstants.kAppSelectedKit,
-                        value: id,
-                        textLabel: name,
-                        selected: isSelected,
-                        multi: false,
-                        levelType: XvSetConstants.LEVEL_TYPE_APP,
+                    let trackDisclosureCellData:DisclosureCellData = DisclosureCellData(
+                        key: String(position),
+                        textLabel: displayName,
                         isVisible: true
                     )
                     
-        
-                    instrumentKitCheckmarkCellData.set(visibilityTargets: [[1, i]])
-                    
-                    kitCheckmarkCellDataArray.append(instrumentKitCheckmarkCellData)
-                  
-                    let instrumentKitDisclosureCellData:DisclosureCellData = DisclosureCellData(
-                        key: id,
-                        textLabel: name,
-                        isVisible: isSelected
-                    )
-                    
-                    kitDisclosureCellDataArray.append(instrumentKitDisclosureCellData)
+                    trackDisclosureCellDataArray.append(trackDisclosureCellData)
                     
                 } else {
-                    print("SETTINGS: Error getting kit id and name during main table init")
+                    print("SETTINGS: Error getting track display name during track table init")
                 }
+                
             }
             
-            //MARK: Customize
-            
-            
-            let instrumentKitSelection:SectionData = SectionData(
-                header: Labels.KIT_SELECTION_HEADER,
+            let tracksSection:SectionData = SectionData(
+                header: "Tracks",
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,
                 footerHeight: 10,
-                cells: kitCheckmarkCellDataArray,
+                cells: trackDisclosureCellDataArray,
                 isVisible: true
             )
             
-            sections.append(instrumentKitSelection)
- 
+            sections.append(tracksSection)
             
-            let customizeSection:SectionData = SectionData(
-                header: Labels.KIT_CUSTOMIZATION_HEADER,
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 10,
-                cells: kitDisclosureCellDataArray,
-                isVisible: true
-            )
-            
-            sections.append(customizeSection)
-            
-        
         } else {
-            print("SETTINGS: Error getting kits during XvSetMainTableData init")
+            print("SETTINGS: Unable to find tracks data array during KitTableData init")
         }
         
         
@@ -253,9 +218,9 @@ public class XvSetMainTableData:TableData {
         //MARK: Artificial Intelligence
         
         let artificialIntelligence:ButtonCellData = ButtonCellData(
-            key: XvSetConstants.kKitArtificialIntelligence,
+            key: XvSetConstants.kAppArtificialIntelligence,
             textLabel: "Reset AI Memory",
-            levelType: XvSetConstants.LEVEL_TYPE_KIT,
+            levelType: XvSetConstants.LEVEL_TYPE_APP,
             isVisible: true
         )
         
@@ -322,6 +287,28 @@ public class XvSetMainTableData:TableData {
         
         sections.append(rearrangeSection)
         */
+        
+        //TODO: organize these new sections and work on their copy
+        //MARK: Factory settings
+        
+        let factorySettings:ButtonCellData = ButtonCellData(
+            key: XvSetConstants.kAppFactorySettings,
+            textLabel: "Restore Factory Settings",
+            levelType: XvSetConstants.LEVEL_TYPE_APP,
+            isVisible: true
+        )
+        
+        let factorySettingsSection:SectionData = SectionData(
+            header: "Factory Settings",
+            footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+            footerText: ["This resets the tracks to their factory settings."],
+            footerLink: nil,
+            footerHeight: 70,
+            cells: [factorySettings],
+            isVisible: true
+        )
+        
+        sections.append(factorySettingsSection)
         
     }
     
