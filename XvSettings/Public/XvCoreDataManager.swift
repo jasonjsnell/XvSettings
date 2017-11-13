@@ -441,19 +441,44 @@ open class XvCoreDataManager {
         
         if let _app:NSManagedObject = getApp(){
             
-            set(value: value, forKey: forKey, forObject: _app)
+            if (debug){
+                print("CDM: Set", forKey, "to", value, "for app")
+            }
+            
+            _app.setValue(value, forKeyPath: forKey)
             
         } else {
             print("CDM: Unable to get app object during setAppValue")
         }
+    }
+    
+    
+    
+    public func set(value:Any, forKey:String, forTrackObject:NSManagedObject) {
+        
+        if (debug){
+            
+            printChange(value:value, forKey:forKey, forTrackObject: forTrackObject)
+        }
+        
+        forTrackObject.setValue(value, forKeyPath: forKey)
+        
     }
 
     
     public func setCurrTrack(value:Any, forKey:String) {
         
         if (currTrack != nil) {
-            set(value: value, forKey: forKey, forObject: currTrack!)
+            
+            if (debug){
+                
+                printChange(value:value, forKey:forKey, forTrackObject: currTrack!)
+            }
+            
+            currTrack!.setValue(value, forKeyPath: forKey)
+            
         } else {
+            
             print("CDM: Unable to get curr track during setCurrTrack")
         }
     }
@@ -462,21 +487,6 @@ open class XvCoreDataManager {
     public var audioBusMidiBypass:Bool {
         get { return _audioBusMidiBypass }
         set { _audioBusMidiBypass = newValue }
-    }
-    
-    //used by core data helper, setting values during init and updating whole classes
-    public func set(value:Any, forKey:String, forObject:NSManagedObject) {
-        
-        forObject.setValue(value, forKeyPath: forKey)
-        
-        if (debug){
-            if let objectID:String = getString(forKey: "id", forObject: forObject) {
-                
-                if (forKey != XvSetConstants.kTrackLifetimeKeyTallies){
-                    print("CDM: Set", forKey, "to", value, "for", objectID)
-                }
-            }
-        }
     }
     
     //called by root vc when settings panel is launched
@@ -490,6 +500,20 @@ open class XvCoreDataManager {
         self.midiSourceNames = midiSourceNames
     }
     
+    //MARK: - PRIVATE HELPERS
+    
+    
+    fileprivate func printChange(value:Any, forKey:String, forTrackObject:NSManagedObject){
+        
+        if let position:Int = getInteger(forKey: XvSetConstants.kTrackPosition, forObject: forTrackObject) {
+            
+            if (forKey != XvSetConstants.kTrackLifetimeKeyTallies){
+                print("CDM: Set", forKey, "to", value, "for track", position)
+            }
+            
+        }
+        
+    }
     
     //MARK: - SAVE -
     public func save() -> Bool {

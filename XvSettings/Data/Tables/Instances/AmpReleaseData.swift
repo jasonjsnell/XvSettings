@@ -15,7 +15,7 @@ class AmpReleaseData:CheckmarkTableData {
     
     public init?(withInstrDataObj:NSManagedObject){
         
-        let key:String = XvSetConstants.kTrackAmpRelease
+        let key:String = XvSetConstants.kTrackCompositionRelease
         
         if let value:Int = _xvcdm.getInteger(forKey: key, forObject: withInstrDataObj){
             

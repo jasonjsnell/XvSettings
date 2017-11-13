@@ -40,8 +40,6 @@ public class XvSetMainTableData:TableData {
             
             var trackDisclosureCellDataArray:[DisclosureCellData] = []
             
-            //TODO: if track identification happens through position, what about when the tracks change position? Can they? Or is the position fixed like the MC-50 or Akai? And any "swapping" that occurs would transfer the data but never change the actual track's position?
-            
             // loop through each track
             for tracksDataObj in tracksDataObjs {
                 
@@ -50,7 +48,7 @@ public class XvSetMainTableData:TableData {
                     forObject: tracksDataObj
                     ),
                     
-                    //TODO: what to use instead of ID? position as a string, as a key?
+                    //use position as the key, it is unique
                     let position:Int = xvcdm.getInteger(
                         forKey: XvSetConstants.kTrackPosition,
                         forObject: tracksDataObj

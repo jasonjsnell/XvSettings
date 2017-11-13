@@ -18,7 +18,7 @@ class TrackTableVC:TableVC {
             key == XvSetConstants.kTrackMidiSendChannel      ||
             key == XvSetConstants.kTrackMidiReceiveChannel   ||
             key == XvSetConstants.kTrackLoopLength           ||
-            key == XvSetConstants.kTrackAmpRelease ||
+            key == XvSetConstants.kTrackCompositionRelease ||
             key == XvSetConstants.kTrackQuantization ){
             
             loadCheckmarkTable(fromCell:cell)
