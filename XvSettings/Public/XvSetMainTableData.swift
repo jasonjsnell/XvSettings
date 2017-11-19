@@ -40,11 +40,13 @@ public class XvSetMainTableData:TableData {
             
             var trackDisclosureCellDataArray:[DisclosureCellData] = []
             
+            print ("tracksDataObjs", tracksDataObjs)
+            
             // loop through each track
             for tracksDataObj in tracksDataObjs {
                 
                 if let displayName:String = xvcdm.getString(
-                    forKey: XvSetConstants.kTrackDisplayName,
+                    forKey: XvSetConstants.kSampleDisplayName,
                     forObject: tracksDataObj
                     ),
                     
@@ -88,7 +90,7 @@ public class XvSetMainTableData:TableData {
         //MARK: Musical scale
         
         let musicalScale:DisclosureCellData = DisclosureCellData(
-            key: XvSetConstants.kAppMusicalScale,
+            key: XvSetConstants.kConfigMusicalScale,
             textLabel: Labels.MUSIC_SCALE_LABEL,
             isVisible: true
         )
@@ -109,12 +111,12 @@ public class XvSetMainTableData:TableData {
     
         //MARK: Tempo
         /*
-        if let tempoInt:Int = xvcdm.getAppInteger(forKey: XvSetConstants.kAppTempo) {
+        if let tempoInt:Int = xvcdm.getAppInteger(forKey: XvSetConstants.kConfigTempo) {
             
             print("my curr tempo is", tempoInt)
             
             let tempo:SliderCellData = SliderCellData(
-                key: XvSetConstants.kAppTempo,
+                key: XvSetConstants.kConfigTempo,
                 value: tempoInt,
                 valueMin: 50,
                 valueMax: 200,
@@ -150,7 +152,7 @@ public class XvSetMainTableData:TableData {
         
         
         let abletonLink:DisclosureCellData = DisclosureCellData(
-            key: XvSetConstants.kAppAbletonLinkEnabled,
+            key: XvSetConstants.kConfigAbletonLinkEnabled,
             textLabel: "Ableton Link",
             isVisible: true
         )
@@ -216,7 +218,7 @@ public class XvSetMainTableData:TableData {
         //MARK: Artificial Intelligence
         
         let artificialIntelligence:ButtonCellData = ButtonCellData(
-            key: XvSetConstants.kAppArtificialIntelligence,
+            key: XvSetConstants.kConfigArtificialIntelligence,
             textLabel: "Reset AI Memory",
             levelType: XvSetConstants.LEVEL_TYPE_APP,
             isVisible: true
@@ -237,10 +239,12 @@ public class XvSetMainTableData:TableData {
         
         //MARK: BG Mode
         
-        if let bgModeBool:Bool = xvcdm.getAppBool(forKey: XvSetConstants.kAppBackgroundModeEnabled) {
+        if let bgModeBool:Bool = xvcdm.getBool(
+            forKey: XvSetConstants.kConfigBackgroundModeEnabled,
+            forObject: xvcdm.currConfig!) {
             
             let bgMode:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kAppBackgroundModeEnabled,
+                key: XvSetConstants.kConfigBackgroundModeEnabled,
                 value: bgModeBool,
                 textLabel: "Background Mode",
                 levelType: XvSetConstants.LEVEL_TYPE_APP,
@@ -290,7 +294,7 @@ public class XvSetMainTableData:TableData {
         //MARK: Factory settings
         
         let factorySettings:ButtonCellData = ButtonCellData(
-            key: XvSetConstants.kAppFactorySettings,
+            key: XvSetConstants.kTracksFactorySettings,
             textLabel: "Restore Factory Settings",
             levelType: XvSetConstants.LEVEL_TYPE_APP,
             isVisible: true

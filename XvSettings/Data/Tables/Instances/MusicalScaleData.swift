@@ -15,12 +15,14 @@ class MusicalScaleData:CheckmarkTableData {
         //root / global key
         var rootKeySection:SectionData?
         
-        if let musicalScaleRootKeyInt:Int = _xvcdm.getAppInteger(forKey: XvSetConstants.kAppMusicalScaleRootKey) {
+        if let musicalScaleRootKeyInt:Int = _xvcdm.getInteger(
+            forKey: XvSetConstants.kConfigMusicalScaleRootKey,
+            forObject: _xvcdm.currConfig!) {
             
             let rootKeyLabels:[String] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
             
             let rootKey:SliderCellData = SliderCellData(
-                key: XvSetConstants.kAppMusicalScaleRootKey,
+                key: XvSetConstants.kConfigMusicalScaleRootKey,
                 value: musicalScaleRootKeyInt,
                 valueMin: 0,
                 valueMax: Float(rootKeyLabels.count-1),
@@ -52,9 +54,9 @@ class MusicalScaleData:CheckmarkTableData {
         
         var musicalScaleSection:SectionData?
         
-        let musicalScaleKey:String = XvSetConstants.kAppMusicalScale
+        let musicalScaleKey:String = XvSetConstants.kConfigMusicalScale
         
-        if let musicalScaleValue:String = _xvcdm.getAppString(forKey: musicalScaleKey) {
+        if let musicalScaleValue:String = _xvcdm.getString(forKey: musicalScaleKey, forObject: _xvcdm.currConfig!) {
         
             super.init(
                 

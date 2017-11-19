@@ -19,7 +19,7 @@ class GlobalMidiDestinationsData:CheckmarkTableData {
     
     public init?(){
         
-        let key:String = XvSetConstants.kAppGlobalMidiDestinations
+        let key:String = XvSetConstants.kConfigGlobalMidiDestinations
         
         super.init(
             
@@ -39,7 +39,7 @@ class GlobalMidiDestinationsData:CheckmarkTableData {
     
     public func refresh() {
         
-        if let userSelectedDestinations:[String] = _xvcdm.getAppArray(forKey: key) as? [String] {
+        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: _xvcdm.currConfig!) as? [String] {
             
             //reset sections
             sections = []

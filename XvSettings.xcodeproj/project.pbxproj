@@ -10,6 +10,7 @@
 		960544881F0E220300FD3012 /* GlobalMidiDestinationsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960544871F0E220300FD3012 /* GlobalMidiDestinationsData.swift */; };
 		9605448A1F0E29B300FD3012 /* GlobalMidiSourcesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960544891F0E29B300FD3012 /* GlobalMidiSourcesData.swift */; };
 		96291FA01F05998D00A9A778 /* QuantizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96291F9F1F05998D00A9A778 /* QuantizationData.swift */; };
+		96558D9B1FBE05D90048EC79 /* XvSetConfigFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96558D9A1FBE05D90048EC79 /* XvSetConfigFile.swift */; };
 		966F4A2A1E84BD6800154669 /* XvSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 966F4A281E84BD6800154669 /* XvSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		966F4A361E84BD8D00154669 /* TableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A321E84BD8D00154669 /* TableVC.swift */; };
 		966F4A401E84BDD300154669 /* TableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966F4A3E1E84BDD300154669 /* TableData.swift */; };
@@ -50,6 +51,7 @@
 		960544871F0E220300FD3012 /* GlobalMidiDestinationsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlobalMidiDestinationsData.swift; path = XvSettings/Data/Tables/Instances/GlobalMidiDestinationsData.swift; sourceTree = "<group>"; };
 		960544891F0E29B300FD3012 /* GlobalMidiSourcesData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlobalMidiSourcesData.swift; path = XvSettings/Data/Tables/Instances/GlobalMidiSourcesData.swift; sourceTree = "<group>"; };
 		96291F9F1F05998D00A9A778 /* QuantizationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuantizationData.swift; path = XvSettings/Data/Tables/Instances/QuantizationData.swift; sourceTree = "<group>"; };
+		96558D9A1FBE05D90048EC79 /* XvSetConfigFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XvSetConfigFile.swift; path = XvSettings/Public/XvSetConfigFile.swift; sourceTree = "<group>"; };
 		966F4A251E84BD6800154669 /* XvSettings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XvSettings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		966F4A281E84BD6800154669 /* XvSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XvSettings.h; sourceTree = "<group>"; };
 		966F4A291E84BD6800154669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			children = (
 				9684A8451EF7196900019AF1 /* XvCoreDataManager.swift */,
 				9684A8471EF7197000019AF1 /* XvSetConstants.swift */,
+				96558D9A1FBE05D90048EC79 /* XvSetConfigFile.swift */,
 				966F4A381E84BD9700154669 /* Controllers */,
 				966F4A391E84BDA600154669 /* Data */,
 				966F4A521E84BE2500154669 /* Views */,
@@ -358,6 +361,7 @@
 				96F54F9F1F0AAA7A005021DB /* Labels.swift in Sources */,
 				96DC44511EE63B5F0032DC9C /* ToggleCellData.swift in Sources */,
 				9684A84E1EF7199E00019AF1 /* TrackTableVC.swift in Sources */,
+				96558D9B1FBE05D90048EC79 /* XvSetConfigFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

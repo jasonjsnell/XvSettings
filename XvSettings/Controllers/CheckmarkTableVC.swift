@@ -29,16 +29,16 @@ public class CheckmarkTableVC:TableVC {
         
         if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
             
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+            if (checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiSources){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiSourcesRequest,
+                    name: XvSetConstants.kConfigGlobalMidiSourcesRequest,
                     userInfo: ["checkmarkTableVC" : self])
             
-            } else if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations){
+            } else if (checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiDestinations){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiDestinationsRequest,
+                    name: XvSetConstants.kConfigGlobalMidiDestinationsRequest,
                     userInfo: ["checkmarkTableVC" : self])
             
             } else if (checkmarkTableData.key == XvSetConstants.kTrackMidiDestinations){
@@ -82,7 +82,7 @@ public class CheckmarkTableVC:TableVC {
         
         if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
             
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+            if (checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiSources){
                 
                 if let globalMidiSourcesData:GlobalMidiSourcesData = checkmarkTableData as? GlobalMidiSourcesData {
                     
@@ -97,7 +97,7 @@ public class CheckmarkTableVC:TableVC {
                     print("SETTINGS: Unable to cast checkmark table data as GlobalMidiSourcesData during reloadTableAfterMidiUpdate")
                 }
                 
-            } else if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations){
+            } else if (checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiDestinations){
                 
                 if let globalMidiDestinationsData:GlobalMidiDestinationsData = checkmarkTableData as? GlobalMidiDestinationsData {
                     
@@ -149,8 +149,8 @@ public class CheckmarkTableVC:TableVC {
         //only add refresh controls on midi checkmark tables
         if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
             
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources ||
-                checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations ||
+            if (checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiSources ||
+                checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiDestinations ||
                 checkmarkTableData.key == XvSetConstants.kTrackMidiDestinations){
                 
                 // set up the refresh control
@@ -169,16 +169,16 @@ public class CheckmarkTableVC:TableVC {
         
         if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
             
-            if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiSources){
+            if (checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiSources){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiSourcesRequest,
+                    name: XvSetConstants.kConfigGlobalMidiSourcesRequest,
                     userInfo: ["checkmarkTableVC" : self])
             
-            } else if (checkmarkTableData.key == XvSetConstants.kAppGlobalMidiDestinations){
+            } else if (checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiDestinations){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiDestinationsRequest,
+                    name: XvSetConstants.kConfigGlobalMidiDestinationsRequest,
                     userInfo: ["checkmarkTableVC" : self])
             
             } else if (checkmarkTableData.key == XvSetConstants.kTrackMidiDestinations){
@@ -227,31 +227,31 @@ public class CheckmarkTableVC:TableVC {
             
             //post notifications for checkmark tables based on key
             
-            if (cellData.key == XvSetConstants.kAppMidiSync) {
+            if (cellData.key == XvSetConstants.kConfigMidiSync) {
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppMidiSyncChanged,
+                    name: XvSetConstants.kConfigMidiSyncChanged,
                     userInfo: nil
                 )
             
-            } else if (cellData.key == XvSetConstants.kAppGlobalMidiDestinations){
+            } else if (cellData.key == XvSetConstants.kConfigGlobalMidiDestinations){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiDestinationsChanged,
+                    name: XvSetConstants.kConfigGlobalMidiDestinationsChanged,
                     userInfo: nil
                 )
                 
-            } else if (cellData.key == XvSetConstants.kAppGlobalMidiSources){
+            } else if (cellData.key == XvSetConstants.kConfigGlobalMidiSources){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppGlobalMidiSourcesChanged,
+                    name: XvSetConstants.kConfigGlobalMidiSourcesChanged,
                     userInfo: nil
                 )
                 
-            } else if (cellData.key == XvSetConstants.kAppMusicalScale){
+            } else if (cellData.key == XvSetConstants.kConfigMusicalScale){
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppMusicalScaleChanged,
+                    name: XvSetConstants.kConfigMusicalScaleChanged,
                     userInfo: nil
                 )
             }

@@ -526,13 +526,13 @@ public class TableVC: UITableViewController {
     //MARK: - BUTTON CELL
     internal func buttonRowSelected(cell:ButtonCell, key:String) {
         
-        if (key == XvSetConstants.kAppRearrange){
+        if (key == XvSetConstants.kConfigRearrange){
             
             Utils.postNotification(
-                name: XvSetConstants.kAppRearrangeButtonTapped,
+                name: XvSetConstants.kConfigRearrangeButtonTapped,
                 userInfo: nil)
             
-        } else if (key == XvSetConstants.kAppArtificialIntelligence){
+        } else if (key == XvSetConstants.kConfigArtificialIntelligence){
             
             let alert = UIAlertController(
                 title: "Reset",
@@ -543,7 +543,7 @@ public class TableVC: UITableViewController {
                 UIAlertAction in
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppResetAIButtonTapped,
+                    name: XvSetConstants.kConfigResetAIButtonTapped,
                     userInfo: nil)
                 
             }
@@ -557,7 +557,7 @@ public class TableVC: UITableViewController {
             self.present(alert, animated: true, completion: nil)
             
             
-        } else if (key == XvSetConstants.kAppFactorySettings){
+        } else if (key == XvSetConstants.kTracksFactorySettings){
             
             let alert = UIAlertController(
                 title: "Restore",
@@ -568,7 +568,7 @@ public class TableVC: UITableViewController {
                 UIAlertAction in
                 
                 Utils.postNotification(
-                    name: XvSetConstants.kAppRestoreFactorySettingsButtonTapped,
+                    name: XvSetConstants.kTracksRestoreFactorySettingsButtonTapped,
                     userInfo: nil)
                 
             }
@@ -738,7 +738,7 @@ public class TableVC: UITableViewController {
         if (level == XvSetConstants.LEVEL_TYPE_APP) {
             
             // if app...
-            if let app:NSManagedObject = xvcdm.getApp() {
+            if let app:NSManagedObject = xvcdm.app {
                 
                 // get value for key
                 if let existingAppValue:Any = xvcdm.getAny(forKey: key, forObject: app) {
@@ -882,18 +882,18 @@ public class TableVC: UITableViewController {
                         }*/
                         
                         //if tempo, post notification for sequencer
-                        if (sliderCellData.key == XvSetConstants.kAppTempo){
+                        if (sliderCellData.key == XvSetConstants.kConfigTempo){
                             
                             Utils.postNotification(
-                                name: XvSetConstants.kAppTempoChanged,
+                                name: XvSetConstants.kConfigTempoChanged,
                                 userInfo: nil
                             )
                             
-                        } else if (sliderCellData.key == XvSetConstants.kAppMusicalScaleRootKey){
+                        } else if (sliderCellData.key == XvSetConstants.kConfigMusicalScaleRootKey){
                             
                             //else if musical scale root key, post a notification for Core Data to update the musical scale
                             Utils.postNotification(
-                                name: XvSetConstants.kAppMusicalScaleChanged,
+                                name: XvSetConstants.kConfigMusicalScaleChanged,
                                 userInfo: nil
                             )
                         }

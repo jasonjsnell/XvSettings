@@ -19,15 +19,15 @@ public class XvSetConstants {
     //MARK: - Notifications -
     
     //app
-    public static let kAppTempoChanged:String = "kAppTempoChanged"
-    public static let kAppMusicalScaleChanged:String = "kAppMusicalScaleChanged"
+    public static let kConfigTempoChanged:String = "kConfigTempoChanged"
+    public static let kConfigMusicalScaleChanged:String = "kConfigMusicalScaleChanged"
     
     //midi
-    public static let kAppMidiSyncChanged:String = "kAppMidiSyncChanged"
-    public static let kAppGlobalMidiDestinationsRequest:String = "kAppGlobalMidiDestinationsRequest"
-    public static let kAppGlobalMidiDestinationsChanged:String = "kAppGlobalMidiDestinationsChanged"
-    public static let kAppGlobalMidiSourcesRequest:String = "kAppGlobalMidiSourcesRequest"
-    public static let kAppGlobalMidiSourcesChanged:String = "kAppGlobalMidiSourcesChanged"
+    public static let kConfigMidiSyncChanged:String = "kConfigMidiSyncChanged"
+    public static let kConfigGlobalMidiDestinationsRequest:String = "kConfigGlobalMidiDestinationsRequest"
+    public static let kConfigGlobalMidiDestinationsChanged:String = "kConfigGlobalMidiDestinationsChanged"
+    public static let kConfigGlobalMidiSourcesRequest:String = "kConfigGlobalMidiSourcesRequest"
+    public static let kConfigGlobalMidiSourcesChanged:String = "kConfigGlobalMidiSourcesChanged"
     public static let kTrackMidiDestinationsRequest:String = "kTrackMidiDestinationsRequest"
     
     //track data
@@ -35,30 +35,53 @@ public class XvSetConstants {
     
     
     
-    //button commands
-    public static let kAppAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
-    public static let kAppRearrangeButtonTapped:String = "kAppRearrangeButtonTapped"
-    public static let kAppResetAIButtonTapped:String = "kAppResetAIButtonTapped"
-    public static let kAppRestoreFactorySettingsButtonTapped:String = "kAppRestoreFactorySettingsButtonTapped"
+    //MARK: - BUTTONS -
+    
+    //MARK: Buttons: Config
+    public static let kConfigArtificialIntelligence = "artificialIntelligence" // passive
+    public static let kConfigRearrange = "kAppRearrange" // passive
+    
+    //MARK: Buttons: Tracks
+    public static let kTracksFactorySettings = "kAppFactorySettings" // passive
+    
+    //MARK: - Buttons Actions: Config
+    public static let kConfigAbletonLinkViewControllerRequested:String = "kAppAbletonLinkViewControllerRequested"
+    public static let kConfigRearrangeButtonTapped:String = "kAppRearrangeButtonTapped"
+    public static let kConfigResetAIButtonTapped:String = "kAppResetAIButtonTapped"
+    
+    //MARK: Buttons Actions: Tracks
+    public static let kTracksRestoreFactorySettingsButtonTapped:String = "kAppRestoreFactorySettingsButtonTapped"
     
     
     
-    //MARK: - Core data keys -
     
-    //MARK: App
+    
+    //MARK: - CORE DATA KEYS -
+    
+    //MARK: APP -
     public static let kAppEntity:String = "App"
-    public static let kAppBackgroundModeEnabled:String = "backgroundModeEnabled" // passive
-    public static let kAppAbletonLinkEnabled:String = "abletonLinkEnabled" // passive
-    public static let kAppTempo:String = "userTempo" //updates sequencer and ABL Link
-    public static let kAppTracks:String = "tracks" //array of track objects
-    public static let kAppArtificialIntelligence = "artificialIntelligence" // passive
-    public static let kAppFactorySettings = "kAppFactorySettings" // passive
-    public static let kAppRearrange = "kAppRearrange" // passive
+    public static let kAppId:String = "id" //passive
     
-    //MARK: App: MIDI
-    public static let kAppGlobalMidiDestinations:String = "globalMidiDestinations" // passive
-    public static let kAppGlobalMidiSources:String = "globalMidiSources" // updates MIDI system w/new sources
-    public static let kAppMidiSync:String = "midiSync" //updates sequencer and ABL Link
+    //MARK: App: Tour
+    public static let kAppTourStatus:String = "tourStatus"
+    public static let TOUR_IN_QUEUE:String = "tourInQueue"
+    public static let TOUR_COMPLETE:String = "tourComplete"
+    
+    public static let kAppConfigFiles = "configFiles" //array of config files in the app object
+    
+    //MARK: - CONFIG FILES  -
+    
+    public static let kConfigEntity:String = "ConfigFile"
+    
+    public static let kConfigAbletonLinkEnabled:String = "abletonLinkEnabled" // passive
+    public static let kConfigBackgroundModeEnabled:String = "backgroundModeEnabled" // passive
+    public static let kConfigName:String = "name"
+    public static let kConfigTempo:String = "userTempo" //updates sequencer and ABL Link
+    
+    //MARK: Config: MIDI
+    public static let kConfigGlobalMidiDestinations:String = "globalMidiDestinations" // passive
+    public static let kConfigGlobalMidiSources:String = "globalMidiSources" // updates MIDI system w/new sources
+    public static let kConfigMidiSync:String = "midiSync" //updates sequencer and ABL Link
     
     //MIDI sync values
     public static let MIDI_CLOCK_RECEIVE:String = "midiClockReceive"
@@ -67,8 +90,8 @@ public class XvSetConstants {
     
     //MARK: App: Musical Scale
     
-    public static let kAppMusicalScale:String = "musicalScale" //updates sequencer
-    public static let kAppMusicalScaleRootKey:String = "musicalScaleRootKey" //updates sequencer
+    public static let kConfigMusicalScale:String = "musicalScale" //updates sequencer
+    public static let kConfigMusicalScaleRootKey:String = "musicalScaleRootKey" //updates sequencer
     
     public static let MUSIC_SCALE_MAJOR:String = "musicScaleMajor"
     public static let MUSIC_SCALE_MINOR:String = "musicScaleMinor"
@@ -109,27 +132,21 @@ public class XvSetConstants {
     }
     
     
-    //MARK: App: Tour
-    public static let kAppTourStatus:String = "tourStatus"
-    public static let TOUR_IN_QUEUE:String = "tourInQueue"
-    public static let TOUR_COMPLETE:String = "tourComplete"
+    public static let kConfigSampleBanks:String = "sampleBanks" //array of samples in the config file
+    public static let kConfigTracks:String = "tracks" //array of tracks in the config file
     
-    //MARK: - Track -
+    //MARK: - TRACK -
     
     public static let kTrackEntity:String = "Track"
-    
- 
-  
+
     //all update XvTrack object with same id as core data object
-    public static let kTrackAudioEnabled:String = "audioEnabled"
-    public static let kTrackAbbreviatedName:String = "abbreviatedName"
+    public static let kTrackActive:String = "active"
     
     public static let kTrackCompositionAttack:String = "compositionAttack"
     public static let kTrackCompositionDecay:String = "compositionDecay"
     public static let kTrackCompositionSustain:String = "compositionSustain"
     public static let kTrackCompositionRelease:String = "compositionRelease"
     
-    public static let kTrackDisplayName:String = "displayName"
     public static let kTrackLifetimeKeyTallies = "lifetimeKeyTallies"
     public static let kTrackLoopLength:String = "loopLength"
     public static let kTrackMidiDestinations:String = "trackMidiDestinations"
@@ -145,17 +162,25 @@ public class XvSetConstants {
     public static let kTrackQuantization:String = "quantization"
     public static let kTrackRandomizedPitch:String = "randomizedPitch"
     public static let kTrackRegenerateAtBeginningOfPattern:String = "regenerateAtBeginningOfPattern"
-    public static let kTrackSampleFileNames:String = "sampleFileNames"
     public static let kTrackTune:String = "tune"
-    public static let kTrackVisible:String = "visible"
     public static let kTrackVolume:String = "volume"
     public static let kTrackVolumeLock:String = "volumeLock"
     
     public static let MIDI_DESTINATION_GLOBAL:String = "Global"
     public static let MIDI_DESTINATION_OMNI:String = "Omni"
+    public static let MIDI_DESTINATION_NONE:String = "None"
     public static let MIDI_SOURCE_GLOBAL:String = "Global"
     public static let MIDI_SOURCE_OMNI:String = "Omni"
+    public static let MIDI_SOURCE_NONE:String = "None"
 
+    //MARK: - SAMPLE -
+    
+    public static let kSampleEntity:String = "SampleBank"
+    public static let kSampleActive:String = "active"
+    public static let kSampleAbbreviatedName:String = "abbreviatedName"
+    public static let kSampleDisplayName:String = "displayName"
+    public static let kSampleFileNames:String = "fileNames"
+    public static let kSamplePosition:String = "position"
 
     
     //MARK: - Panel size -

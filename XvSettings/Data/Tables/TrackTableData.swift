@@ -16,11 +16,11 @@ public class TrackTableData:TableData {
         super.init()
         
         //save for future ref
-        xvcdm.set(currTrack: trackDataObj)
+        xvcdm.currTrack = trackDataObj
         
         //MARK: Header
         if let trackDisplayName:String = xvcdm.getString(
-            forKey: XvSetConstants.kTrackDisplayName,
+            forKey: XvSetConstants.kSampleDisplayName,
             forObject: trackDataObj
             ) {
             
@@ -31,10 +31,10 @@ public class TrackTableData:TableData {
         }
         
         //MARK: Sample
-        if let audioEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kTrackAudioEnabled, forObject: trackDataObj) {
+        if let audioEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kSampleActive, forObject: trackDataObj) {
             
             let audioEnabled:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kTrackAudioEnabled,
+                key: XvSetConstants.kSampleActive,
                 value: audioEnabledBool,
                 textLabel: Labels.SAMPLE_LABEL,
                 levelType: XvSetConstants.LEVEL_TYPE_TRACK,

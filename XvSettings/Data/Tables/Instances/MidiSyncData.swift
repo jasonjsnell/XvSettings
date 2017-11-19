@@ -14,9 +14,9 @@ class MidiSyncData:CheckmarkTableData {
     
     public init?(){
         
-        let key:String = XvSetConstants.kAppMidiSync
+        let key:String = XvSetConstants.kConfigMidiSync
         
-        if let defaultValue:String = _xvcdm.getAppString(forKey: key) {
+        if let defaultValue:String = _xvcdm.getString(forKey: key, forObject: _xvcdm.currConfig!) {
             
             super.init(
                 

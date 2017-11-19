@@ -22,7 +22,11 @@ public class XvSetMainTableVC:TableVC {
         //this fires when main settings panel loads, and it returned to from a sub menu
         //if Ableton Link is on, keep midi sync on None, even if user selected something else
         
-        if let linkEnabled:Bool = xvcdm.getAppBool(forKey: XvSetConstants.kAppAbletonLinkEnabled) {
+        
+        
+        if let linkEnabled:Bool = xvcdm.getBool(
+            forKey: XvSetConstants.kConfigAbletonLinkEnabled,
+            forObject: xvcdm.currConfig!) {
             
             if (linkEnabled){
                 
@@ -59,10 +63,12 @@ public class XvSetMainTableVC:TableVC {
     
     override func disclosureRowSelected(cell:DisclosureCell, key:String){
         
-        if (key == XvSetConstants.kAppMidiSync){
+        if (key == XvSetConstants.kConfigMidiSync){
             
             //MARK: MIDI sync
-            if let linkEnabled:Bool = xvcdm.getAppBool(forKey: XvSetConstants.kAppAbletonLinkEnabled) {
+            if let linkEnabled:Bool = xvcdm.getBool(
+                forKey: XvSetConstants.kConfigAbletonLinkEnabled,
+                forObject: xvcdm.currConfig!) {
                 
                 if (linkEnabled){
                     
@@ -74,16 +80,16 @@ public class XvSetMainTableVC:TableVC {
                 }
             }
             
-        } else if (key == XvSetConstants.kAppAbletonLinkEnabled){
+        } else if (key == XvSetConstants.kConfigAbletonLinkEnabled){
                 
             //MARK: ABL Link
             //launch controller from helper since it needs to grab the VC from the ABL framework
             Utils.postNotification(
-                name: XvSetConstants.kAppAbletonLinkViewControllerRequested,
+                name: XvSetConstants.kConfigAbletonLinkViewControllerRequested,
                 userInfo: ["parentVC" : self])
             
-        } else if (key == XvSetConstants.kAppGlobalMidiDestinations ||
-            key == XvSetConstants.kAppGlobalMidiSources){
+        } else if (key == XvSetConstants.kConfigGlobalMidiDestinations ||
+            key == XvSetConstants.kConfigGlobalMidiSources){
             
             if (!xvcdm.audioBusMidiBypass){
                 
@@ -96,7 +102,7 @@ public class XvSetMainTableVC:TableVC {
             
         } else if (
             
-            key == XvSetConstants.kAppMusicalScale) {
+            key == XvSetConstants.kConfigMusicalScale) {
             
             //MARK: Musical scale
             loadMusicalScaleTable()
@@ -112,7 +118,7 @@ public class XvSetMainTableVC:TableVC {
     fileprivate func _getMidiSyncCell() -> DisclosureCell? {
         
         if (midiSyncCell == nil){
-            midiSyncCell = getCell(fromKey: XvSetConstants.kAppMidiSync) as? DisclosureCell
+            midiSyncCell = getCell(fromKey: XvSetConstants.kConfigMidiSync) as? DisclosureCell
             
         }
         
