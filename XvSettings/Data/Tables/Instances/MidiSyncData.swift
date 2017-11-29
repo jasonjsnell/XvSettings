@@ -16,7 +16,7 @@ class MidiSyncData:CheckmarkTableData {
         
         let key:String = XvSetConstants.kConfigMidiSync
         
-        if let defaultValue:String = _xvcdm.getString(forKey: key, forObject: _xvcdm.currConfig!) {
+        if let defaultValue:String = _xvcdm.getString(forKey: key, forObject: _xvcdm.currConfigFile!) {
             
             super.init(
                 
@@ -51,9 +51,11 @@ class MidiSyncData:CheckmarkTableData {
             
             sections.append(section)
             
+            title = Labels.MIDI_SYNC_HEADER
+            
         } else {
             
-            print("SETTINGS: Error: Unable to get value from instr data obj in MidiSendChannelData")
+            print("SETTINGS: Error: Unable to get value from track data obj in MidiSendChannelData")
             
             return nil
         }

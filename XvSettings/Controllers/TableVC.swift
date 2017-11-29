@@ -762,7 +762,7 @@ public class TableVC: UITableViewController {
         } else if (level == XvSetConstants.LEVEL_TYPE_TRACK) {
             
             // if track...
-            if let currTrack:NSManagedObject = xvcdm.getCurrTrack() {
+            if let currTrack:NSManagedObject = xvcdm.currTrack {
                 
                 // get value for key with this track
                 if let existingTrackValue:Any = xvcdm.getAny(forKey: key, forObject: currTrack) {
@@ -1001,13 +1001,13 @@ public class TableVC: UITableViewController {
         
     }
     
-    internal func loadTrackTable(fromDataObj: NSManagedObject) {
+    internal func loadTrackTable(position:Int) {
         
         if let _nav:UINavigationController = getNav() {
             
-            let instrTableData:TrackTableData = TrackTableData(trackDataObj: fromDataObj)
+            let data:TrackTableData = TrackTableData(position: position)
             let vc:TrackTableVC = TrackTableVC()
-            vc.load(withDataSource: instrTableData)
+            vc.load(withDataSource: data)
             vc.setNav(nav: _nav)
             push(viewController: vc)
             
@@ -1352,19 +1352,30 @@ public class TableVC: UITableViewController {
         
         if (level == XvSetConstants.LEVEL_TYPE_APP){
         
-            xvcdm.setApp(value: value, forKey: key)
-            let _:Bool = xvcdm.save()
+            if let app:NSManagedObject = xvcdm.app {
+                
+                xvcdm.set(value: value, forKey: key, forObject: app)
+                if (!xvcdm.save()){
+                    print("SETTINGS: TableVC: Error saving during _setCoreData")
+                }
+                
+            } else {
+                
+                print("SETTINGS: Error getting app during setCoreData")
+            }
             
         } else if (level == XvSetConstants.LEVEL_TYPE_TRACK){
             
-            xvcdm.setCurrTrack(value: value, forKey: key)
-            let _:Bool = xvcdm.save()
-            
-            if let trackDataObj:NSManagedObject = xvcdm.getCurrTrack() {
+            if let currTrack:NSManagedObject = xvcdm.currTrack {
+                
+                xvcdm.set(value: value, forKey: key, forObject: currTrack)
+                if (!xvcdm.save()){
+                    print("SETTINGS: TableVC: Error saving during _setCoreData")
+                }
                 
                 Utils.postNotification(
                     name: XvSetConstants.kTrackValueChanged,
-                    userInfo: ["trackDataObj" : trackDataObj]
+                    userInfo: ["trackDataObj" : currTrack]
                 )
             
             } else {

@@ -35,37 +35,39 @@ public class XvSetMainTableData:TableData {
         
         //MARK: Tracks section
         
-        //try to get tracks data array from core data
-        if let tracksDataObjs:[NSManagedObject] = xvcdm.getTracks() as? [NSManagedObject] {
+        //try to get sample bank data array from core data
+        if let sampleBankDataObjs:[NSManagedObject] = xvcdm.sampleBanks as? [NSManagedObject] {
             
+            //this builds the tracks disclosure cells, but using the names from the sample banks because they are more user friendly
             var trackDisclosureCellDataArray:[DisclosureCellData] = []
             
-            print ("tracksDataObjs", tracksDataObjs)
-            
-            // loop through each track
-            for tracksDataObj in tracksDataObjs {
+            // loop through each sample bank
+            for sampleBankDataObj in sampleBankDataObjs {
                 
-                if let displayName:String = xvcdm.getString(
-                    forKey: XvSetConstants.kSampleDisplayName,
-                    forObject: tracksDataObj
+                if let sampleDisplayName:String = xvcdm.getString(
+                    forKey: XvSetConstants.kSampleBankDisplayName,
+                    forObject: sampleBankDataObj
                     ),
-                    
+            
                     //use position as the key, it is unique
                     let position:Int = xvcdm.getInteger(
-                        forKey: XvSetConstants.kTrackPosition,
-                        forObject: tracksDataObj
+                        forKey: XvSetConstants.kSampleBankPosition,
+                        forObject: sampleBankDataObj
                     ) {
                     
+                    let key:String = XvSetConstants.kTrackEntity + String(describing: position)
+                    let textLabel:String = "Track " + String(describing: (position+1)) + ": " + sampleDisplayName
+                    
                     let trackDisclosureCellData:DisclosureCellData = DisclosureCellData(
-                        key: String(position),
-                        textLabel: displayName,
+                        key: key,
+                        textLabel: textLabel,
                         isVisible: true
                     )
                     
                     trackDisclosureCellDataArray.append(trackDisclosureCellData)
                     
                 } else {
-                    print("SETTINGS: Error getting track display name during track table init")
+                    print("SETTINGS: Error getting sample bank display name during track table init")
                 }
                 
             }
@@ -83,7 +85,7 @@ public class XvSetMainTableData:TableData {
             sections.append(tracksSection)
             
         } else {
-            print("SETTINGS: Unable to find tracks data array during KitTableData init")
+            print("SETTINGS: Unable to find tracks data array during XvSetMainTableData init")
         }
         
         
@@ -229,7 +231,7 @@ public class XvSetMainTableData:TableData {
             footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
             footerText: ["This clears the AI memory and resets it to the factory state."],
             footerLink: nil,
-            footerHeight: 80,
+            footerHeight: 60,
             cells: [artificialIntelligence],
             isVisible: true
         )
@@ -241,7 +243,7 @@ public class XvSetMainTableData:TableData {
         
         if let bgModeBool:Bool = xvcdm.getBool(
             forKey: XvSetConstants.kConfigBackgroundModeEnabled,
-            forObject: xvcdm.currConfig!) {
+            forObject: xvcdm.currConfigFile!) {
             
             let bgMode:ToggleCellData = ToggleCellData(
                 key: XvSetConstants.kConfigBackgroundModeEnabled,
@@ -256,7 +258,7 @@ public class XvSetMainTableData:TableData {
                 footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
                 footerText: ["Activate this to keep the app running in the background."],
                 footerLink: nil,
-                footerHeight: 80,
+                footerHeight: 60,
                 cells: [bgMode],
                 isVisible: true
             )

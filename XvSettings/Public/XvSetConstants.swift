@@ -74,7 +74,9 @@ public class XvSetConstants {
     public static let kConfigEntity:String = "ConfigFile"
     
     public static let kConfigAbletonLinkEnabled:String = "abletonLinkEnabled" // passive
+    
     public static let kConfigBackgroundModeEnabled:String = "backgroundModeEnabled" // passive
+    public static let kConfigCreatedAtPosition:String = "createdAtPosition"
     public static let kConfigName:String = "name"
     public static let kConfigTempo:String = "userTempo" //updates sequencer and ABL Link
     
@@ -131,7 +133,10 @@ public class XvSetConstants {
         ]
     }
     
+    //references to other core data objects stored in config
+    public static let kConfigApp:String = "app"
     
+    //TODO: are these used?
     public static let kConfigSampleBanks:String = "sampleBanks" //array of samples in the config file
     public static let kConfigTracks:String = "tracks" //array of tracks in the config file
     
@@ -146,7 +151,7 @@ public class XvSetConstants {
     public static let kTrackCompositionDecay:String = "compositionDecay"
     public static let kTrackCompositionSustain:String = "compositionSustain"
     public static let kTrackCompositionRelease:String = "compositionRelease"
-    
+    public static let kTrackConfigFile:String = "configFile" //ref to containting core data object
     public static let kTrackLifetimeKeyTallies = "lifetimeKeyTallies"
     public static let kTrackLoopLength:String = "loopLength"
     public static let kTrackMidiDestinations:String = "trackMidiDestinations"
@@ -172,15 +177,19 @@ public class XvSetConstants {
     public static let MIDI_SOURCE_GLOBAL:String = "Global"
     public static let MIDI_SOURCE_OMNI:String = "Omni"
     public static let MIDI_SOURCE_NONE:String = "None"
-
-    //MARK: - SAMPLE -
     
-    public static let kSampleEntity:String = "SampleBank"
-    public static let kSampleActive:String = "active"
-    public static let kSampleAbbreviatedName:String = "abbreviatedName"
-    public static let kSampleDisplayName:String = "displayName"
-    public static let kSampleFileNames:String = "fileNames"
-    public static let kSamplePosition:String = "position"
+    
+    
+
+    //MARK: - SAMPLE BANKS-
+    
+    public static let kSampleBankEntity:String = "SampleBank"
+    public static let kSampleBankActive:String = "active"
+    public static let kSampleBankAbbreviatedName:String = "abbreviatedName"
+    public static let kSampleBankConfigFile:String = "configFile" //ref to containting core data object
+    public static let kSampleBankDisplayName:String = "displayName"
+    public static let kSampleBankFileNames:String = "fileNames"
+    public static let kSampleBankPosition:String = "position"
 
     
     //MARK: - Panel size -
@@ -214,6 +223,7 @@ public class XvSetConstants {
     public static let LEVEL_TYPE_NONE:String = "levelNone"
     public static let LEVEL_TYPE_APP:String = "levelApp"
     public static let LEVEL_TYPE_TRACK:String = "levelTrack"
+    public static let LEVEL_TYPE_SAMPLE:String = "levelSample"
     
     //MARK: - Linked slider types -
     public static let LISTENER_MAX:String = "listernerMax"

@@ -39,7 +39,7 @@ class GlobalMidiDestinationsData:CheckmarkTableData {
     
     public func refresh() {
         
-        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: _xvcdm.currConfig!) as? [String] {
+        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: _xvcdm.currConfigFile!) as? [String] {
             
             //reset sections
             sections = []
@@ -61,7 +61,7 @@ class GlobalMidiDestinationsData:CheckmarkTableData {
             
         } else {
             
-            print("SETTINGS: Error: Unable to get value from instr data obj in GlobalMidiDestinationsData")
+            print("SETTINGS: Error: Unable to get value from track data obj in GlobalMidiDestinationsData")
             
         }
     }

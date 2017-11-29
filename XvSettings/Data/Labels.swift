@@ -95,8 +95,8 @@ public class Labels {
     
     //MARK: - Track: Fade out
     
-    public static let AMP_RELEASE_HEADER:String = "Duration"
-    public static let AMP_RELEASE_LABEL:String = "Duration"
+    public static let AMP_RELEASE_HEADER:String = "Note Duration"
+    public static let AMP_RELEASE_LABEL:String = "Note Duration"
     
     public static let AMP_RELEASE_MEASURE_8:String = "8 measures"
     public static let AMP_RELEASE_MEASURE_16:String = "16 measures"
@@ -106,13 +106,14 @@ public class Labels {
     
     //MARK: - Track: Loop length
     
-    public static let LOOP_LENGTH_HEADER:String = "Loop Length"
-    public static let LOOP_LENGTH_LABEL:String = "Loop length"
+    //TODO: Change loop to pattern?
+    public static let LOOP_LENGTH_HEADER:String = "Pattern Length"
+    public static let LOOP_LENGTH_LABEL:String = "Pattern length"
     
     public static let LOOP_LENGTH_MEASURE_1:String = "1 measure"
     public static let LOOP_LENGTH_MEASURE_2:String = "2 measures"
     public static let LOOP_LENGTH_MEASURE_4:String = "4 measures"
-    public static let LOOP_LENGTH_MEASURE_8:String = "8 measures (full pattern)"
+    public static let LOOP_LENGTH_MEASURE_8:String = "8 measures"
     
     
     //MARK: - Track: Sound

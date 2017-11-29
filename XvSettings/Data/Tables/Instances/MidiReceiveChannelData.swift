@@ -13,11 +13,11 @@ class MidiReceiveChannelData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
-    public init?(withInstrDataObj:NSManagedObject){
+    public init?(withTrackDataObj:NSManagedObject){
         
         let key:String = XvSetConstants.kTrackMidiReceiveChannel
         
-        if let defaultValue:Int = _xvcdm.getInteger(forKey: key, forObject: withInstrDataObj) {
+        if let defaultValue:Int = _xvcdm.getInteger(forKey: key, forObject: withTrackDataObj) {
             
             var possibleValues:[Int] = []
             var labels:[String] = []
@@ -53,9 +53,11 @@ class MidiReceiveChannelData:CheckmarkTableData {
             
             sections.append(section)
             
+            title = Labels.MIDI_RECEIVE_HEADER
+            
         } else {
             
-            print("SETTINGS: Error: Unable to get value from instr data obj in MidiReceiveChannelData")
+            print("SETTINGS: Error: Unable to get value from track data obj in MidiReceiveChannelData")
             
             return nil
         }

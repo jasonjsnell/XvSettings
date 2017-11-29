@@ -47,10 +47,16 @@ open class XvCoreDataManager {
     }
     
     //check to see this is core data's first installtion (user just installed app and launched it for the first time)
-    public var firstInstallation:Bool {
+    public func firstInstallationCheck() -> Bool {
         
-        get {
-            if (_app == nil) {
+        if let _apps:[NSManagedObject] = _getManagedObjectArray(
+            fromEntityName: XvSetConstants.kAppEntity,
+            sortKey: nil) {
+            
+            //if (debug) { print("XVCDM: App array exists") }
+            
+            //if array is blank, try to make a new app object
+            if (_apps.count == 0){
                 
                 return true
                 
@@ -58,45 +64,14 @@ open class XvCoreDataManager {
                 
                 return false
             }
+        
+        } else {
+            
+            print("XVCDM: Error getting apps array during firstInstallationCheck")
+            return true
         }
     }
     
-    //load configutation file
-    //used on first installation
-    //used when user loads their own custom config file
-    
-    //loads entire
-    public func load(configFile:XvSetConfigFile) {
-        
-        //loads both app and track level config
-        loadApp(configFile: configFile)
-        loadTrack(confileFile: configFile)
-    }
-    
-    public func loadApp(configFile:XvSetConfigFile){
-        
-        //load app level data, mirrors XvDataModel
-        setApp(value: configFile.abletonLinkEnabled, forKey: XvSetConstants.kConfigAbletonLinkEnabled)
-        setApp(value: configFile.backgroundMode, forKey: XvSetConstants.kConfigBackgroundModeEnabled)
-        setApp(value: configFile.globalMidiDestinations, forKey: XvSetConstants.kConfigGlobalMidiDestinations)
-        setApp(value: configFile.globalMidiSources, forKey: XvSetConstants.kConfigGlobalMidiSources)
-        setApp(value: configFile.id, forKey: XvSetConstants.kAppId)
-        setApp(value: configFile.midiSync, forKey: XvSetConstants.kConfigMidiSync)
-        setApp(value: configFile.musicalScale, forKey: XvSetConstants.kConfigMusicalScale)
-        setApp(value: configFile.musicalScaleRoot, forKey: XvSetConstants.kConfigMusicalScaleRootKey)
-        setApp(value: configFile.tourStatus, forKey: XvSetConstants.kAppTourStatus)
-        setApp(value: configFile.userTempo, forKey: XvSetConstants.kConfigTempo)
-        
-    }
-    
-    //used when user restores factory settings
-    public func loadTrack(confileFile:XvSetConfigFile){
-        
-        //load app level data, mirrors XvDataModel
-        
-        //TODO: how do I format a file that can be both loaded into XvSettings and XvSequencerSystem into a XvTrack? It can't be a file format from either framework, it has to be a local, simple variable system. It can't be it's own class, like a track object of any kind, because either framework won't recognize it. Dictionary? Array of arrays? NSManagedObject?
-    
-    }
     
     //init a new managed object with entity name
     public func createNewObject(withEntityName:String) -> NSManagedObject? {
@@ -116,77 +91,283 @@ open class XvCoreDataManager {
     }
     
     
+    //MARK: - VARS -
     
-    //MARK: - GETTERS -
-    
-    // get track array from the app objects relationship variable "tracks"
-    public func getTracks() -> [NSManagedObject?]? {
+    //MARK: App
+    fileprivate var _app:NSManagedObject?
+    public var app:NSManagedObject? {
         
-        /*
-        if let _app:NSManagedObject = getApp(){
+        get {
             
-            
-            //TODO: get curr config
-            print("getTracks")
-            //print(_app.value(forKey: XvSetConstants.kAppTracks) as Any)
-            //print(_app.value(forKey: XvSetConstants.kAppTracks) as? [NSManagedObject])
-            
-            //cast as NSSet
-            //TODO: this isn't casting as a NSSet. What is it??
-            if let tracksSet:NSSet = _app.value(forKey: XvSetConstants.kAppTracks) as? NSSet {
+            if (_app != nil) {
                 
-                print("tracksSet", tracksSet)
+                //if (debug) { print("XVCDM: Return the existing app object") }
                 
-                //cast as NSManagedObject array
-                if let unsortedTrackObjArray:[NSManagedObject] = tracksSet.allObjects as? [NSManagedObject] {
+                //if app var is already populated, then return it
+                return _app
+                
+            } else {
+                
+                //check to see if an array of app objects already exists
+                if let _apps:[NSManagedObject] = _getManagedObjectArray(
+                    fromEntityName: XvSetConstants.kAppEntity,
+                    sortKey: nil) {
                     
-                    //create blank array of nil objects
-                    var sortedTrackObjArr = [NSManagedObject?](
-                        repeating: nil,
-                        count: unsortedTrackObjArray.count
-                    )
+                    //if (debug) { print("XVCDM: App array exists") }
                     
-                    //go through unsorted object array
-                    for unsortedObj in unsortedTrackObjArray {
+                    //if array is blank, try to make a new app object
+                    if (_apps.count == 0){
                         
-                        //grab position var
-                        if let position:Int = unsortedObj.value(forKey: XvSetConstants.kTrackPosition) as? Int {
-                            
-                            //and place content in that position in the sorted array
-                            sortedTrackObjArr[position] = unsortedObj
-                        } else {
-                            print("XVCDM: Error getting position from unsorted object during getTracks")
-                        }
+                        if (debug){ print("XVCDM: App array is empty, try to create a new app object") }
                         
+                        return _createNewApp()
+                        
+                    } else {
+                        
+                        //if there is an app object in the array, assign it to the app var and return it
+                        
+                        if (debug) { print("XVCDM: Retriving first app object from app array") }
+                        _app = _apps[0]
+                        return _app
                     }
                     
-                    return sortedTrackObjArr
+                } else {
+                    
+                    print("XVCDM: Fatal error: No app array exists. Check core data model for App entity")
+                    return nil
+                }
+                    
+                
+            }
+        }
+    }
+    
+    //MARK: - Config files
+
+    fileprivate var _currConfigFile:NSManagedObject?
+    public var currConfigFile:NSManagedObject? {
+        
+        get {
+            
+            if (_currConfigFile != nil){
+                
+                //if (debug) { print("XVCDM: Return the curr config file ") }
+                return _currConfigFile!
+            
+            } else {
+                
+                if (configFiles != nil){
+                    
+                    //if (debug) { print("XVCDM: Config files array exists") }
+                    
+                    if (configFiles!.count == 0){
+                        
+                        if (debug) { print("XVCDM: There are no config files in config file array. Make one.") }
+                        
+                        if let _newConfigFile:NSManagedObject = _createNewConfigFile() {
+                            
+                            if (debug) { print("XVCDM: Return newly created config file") }
+                            _currConfigFile = _newConfigFile
+                            configFiles!.append(_currConfigFile!)
+                            return _currConfigFile
+                            
+                        }
+                        
+                    } else {
+                        
+                        if (debug) { print("XVCDM: Return first config file in config file array") }
+                        _currConfigFile = configFiles![0]
+                        return _currConfigFile
+                    }
+                
+                } else {
+                    
+                    print("XVCDM: Fatal error: No ConfigFile array exists. Check core data model for ConfigFile entity")
+                    return nil
+                }
+                
+                print("XVCDM: Fatal error: Unable to create config file. Check core data model for ConfigFile entity")
+                return nil
+           
+            }
+        }
+        
+        set {
+            _currConfigFile = newValue
+            print("XVCDM: currConfigFile is now", currConfigFile?.value(forKey: "name") as Any)
+        }
+    }
+    
+    fileprivate var _configFiles:[NSManagedObject]?
+    public var configFiles:[NSManagedObject]? {
+        
+        get {
+            
+            if (_configFiles != nil) {
+                
+                //if already stored, return that array
+                //if (debug){ print("XVCDM: Return array of config files") }
+                return _configFiles
+            
+            } else {
+                
+                //else grab that array from core data
+                if let configFilesArr:[NSManagedObject] = _getManagedObjectArray(
+                    fromEntityName: XvSetConstants.kConfigEntity,
+                    sortKey: "createdAtPosition") {
+                    
+                    //if (debug){ print("XVCDM: Return new array of config files") }
+                    
+                    _configFiles = configFilesArr
+                    return _configFiles
                     
                 } else {
-                    print("XVCDM: Error getting track managed object array during getTracks")
+                    
+                    print("XVCDM: Fatal error: No ConfigFile array exists. Check core data model for ConfigFile entity")
+                    return nil
+                }
+            }
+        }
+        
+        set {
+            
+            _configFiles = newValue
+        }
+    }
+    
+    //MARK: - Tracks
+    fileprivate var _currTrack:NSManagedObject?
+    public var currTrack:NSManagedObject? {
+        get { return _currTrack }
+        set {
+            _currTrack = newValue
+            print("XVCDM: currTrack is now", currTrack?.value(forKey: "position") as Any)
+        }
+    }
+    
+    // get track array from the app objects relationship variable "tracks"
+    public var tracks:[NSManagedObject?]? {
+        
+        get {
+            
+            if (currConfigFile != nil) {
+                
+                if let tracksSet:NSSet = currConfigFile!.value(forKey: XvSetConstants.kConfigTracks) as? NSSet {
+                    
+                    //cast as NSManagedObject array
+                    if let unsortedTrackObjArray:[NSManagedObject] = tracksSet.allObjects as? [NSManagedObject] {
+                        
+                        //create blank array of nil objects
+                        var sortedTrackObjArr = [NSManagedObject?](
+                            repeating: nil,
+                            count: unsortedTrackObjArray.count
+                        )
+                        
+                        //go through unsorted object array
+                        for unsortedObj in unsortedTrackObjArray {
+                            
+                            //grab position var
+                            if let position:Int = unsortedObj.value(forKey: XvSetConstants.kTrackPosition) as? Int {
+                                
+                                //and place content in that position in the sorted array
+                                sortedTrackObjArr[position] = unsortedObj
+                            } else {
+                                print("XVCDM: Error getting position from unsorted object during getTracks")
+                            }
+                            
+                        }
+                        
+                        return sortedTrackObjArr
+                        
+                    } else {
+                        print("XVCDM: Error getting track managed object array during getTracks")
+                        return nil
+                    }
+                    
+                } else {
+                    print("XVCDM: Error getting tracks NSSet during getTracks")
                     return nil
                 }
                 
             } else {
-                print("XVCDM: Error getting tracks NSSet during getTracks")
-                return nil
+                
+                print("XVCDM: Curr config file is nil when attempting getTracks")
             }
             
-        } else {
-            print("XVCDM: Error geting app object during getTracks")
             return nil
         }
-        
-        */
-        
-        return nil
-        
     }
+    
+    //MARK: - Sample banks
+    fileprivate var _currSampleBank:NSManagedObject?
+    public var currSampleBank:NSManagedObject? {
+        get { return _currSampleBank }
+        set {
+            _currSampleBank = newValue
+            print("XVCDM: currSample is now", currSampleBank?.value(forKey: "position") as Any)
+        }
+    }
+    
+    // get track array from the app objects relationship variable "tracks"
+    public var sampleBanks:[NSManagedObject?]? {
+        
+        get {
+            
+            if (currConfigFile != nil) {
+                
+                if let sampleBanksSet:NSSet = currConfigFile!.value(forKey: XvSetConstants.kConfigSampleBanks) as? NSSet {
+                    
+                    //cast as NSManagedObject array
+                    if let unsortedSampleBankObjArray:[NSManagedObject] = sampleBanksSet.allObjects as? [NSManagedObject] {
+                        
+                        //create blank array of nil objects
+                        var sortedSampleBankObjArr = [NSManagedObject?](
+                            repeating: nil,
+                            count: unsortedSampleBankObjArray.count
+                        )
+                        
+                        //go through unsorted object array
+                        for unsortedObj in unsortedSampleBankObjArray {
+                            
+                            //grab position var
+                            if let position:Int = unsortedObj.value(forKey: XvSetConstants.kSampleBankPosition) as? Int {
+                                
+                                //and place content in that position in the sorted array
+                                sortedSampleBankObjArr[position] = unsortedObj
+                            } else {
+                                print("XVCDM: Error getting position from unsorted object during getSampleBanks")
+                            }
+                            
+                        }
+                        
+                        return sortedSampleBankObjArr
+                        
+                    } else {
+                        print("XVCDM: Error getting sample bank managed object array during getSampleBanks")
+                        return nil
+                    }
+                    
+                } else {
+                    print("XVCDM: Error getting tracks NSSet during getSampleBanks")
+                    return nil
+                }
+                
+            } else {
+                
+                print("XVCDM: Curr config file is nil when attempting getSampleBanks")
+            }
+            
+            return nil
+        }
+    }
+    
+    
+    //MARK: - GETTERS -
     
     public func getTrack(forPosition:Int) -> NSManagedObject? {
         
         //get tracks
-        if let trackObjs:[NSManagedObject] = getTracks() as? [NSManagedObject] {
+        if let trackObjs:[NSManagedObject] = tracks as? [NSManagedObject] {
             
             //loop through them
             for trackObj in trackObjs {
@@ -194,7 +375,7 @@ open class XvCoreDataManager {
                 //grab the position
                 if let position:Int = getInteger(forKey: XvSetConstants.kTrackPosition, forObject: trackObj) {
                     
-                    //if it matches the incoming id, return the instr data obj
+                    //if it matches the incoming id, return the track data obj
                     if (position == forPosition) {
                         
                         return trackObj
@@ -214,78 +395,41 @@ open class XvCoreDataManager {
         }
     }
     
-    public func getCurrTrack() -> NSManagedObject? {
-        
-        return currTrack
-    }
+   
     
-    //MARK: - ACCESSORS FOR APP LEVEL VARS
-    
-    /*
-    public func getArray(forKey:String) -> [Any]? {
+    public func getSampleBank(forPosition:Int) -> NSManagedObject? {
         
-        if (app != nil) {
-            return getArray(forKey: forKey, forObject: app!)
+        //get sample banks
+        if let sampleBankObjs:[NSManagedObject] = sampleBanks as? [NSManagedObject] {
+            
+            //loop through them
+            for sampleBankObj in sampleBankObjs {
+                
+                //grab the position
+                if let position:Int = getInteger(forKey: XvSetConstants.kSampleBankPosition, forObject: sampleBankObj) {
+                    
+                    //if it matches the incoming id, return the track data obj
+                    if (position == forPosition) {
+                        
+                        return sampleBankObj
+                    }
+                } else {
+                    print("XVCDM: Error getting sample bank position during getSampleBank forPosition")
+                }
+            }
+            
+            //else return nil
+            return nil
+            
         } else {
-            print("XVCDM: Error geting app object during getArray")
+            
+            print("XVCDM: Error getting sample banks during getSampleBanks forPosition")
             return nil
         }
     }
+   
     
-    public func getBool(forKey:String) -> Bool? {
-        
-        if (app != nil) {
-            return getBool(forKey: forKey, forObject: app!)
-        } else {
-            print("XVCDM: Error geting app object during getBool")
-            return nil
-        }
-    }
-    
-    public func getDouble(forKey:String) -> Double? {
-        
-        if (app != nil) {
-            return getDouble(forKey: forKey, forObject: app!)
-        } else {
-            print("XVCDM: Error geting app object during getDouble")
-            return nil
-        }
-    }
-    
-    public func getAppFloat(forKey:String) -> Float? {
-        
-        if (app != nil) {
-            return getFloat(forKey: forKey, forObject: app!)
-        } else {
-            print("XVCDM: Error geting app object during getAppFloat")
-            return nil
-        }
-        
-    }
-    
-    public func getAppInteger(forKey:String) -> Int? {
-        
-        if (app != nil) {
-            return getInteger(forKey: forKey, forObject: app!)
-        } else {
-            print("XVCDM: Error geting app object during getAppInterger")
-            return nil
-        }
-        
-    }
-    
-    public func getString(forKey:String) -> String? {
-        
-        if (app != nil) {
-            return getString(forKey: forKey, forObject: app!)
-        } else {
-            print("XVCDM: Error geting app object during getString")
-            return nil
-        }
-        
-    }*/
-    
-    //MARK: - ACCESSORS FOR ANY LEVEL OBJECT
+    //MARK: - ACCESSORS
     
     public func getAny(forKey:String, forObject:NSManagedObject) -> Any? {
         
@@ -352,16 +496,6 @@ open class XvCoreDataManager {
         }
     }
     
-    //called by app delegate
-    public func getMatrix(forKey:String, forObject:NSManagedObject) -> [[Int]]? {
-        
-        if let matrix:[[Int]] = _getValue(forKey: forKey, forObject: forObject) as? [[Int]] {
-            return matrix
-        } else {
-            return nil
-        }
-    }
-    
     public func getString(forKey:String, forObject:NSManagedObject) -> String? {
         
         if let str:String = _getValue(forKey: forKey, forObject: forObject) as? String {
@@ -384,216 +518,24 @@ open class XvCoreDataManager {
         return midiSourceNames
     }
     
-    //MARK: - PRIVATE ACCESSORS
     
     
-    fileprivate func _getValue(forKey:String, forObject:NSManagedObject) -> Any? {
-        
-        //try to grab value for key
-        if let value:Any = forObject.value(forKey: forKey){
-            
-            //return if found
-            return value
-        } else {
-            
-            //return nil if none found
-            return nil
-        }
-        
-    }
-    
-
-    
-    fileprivate func _getManagedObjectArray(fromEntityName:String, sortKey:String?) -> [NSManagedObject]?{
-        
-        //if managed context is valid...
-        if (managedContext != nil){
-            
-            //do a fetch request
-            let fetchRequest:NSFetchRequest = NSFetchRequest<NSManagedObject>(entityName: fromEntityName)
-            
-            if (sortKey != nil){
-                let sortDescriptor = NSSortDescriptor(key: sortKey, ascending: true)
-                let sortDescriptors = [sortDescriptor]
-                fetchRequest.sortDescriptors = sortDescriptors
-            }
-            
-            do {
-                
-                //try to get array of apps objects
-                let objs:[NSManagedObject] = try managedContext!.fetch(fetchRequest)
-                return objs
-                
-            } catch _ as NSError {
-                print("XVCDM: Error, could not fetch objects during getManagedObjectArray")
-                return nil
-            }
-            
-            
-        } else {
-            
-            print("XVCDM: Error: Managed context is nil during _getManagedObjectArray")
-            return nil
-        
-        }
-    
-    }
     
     // MARK: - SETTERS -
-    
-    //MARK: Set vars
-    fileprivate var _app:NSManagedObject?
-    public var app:NSManagedObject? {
-        
-        get {
-            
-            if (_app != nil) {
-                
-                if (debug) { print("XVCDM: Return the existing app object") }
-                
-                //if app var is already populated, then return it
-                return _app
-            
-            } else {
-                
-                //app is nil. Check to see if managedContext is valid
-                if (managedContext != nil){
-                    
-                    //subroutine that makes a new app
-                    func makeNewApp() -> NSManagedObject? {
-                        
-                        if let _newApp:NSManagedObject = createNewObject(
-                            withEntityName: XvSetConstants.kAppEntity
-                            ) {
-                            
-                            if (debug) { print("XVCDM: New app object created") }
-                            _app = _newApp
-                            return _app
-                        
-                        } else {
-                            
-                            print("XVCDM: Error making new app object during app retrival request")
-                            return nil
-                        }
-                    }
-                    
-                    //check to see if an array of app objects already exists
-                    if let _apps:[NSManagedObject] = _getManagedObjectArray(
-                        fromEntityName: XvSetConstants.kAppEntity,
-                        sortKey: nil) {
-                        
-                        if (debug) { print("XVCDM: App array exists") }
-                        
-                        //if array is blank, try to make a new app object
-                        if (_apps.count == 0){
-                            
-                            if (debug){ print("XVCDM: App array is empty, try to make a new app object") }
-                            
-                            return makeNewApp()
-                            
-                        } else {
-                            
-                            //if there is an app object in the array, assign it to the app var and return it
-                            
-                            if (debug) { print("XVCDM: Retriving first app object from app array") }
-                            _app = _apps[0]
-                            return _app
-                        }
-                        
-                    } else {
-                        
-                        if (debug) { print("XVCDM: No app array exists, try to make a new app object") }
-                        return makeNewApp()
-                    }
-                    
-                } else {
-                    
-                    //no managed context, unable to make an app object
-                    print("XVCDM: Error: Managed context is nil during app retrival")
-                    return nil
-                }
-            }
-        }
-    }
-    
-    //curr config file
-    fileprivate var _currConfig:NSManagedObject?
-    public var currConfig:NSManagedObject? {
-        get { return _currConfig! }
-        set {
-            _currConfig = newValue
-            print("XVCDM: currConfig is now", currConfig?.value(forKey: "name") as Any)
-        }
-    }
-    
-    //curr sample
-    fileprivate var _currSample:NSManagedObject?
-    public var currSample:NSManagedObject? {
-        get { return _currSample }
-        set {
-            _currSample = newValue
-            print("XVCDM: currSample is now", currSample?.value(forKey: "position") as Any)
-        }
-    }
-    
-    //curr track
-    fileprivate var _currTrack:NSManagedObject?
-    public var currTrack:NSManagedObject? {
-        get { return _currTrack }
-        set {
-            _currTrack = newValue
-            print("XVCDM: currTrack is now", currTrack?.value(forKey: "position") as Any)
-        }
-    }
-    
-    
-    
+
     //MARK: Set key value pairs
-    public func setApp(value:Any, forKey:String) {
-        
-        if (app != nil) {
-            
-            if (debug){
-                print("XVCDM: Set", forKey, "to", value, "for app")
-            }
-            
-            app!.setValue(value, forKeyPath: forKey)
-            
-        } else {
-            print("XVCDM: Unable to get app object during setAppValue")
-        }
-    }
     
-    
-    
-    public func set(value:Any, forKey:String, forTrackObject:NSManagedObject) {
+    public func set(value:Any, forKey:String, forObject:NSManagedObject) {
         
         if (debug){
             
-            printChange(value:value, forKey:forKey, forTrackObject: forTrackObject)
+            _printChange(value:value, forKey:forKey, forObject: forObject)
         }
         
-        forTrackObject.setValue(value, forKeyPath: forKey)
+        forObject.setValue(value, forKeyPath: forKey)
         
     }
 
-    
-    public func setCurrTrack(value:Any, forKey:String) {
-        
-        if (currTrack != nil) {
-            
-            if (debug){
-                
-                printChange(value:value, forKey:forKey, forTrackObject: currTrack!)
-            }
-            
-            currTrack!.setValue(value, forKeyPath: forKey)
-            
-        } else {
-            
-            print("XVCDM: Unable to get curr track during setCurrTrack")
-        }
-    }
     
     fileprivate var _audioBusMidiBypass:Bool = false
     public var audioBusMidiBypass:Bool {
@@ -612,20 +554,6 @@ open class XvCoreDataManager {
         self.midiSourceNames = midiSourceNames
     }
     
-    //MARK: - PRIVATE HELPERS
-    
-    
-    fileprivate func printChange(value:Any, forKey:String, forTrackObject:NSManagedObject){
-        
-        if let position:Int = getInteger(forKey: XvSetConstants.kTrackPosition, forObject: forTrackObject) {
-            
-            if (forKey != XvSetConstants.kTrackLifetimeKeyTallies){
-                print("XVCDM: Set", forKey, "to", value, "for track", position)
-            }
-            
-        }
-        
-    }
     
     //MARK: - SAVE -
     public func save() -> Bool {
@@ -653,6 +581,101 @@ open class XvCoreDataManager {
         }
         
     }
+    
+    //MARK: - PRIVATE -
+    
+    fileprivate func _createNewApp() -> NSManagedObject? {
+        
+        if let _newApp:NSManagedObject = createNewObject(
+            withEntityName: XvSetConstants.kAppEntity
+            ) {
+            
+            if (debug) { print("XVCDM: New app object created") }
+            _app = _newApp
+            return _app
+            
+        } else {
+            
+            print("XVCDM: Error making new app object during _createNewApp")
+            return nil
+        }
+    }
+    
+    fileprivate func _createNewConfigFile() -> NSManagedObject? {
+        
+        if let _newConfig:NSManagedObject = createNewObject(
+            withEntityName: XvSetConstants.kConfigEntity
+            ) {
+            
+            if (debug) { print("XVCDM: New config object created") }
+            return _newConfig
+            
+        } else {
+            
+            print("XVCDM: Error making new config object during _createNewConfigFile")
+            return nil
+        }
+    }
+    
+    
+    fileprivate func _getValue(forKey:String, forObject:NSManagedObject) -> Any? {
+        
+        //try to grab value for key
+        if let value:Any = forObject.value(forKey: forKey){
+            
+            //return if found
+            return value
+        } else {
+            
+            //return nil if none found
+            return nil
+        }
+    }
+    
+    fileprivate func _getManagedObjectArray(fromEntityName:String, sortKey:String?) -> [NSManagedObject]?{
+        
+        //if managed context is valid...
+        if (managedContext != nil){
+            
+            //do a fetch request
+            let fetchRequest:NSFetchRequest = NSFetchRequest<NSManagedObject>(entityName: fromEntityName)
+            
+            if (sortKey != nil){
+                let sortDescriptor = NSSortDescriptor(key: sortKey, ascending: true)
+                let sortDescriptors = [sortDescriptor]
+                fetchRequest.sortDescriptors = sortDescriptors
+            }
+            
+            do {
+                
+                //try to get array of apps objects
+                let objs:[NSManagedObject] = try managedContext!.fetch(fetchRequest)
+                return objs
+                
+            } catch _ as NSError {
+                print("XVCDM: Error fetching", fromEntityName, "objects with during getManagedObjectArray")
+                return nil
+            }
+            
+            
+        } else {
+            
+            print("XVCDM: Error: Managed context is nil during _getManagedObjectArray")
+            return nil
+            
+        }
+        
+    }
+    
+    fileprivate func _printChange(value:Any, forKey:String, forObject:NSManagedObject){
+        
+        //print all by lifetime tallies (they take up a lot of room in the console)
+        if (forKey != XvSetConstants.kTrackLifetimeKeyTallies){
+            print("XVCDM: Set", forKey, "to", value, "for", forObject)
+        }
+        
+    }
+    
 
     
 }

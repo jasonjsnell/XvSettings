@@ -16,11 +16,11 @@ class TrackMidiDestinationsData:CheckmarkTableData {
     
     fileprivate let footerText:[String] = ["Pull to refresh MIDI destinations."]
     
-    fileprivate let instrDataObj:NSManagedObject
+    fileprivate let trackDataObj:NSManagedObject
     
-    public init?(withInstrDataObj:NSManagedObject){
+    public init?(withTrackDataObj:NSManagedObject){
         
-        self.instrDataObj = withInstrDataObj
+        self.trackDataObj = withTrackDataObj
         let key:String = XvSetConstants.kTrackMidiDestinations
         
         super.init(
@@ -41,7 +41,7 @@ class TrackMidiDestinationsData:CheckmarkTableData {
     
     public func refresh() {
         
-        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: instrDataObj) as? [String] {
+        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: trackDataObj) as? [String] {
             
             //reset sections
             sections = []
@@ -64,7 +64,7 @@ class TrackMidiDestinationsData:CheckmarkTableData {
             
         } else {
             
-            print("SETTINGS: Error: Unable to get value from instr data obj in GlobalMidiDestinationsData")
+            print("SETTINGS: Error: Unable to get value from track data obj in GlobalMidiDestinationsData")
             
         }
     }

@@ -26,7 +26,7 @@ public class XvSetMainTableVC:TableVC {
         
         if let linkEnabled:Bool = xvcdm.getBool(
             forKey: XvSetConstants.kConfigAbletonLinkEnabled,
-            forObject: xvcdm.currConfig!) {
+            forObject: xvcdm.currConfigFile!) {
             
             if (linkEnabled){
                 
@@ -46,37 +46,36 @@ public class XvSetMainTableVC:TableVC {
     }
     
     //MARK: - USER INPUT
-    
-    override internal func checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
-     
-        super.checkmarkRowSelected(cell: cell, indexPath: indexPath)
-        
-        //TODO: Is this being used? Was for choosing a new kit, but now???
-        print("SETTINGS: CHECK: Is this being used?")
-        
-        /*if let cellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
-            
-            //nothing???
-        }*/
-    }
-    
-    
+
     override func disclosureRowSelected(cell:DisclosureCell, key:String){
         
-        if (key == XvSetConstants.kConfigMidiSync){
+        if (key.range(of:XvSetConstants.kTrackEntity) != nil) {
+            
+            //MARK: Track & Sample
+            let positionString:Substring = key.suffix(1)
+            if let position:Int = Int(positionString){
+                
+                loadTrackTable(position: position)
+               
+            } else {
+                
+                print("SETTINGS: Error getting trackPosition during disclosureRowSelected")
+            }
+           
+        } else if (key == XvSetConstants.kConfigMidiSync){
             
             //MARK: MIDI sync
             if let linkEnabled:Bool = xvcdm.getBool(
                 forKey: XvSetConstants.kConfigAbletonLinkEnabled,
-                forObject: xvcdm.currConfig!) {
+                forObject: xvcdm.currConfigFile!) {
                 
-                if (linkEnabled){
+                if (!linkEnabled){
                     
-                    _showMidiSyncAblError()
+                    loadCheckmarkTable(fromCell:cell)
                     
                 } else {
                     
-                    loadCheckmarkTable(fromCell:cell)
+                    _showMidiSyncAblError()
                 }
             }
             
@@ -84,12 +83,16 @@ public class XvSetMainTableVC:TableVC {
                 
             //MARK: ABL Link
             //launch controller from helper since it needs to grab the VC from the ABL framework
+            
             Utils.postNotification(
                 name: XvSetConstants.kConfigAbletonLinkViewControllerRequested,
                 userInfo: ["parentVC" : self])
             
+            
         } else if (key == XvSetConstants.kConfigGlobalMidiDestinations ||
             key == XvSetConstants.kConfigGlobalMidiSources){
+            
+            //MARK: Global MIDI
             
             if (!xvcdm.audioBusMidiBypass){
                 
@@ -100,9 +103,7 @@ public class XvSetMainTableVC:TableVC {
                 _showAudiobusMidiBypassError()
             }
             
-        } else if (
-            
-            key == XvSetConstants.kConfigMusicalScale) {
+        } else if (key == XvSetConstants.kConfigMusicalScale) {
             
             //MARK: Musical scale
             loadMusicalScaleTable()

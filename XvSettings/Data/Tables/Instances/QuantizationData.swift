@@ -13,11 +13,11 @@ class QuantizationData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
-    public init?(withInstrDataObj:NSManagedObject){
+    public init?(withTrackDataObj:NSManagedObject){
         
         let key:String = XvSetConstants.kTrackQuantization
         
-        if let value:Int = _xvcdm.getInteger(forKey: key, forObject: withInstrDataObj){
+        if let value:Int = _xvcdm.getInteger(forKey: key, forObject: withTrackDataObj){
 
             super.init(
                 

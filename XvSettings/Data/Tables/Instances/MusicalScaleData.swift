@@ -17,7 +17,7 @@ class MusicalScaleData:CheckmarkTableData {
         
         if let musicalScaleRootKeyInt:Int = _xvcdm.getInteger(
             forKey: XvSetConstants.kConfigMusicalScaleRootKey,
-            forObject: _xvcdm.currConfig!) {
+            forObject: _xvcdm.currConfigFile!) {
             
             let rootKeyLabels:[String] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
             
@@ -56,7 +56,7 @@ class MusicalScaleData:CheckmarkTableData {
         
         let musicalScaleKey:String = XvSetConstants.kConfigMusicalScale
         
-        if let musicalScaleValue:String = _xvcdm.getString(forKey: musicalScaleKey, forObject: _xvcdm.currConfig!) {
+        if let musicalScaleValue:String = _xvcdm.getString(forKey: musicalScaleKey, forObject: _xvcdm.currConfigFile!) {
         
             super.init(
                 
@@ -82,6 +82,8 @@ class MusicalScaleData:CheckmarkTableData {
                 isVisible: true
                 
             )
+            
+            title = Labels.MUSIC_SCALE_HEADER
             
         } else {
             

@@ -38,7 +38,7 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
     
     public func refresh() {
         
-        if let userSelectedSources:[String] = _xvcdm.getArray(forKey: key, forObject: _xvcdm.currConfig!) as? [String] {
+        if let userSelectedSources:[String] = _xvcdm.getArray(forKey: key, forObject: _xvcdm.currConfigFile!) as? [String] {
             
             //reset sections
             sections = []
@@ -60,7 +60,7 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
             
         } else {
             
-            print("SETTINGS: Error: Unable to get value from instr data obj in GlobalMidiSourcesData")
+            print("SETTINGS: Error: Unable to get value from track data obj in GlobalMidiSourcesData")
             
         }
     }
