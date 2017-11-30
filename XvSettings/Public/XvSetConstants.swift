@@ -135,8 +135,6 @@ public class XvSetConstants {
     
     //references to other core data objects stored in config
     public static let kConfigApp:String = "app"
-    
-    //TODO: are these used?
     public static let kConfigSampleBanks:String = "sampleBanks" //array of samples in the config file
     public static let kConfigTracks:String = "tracks" //array of tracks in the config file
     

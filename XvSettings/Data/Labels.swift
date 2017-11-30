@@ -106,7 +106,7 @@ public class Labels {
     
     //MARK: - Track: Loop length
     
-    //TODO: Change loop to pattern?
+    //TODO: Future: Change loop to pattern?
     public static let LOOP_LENGTH_HEADER:String = "Pattern Length"
     public static let LOOP_LENGTH_LABEL:String = "Pattern length"
     

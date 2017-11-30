@@ -216,29 +216,6 @@ public class XvSetMainTableData:TableData {
             print("SETTINGS: Error get midi routing data from core data in main table data")
         }
         
-        
-        //MARK: Artificial Intelligence
-        
-        let artificialIntelligence:ButtonCellData = ButtonCellData(
-            key: XvSetConstants.kConfigArtificialIntelligence,
-            textLabel: "Reset AI Memory",
-            levelType: XvSetConstants.LEVEL_TYPE_APP,
-            isVisible: true
-        )
-        
-        let artificialIntelligenceSection:SectionData = SectionData(
-            header: "Artificial Intelligence",
-            footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-            footerText: ["This clears the AI memory and resets it to the factory state."],
-            footerLink: nil,
-            footerHeight: 60,
-            cells: [artificialIntelligence],
-            isVisible: true
-        )
-        
-        sections.append(artificialIntelligenceSection)
-        
-        
         //MARK: BG Mode
         
         if let bgModeBool:Bool = xvcdm.getBool(
@@ -269,6 +246,31 @@ public class XvSetMainTableData:TableData {
             print("SETTINGS: Error: Unable to get bg mode bool in main table")
         }
         
+        
+        //MARK: Artificial Intelligence
+        
+        let artificialIntelligence:ButtonCellData = ButtonCellData(
+            key: XvSetConstants.kConfigArtificialIntelligence,
+            textLabel: "Reset AI Memory",
+            levelType: XvSetConstants.LEVEL_TYPE_APP,
+            isVisible: true
+        )
+        
+        let artificialIntelligenceSection:SectionData = SectionData(
+            header: "Artificial Intelligence",
+            footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+            footerText: ["This clears the AI memory and resets it to the factory state."],
+            footerLink: nil,
+            footerHeight: 60,
+            cells: [artificialIntelligence],
+            isVisible: true
+        )
+        
+        sections.append(artificialIntelligenceSection)
+        
+        
+        
+        
         //MARK: Rearrange
         
         /*
@@ -292,12 +294,11 @@ public class XvSetMainTableData:TableData {
         sections.append(rearrangeSection)
         */
         
-        //TODO: organize these new sections and work on their copy
         //MARK: Factory settings
         
         let factorySettings:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kTracksFactorySettings,
-            textLabel: "Restore Factory Settings",
+            textLabel: "Reset Tracks to Default",
             levelType: XvSetConstants.LEVEL_TYPE_APP,
             isVisible: true
         )
@@ -305,7 +306,7 @@ public class XvSetMainTableData:TableData {
         let factorySettingsSection:SectionData = SectionData(
             header: "Factory Settings",
             footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-            footerText: ["This resets the tracks to their factory settings."],
+            footerText: ["This resets the tracks back to their factory settings."],
             footerLink: nil,
             footerHeight: 70,
             cells: [factorySettings],
