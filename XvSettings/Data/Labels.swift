@@ -107,13 +107,13 @@ public class Labels {
     //MARK: - Track: Loop length
     
     //TODO: Future: Change loop to pattern?
-    public static let LOOP_LENGTH_HEADER:String = "Pattern Length"
-    public static let LOOP_LENGTH_LABEL:String = "Pattern length"
+    public static let PATTERN_LENGTH_HEADER:String = "Pattern Length"
+    public static let PATTERN_LENGTH_LABEL:String = "Pattern length"
     
-    public static let LOOP_LENGTH_MEASURE_1:String = "1 measure"
-    public static let LOOP_LENGTH_MEASURE_2:String = "2 measures"
-    public static let LOOP_LENGTH_MEASURE_4:String = "4 measures"
-    public static let LOOP_LENGTH_MEASURE_8:String = "8 measures"
+    public static let PATTERN_LENGTH_MEASURE_1:String = "1 measure"
+    public static let PATTERN_LENGTH_MEASURE_2:String = "2 measures"
+    public static let PATTERN_LENGTH_MEASURE_4:String = "4 measures"
+    public static let PATTERN_LENGTH_MEASURE_8:String = "8 measures"
     
     
     //MARK: - Track: Sound

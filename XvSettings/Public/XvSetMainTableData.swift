@@ -112,37 +112,45 @@ public class XvSetMainTableData:TableData {
         
     
         //MARK: Tempo
+        
         /*
-        if let tempoInt:Int = xvcdm.getAppInteger(forKey: XvSetConstants.kConfigTempo) {
+        if let currConfigFile:NSManagedObject = xvcdm.currConfigFile {
             
-            print("my curr tempo is", tempoInt)
-            
-            let tempo:SliderCellData = SliderCellData(
-                key: XvSetConstants.kConfigTempo,
-                value: tempoInt,
-                valueMin: 50,
-                valueMax: 200,
-                textLabel: Labels.TEMPO_LABEL,
-                dataType: XvSetConstants.DATA_TYPE_INTEGER,
-                levelType: XvSetConstants.LEVEL_TYPE_APP,
-                isVisible: true)
-            
-            let tempoSection:SectionData = SectionData(
-                header: Labels.TEMPO_LABEL,
-                footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                footerText: nil,
-                footerLink: nil,
-                footerHeight: 10,
-                cells: [tempo],
-                isVisible: true
-            )
-            
-            sections.append(tempoSection)
+            if let tempoInt:Int = xvcdm.getInteger(forKey: XvSetConstants.kConfigTempo, forObject: currConfigFile) {
+                
+                let tempo:SliderCellData = SliderCellData(
+                    key: XvSetConstants.kConfigTempo,
+                    value: tempoInt,
+                    valueMin: 50,
+                    valueMax: 200,
+                    textLabel: Labels.TEMPO_LABEL,
+                    dataType: XvSetConstants.DATA_TYPE_INTEGER,
+                    levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
+                    isVisible: true)
+                
+                let tempoSection:SectionData = SectionData(
+                    header: Labels.TEMPO_LABEL,
+                    footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                    footerText: nil,
+                    footerLink: nil,
+                    footerHeight: 10,
+                    cells: [tempo],
+                    isVisible: true
+                )
+                
+                sections.append(tempoSection)
+                
+            } else {
+                
+                print("SETTINGS: Error getting tempo during main table init")
+            }
             
         } else {
-            print("SETTINGS: Error getting tempo during main table init")
+            
+            print("SETTINGS: Error getting currConfigFile when making tempo slider")
         }
         */
+
         
         //MARK: Sync
         
@@ -217,16 +225,16 @@ public class XvSetMainTableData:TableData {
         }
         
         //MARK: BG Mode
-        
-        if let bgModeBool:Bool = xvcdm.getBool(
+        if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
+            let bgModeBool:Bool = xvcdm.getBool(
             forKey: XvSetConstants.kConfigBackgroundModeEnabled,
-            forObject: xvcdm.currConfigFile!) {
+            forObject: currConfigFile) {
             
             let bgMode:ToggleCellData = ToggleCellData(
                 key: XvSetConstants.kConfigBackgroundModeEnabled,
                 value: bgModeBool,
                 textLabel: "Background Mode",
-                levelType: XvSetConstants.LEVEL_TYPE_APP,
+                levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
                 isVisible: true
             )
             
@@ -248,11 +256,10 @@ public class XvSetMainTableData:TableData {
         
         
         //MARK: Artificial Intelligence
-        
         let artificialIntelligence:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kConfigArtificialIntelligence,
             textLabel: "Reset AI Memory",
-            levelType: XvSetConstants.LEVEL_TYPE_APP,
+            levelType: XvSetConstants.LEVEL_TYPE_NONE,
             isVisible: true
         )
         
@@ -277,7 +284,7 @@ public class XvSetMainTableData:TableData {
         let rearrangeButton:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kAppRearrange,
             textLabel: "Rearrange",
-            levelType: XvSetConstants.LEVEL_TYPE_APP,
+            levelType: XvSetConstants.LEVEL_TYPE_NONE,
             isVisible: true
         )
         
@@ -296,10 +303,11 @@ public class XvSetMainTableData:TableData {
         
         //MARK: Factory settings
         
+        //TODO: test the restore button
         let factorySettings:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kTracksFactorySettings,
             textLabel: "Reset Tracks to Default",
-            levelType: XvSetConstants.LEVEL_TYPE_APP,
+            levelType: XvSetConstants.LEVEL_TYPE_NONE,
             isVisible: true
         )
         

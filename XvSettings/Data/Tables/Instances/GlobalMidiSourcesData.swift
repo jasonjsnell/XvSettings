@@ -29,7 +29,7 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
             possibleValues: [],
             textLabel: Labels.MIDI_SOURCE_LABEL,
             detailTextLabels: [],
-            levelType: XvSetConstants.LEVEL_TYPE_APP,
+            levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
             isVisible: true
         )
     
@@ -38,7 +38,8 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
     
     public func refresh() {
         
-        if let userSelectedSources:[String] = _xvcdm.getArray(forKey: key, forObject: _xvcdm.currConfigFile!) as? [String] {
+        if let currConfigFile:NSManagedObject = _xvcdm.currConfigFile,
+            let userSelectedSources:[String] = _xvcdm.getArray(forKey: key, forObject: currConfigFile) as? [String] {
             
             //reset sections
             sections = []

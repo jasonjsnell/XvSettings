@@ -18,21 +18,15 @@ public class XvSetConstants {
     
     //MARK: - Notifications -
     
-    //app
+    public static let kSettingsValueChanged:String = "kSettingsValueChanged"
     public static let kConfigTempoChanged:String = "kConfigTempoChanged"
-    public static let kConfigMusicalScaleChanged:String = "kConfigMusicalScaleChanged"
     
     //midi
-    public static let kConfigMidiSyncChanged:String = "kConfigMidiSyncChanged"
     public static let kConfigGlobalMidiDestinationsRequest:String = "kConfigGlobalMidiDestinationsRequest"
     public static let kConfigGlobalMidiDestinationsChanged:String = "kConfigGlobalMidiDestinationsChanged"
     public static let kConfigGlobalMidiSourcesRequest:String = "kConfigGlobalMidiSourcesRequest"
     public static let kConfigGlobalMidiSourcesChanged:String = "kConfigGlobalMidiSourcesChanged"
     public static let kTrackMidiDestinationsRequest:String = "kTrackMidiDestinationsRequest"
-    
-    //track data
-    public static let kTrackValueChanged:String = "kTrackValueChanged"
-    
     
     
     //MARK: - BUTTONS -
@@ -78,12 +72,12 @@ public class XvSetConstants {
     public static let kConfigBackgroundModeEnabled:String = "backgroundModeEnabled" // passive
     public static let kConfigCreatedAtPosition:String = "createdAtPosition"
     public static let kConfigName:String = "name"
-    public static let kConfigTempo:String = "userTempo" //updates sequencer and ABL Link
+    public static let kConfigTempo:String = "userTempo" //pushed to sequencer and ABL Link
     
     //MARK: Config: MIDI
     public static let kConfigGlobalMidiDestinations:String = "globalMidiDestinations" // passive
-    public static let kConfigGlobalMidiSources:String = "globalMidiSources" // updates MIDI system w/new sources
-    public static let kConfigMidiSync:String = "midiSync" //updates sequencer and ABL Link
+    public static let kConfigGlobalMidiSources:String = "globalMidiSources" // pushed to MIDI system w/new sources
+    public static let kConfigMidiSync:String = "midiSync" //pushed to sequencer and ABL Link
     
     //MIDI sync values
     public static let MIDI_CLOCK_RECEIVE:String = "midiClockReceive"
@@ -151,7 +145,7 @@ public class XvSetConstants {
     public static let kTrackCompositionRelease:String = "compositionRelease"
     public static let kTrackConfigFile:String = "configFile" //ref to containting core data object
     public static let kTrackLifetimeKeyTallies = "lifetimeKeyTallies"
-    public static let kTrackLoopLength:String = "loopLength"
+    public static let kTrackPatternLength:String = "patternLength"
     public static let kTrackMidiDestinations:String = "trackMidiDestinations"
     public static let kTrackMidiReceiveChannel:String = "midiReceiveChannel"
     public static let kTrackMidiReceiveEnabled:String = "midiReceiveEnabled"
@@ -220,6 +214,7 @@ public class XvSetConstants {
     //MARK: - Level types -
     public static let LEVEL_TYPE_NONE:String = "levelNone"
     public static let LEVEL_TYPE_APP:String = "levelApp"
+    public static let LEVEL_TYPE_CONFIG:String = "levelConfig"
     public static let LEVEL_TYPE_TRACK:String = "levelTrack"
     public static let LEVEL_TYPE_SAMPLE:String = "levelSample"
     

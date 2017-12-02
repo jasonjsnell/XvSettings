@@ -167,6 +167,7 @@ public class CheckmarkTableVC:TableVC {
             print("SETTINGS: Refresh table")
         }
         
+        //MARK: MIDI requests
         if let checkmarkTableData:CheckmarkTableData = dataSource as? CheckmarkTableData {
             
             if (checkmarkTableData.key == XvSetConstants.kConfigGlobalMidiSources){
@@ -199,7 +200,7 @@ public class CheckmarkTableVC:TableVC {
     
     //when the local checkmark func is executed, update the parent cells detailTextLabel on non-multi tables
     override internal func checkmarkRowSelected(cell: CheckmarkCell, indexPath:IndexPath) {
-        
+    
         super.checkmarkRowSelected(cell: cell, indexPath: indexPath)
         
         if let cellData:CheckmarkCellData = cell.data as? CheckmarkCellData {
@@ -222,38 +223,6 @@ public class CheckmarkTableVC:TableVC {
                         print("SETTINGS: Error: Parent cell data is invalid during checkmarkRowSelected")
                     }
                 }
-            }
-            
-            
-            //post notifications for checkmark tables based on key
-            
-            if (cellData.key == XvSetConstants.kConfigMidiSync) {
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kConfigMidiSyncChanged,
-                    userInfo: nil
-                )
-            
-            } else if (cellData.key == XvSetConstants.kConfigGlobalMidiDestinations){
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kConfigGlobalMidiDestinationsChanged,
-                    userInfo: nil
-                )
-                
-            } else if (cellData.key == XvSetConstants.kConfigGlobalMidiSources){
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kConfigGlobalMidiSourcesChanged,
-                    userInfo: nil
-                )
-                
-            } else if (cellData.key == XvSetConstants.kConfigMusicalScale){
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kConfigMusicalScaleChanged,
-                    userInfo: nil
-                )
             }
             
         } else {

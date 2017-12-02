@@ -17,7 +17,7 @@ class TrackTableVC:TableVC {
         if (
             key == XvSetConstants.kTrackMidiSendChannel      ||
             key == XvSetConstants.kTrackMidiReceiveChannel   ||
-            key == XvSetConstants.kTrackLoopLength           ||
+            key == XvSetConstants.kTrackPatternLength           ||
             key == XvSetConstants.kTrackCompositionRelease ||
             key == XvSetConstants.kTrackQuantization ){
             

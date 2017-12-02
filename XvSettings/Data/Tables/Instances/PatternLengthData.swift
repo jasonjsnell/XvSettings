@@ -1,5 +1,5 @@
 //
-//  LoopLengthData.swift
+//  PatternLengthData.swift
 //  XvSettings
 //
 //  Created by Jason Snell on 7/3/17.
@@ -9,13 +9,13 @@
 import Foundation
 import CoreData
 
-class LoopLengthData:CheckmarkTableData {
+class PatternLengthData:CheckmarkTableData {
     
     fileprivate let _xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     
     public init?(withTrackDataObj:NSManagedObject){
         
-        let key:String = XvSetConstants.kTrackLoopLength
+        let key:String = XvSetConstants.kTrackPatternLength
         
         if let value:Int = _xvcdm.getInteger(forKey: key, forObject: withTrackDataObj){
             
@@ -25,12 +25,12 @@ class LoopLengthData:CheckmarkTableData {
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
                 defaultValue: value,
                 possibleValues: [1, 2, 4, 8],
-                textLabel: Labels.LOOP_LENGTH_LABEL,
+                textLabel: Labels.PATTERN_LENGTH_LABEL,
                 detailTextLabels: [
-                    Labels.LOOP_LENGTH_MEASURE_1,
-                    Labels.LOOP_LENGTH_MEASURE_2,
-                    Labels.LOOP_LENGTH_MEASURE_4,
-                    Labels.LOOP_LENGTH_MEASURE_8,
+                    Labels.PATTERN_LENGTH_MEASURE_1,
+                    Labels.PATTERN_LENGTH_MEASURE_2,
+                    Labels.PATTERN_LENGTH_MEASURE_4,
+                    Labels.PATTERN_LENGTH_MEASURE_8,
                 ],
                 levelType: XvSetConstants.LEVEL_TYPE_TRACK,
                 isVisible: true
@@ -39,7 +39,7 @@ class LoopLengthData:CheckmarkTableData {
             
             let section:SectionData = SectionData(
                 
-                header: Labels.LOOP_LENGTH_HEADER,
+                header: Labels.PATTERN_LENGTH_HEADER,
                 footerType: XvSetConstants.FOOTER_TYPE_NONE,
                 footerText: nil,
                 footerLink: nil,
@@ -53,7 +53,7 @@ class LoopLengthData:CheckmarkTableData {
             
         } else {
             
-            print("SETTINGS: Error: Unable to get musical scale from core data in LoopLengthData")
+            print("SETTINGS: Error: Unable to get musical scale from core data in PatternLengthData")
             return nil
         }
     }

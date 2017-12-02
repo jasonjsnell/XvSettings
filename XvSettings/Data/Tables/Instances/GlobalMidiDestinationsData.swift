@@ -29,7 +29,7 @@ class GlobalMidiDestinationsData:CheckmarkTableData {
             possibleValues: [],
             textLabel: Labels.MIDI_GLOBAL_DESTINATION_LABEL,
             detailTextLabels: [],
-            levelType: XvSetConstants.LEVEL_TYPE_APP,
+            levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
             isVisible: true
         )
         
@@ -39,7 +39,8 @@ class GlobalMidiDestinationsData:CheckmarkTableData {
     
     public func refresh() {
         
-        if let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: _xvcdm.currConfigFile!) as? [String] {
+        if let currConfigFile:NSManagedObject = _xvcdm.currConfigFile,
+            let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: currConfigFile) as? [String] {
             
             //reset sections
             sections = []

@@ -5,6 +5,7 @@
 //  Created by Jason Snell on 6/4/17.
 //  Copyright © 2017 Jason J. Snell. All rights reserved.
 
+import CoreData
 
 class MusicalScaleData:CheckmarkTableData {
     
@@ -15,9 +16,10 @@ class MusicalScaleData:CheckmarkTableData {
         //root / global key
         var rootKeySection:SectionData?
         
-        if let musicalScaleRootKeyInt:Int = _xvcdm.getInteger(
+        if let currConfigFile:NSManagedObject = _xvcdm.currConfigFile,
+            let musicalScaleRootKeyInt:Int = _xvcdm.getInteger(
             forKey: XvSetConstants.kConfigMusicalScaleRootKey,
-            forObject: _xvcdm.currConfigFile!) {
+            forObject: currConfigFile) {
             
             let rootKeyLabels:[String] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
             
@@ -28,7 +30,7 @@ class MusicalScaleData:CheckmarkTableData {
                 valueMax: Float(rootKeyLabels.count-1),
                 textLabel: Labels.MUSICAL_SCALE_ROOT_KEY_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
-                levelType: XvSetConstants.LEVEL_TYPE_APP,
+                levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
                 isVisible: true)
             
             rootKey.set(substituteTextLabels: rootKeyLabels)
@@ -55,8 +57,8 @@ class MusicalScaleData:CheckmarkTableData {
         var musicalScaleSection:SectionData?
         
         let musicalScaleKey:String = XvSetConstants.kConfigMusicalScale
-        
-        if let musicalScaleValue:String = _xvcdm.getString(forKey: musicalScaleKey, forObject: _xvcdm.currConfigFile!) {
+        if let currConfigFile:NSManagedObject = _xvcdm.currConfigFile,
+            let musicalScaleValue:String = _xvcdm.getString(forKey: musicalScaleKey, forObject: currConfigFile) {
         
             super.init(
                 
@@ -66,7 +68,7 @@ class MusicalScaleData:CheckmarkTableData {
                 possibleValues: XvSetConstants.getMusicScaleValues(),
                 textLabel: Labels.MUSIC_SCALE_LABEL,
                 detailTextLabels: Labels.getMusicScaleLabels(),
-                levelType: XvSetConstants.LEVEL_TYPE_APP,
+                levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
                 isVisible: true
                 
             )

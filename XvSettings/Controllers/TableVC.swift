@@ -615,6 +615,7 @@ public class TableVC: UITableViewController {
                 
                 
                 _value = _getArrayOfValues(level: cellData.levelType, key: cellData.key, value: cellData.value)
+                print("array of values", _value)
                 
             } else {
                 
@@ -628,11 +629,20 @@ public class TableVC: UITableViewController {
                 cellData.selected = true
             }
             
+            
+            //save value to disk
             _setCoreData(
                 level: cellData.levelType,
                 value: _value,
                 key: cellData.key,
                 multi: cellData.multi)
+            
+            //post notification to app can make updates
+            Utils.postNotification(
+                name: XvSetConstants.kSettingsValueChanged,
+                userInfo: ["type" : cellData.levelType, "key" : cellData.key]
+            )
+            
             
         } else {
             print("SETTINGS: Checkmark cell data is invalid")
@@ -735,28 +745,28 @@ public class TableVC: UITableViewController {
         //var to populate and return
         var existingValueArray:[Any] = []
         
-        if (level == XvSetConstants.LEVEL_TYPE_APP) {
+        if (level == XvSetConstants.LEVEL_TYPE_CONFIG) {
             
-            // if app...
-            if let app:NSManagedObject = xvcdm.app {
+            // if config...
+            if let currConfigFile:NSManagedObject = xvcdm.currConfigFile {
                 
                 // get value for key
-                if let existingAppValue:Any = xvcdm.getAny(forKey: key, forObject: app) {
+                if let existingConfigValue:Any = xvcdm.getAny(forKey: key, forObject: currConfigFile) {
                     
                     //is this value an array?
-                    if let existingAppValueArray:[Any] = existingAppValue as? [Any] {
+                    if let existingConfigValueArray:[Any] = existingConfigValue as? [Any] {
                         
-                        existingValueArray = existingAppValueArray
+                        existingValueArray = existingConfigValueArray
                     }
                     
                 } else {
                     
-                    print("SETTINGS: Error getting app value during _getArrayOfValues")
+                    print("SETTINGS: Error getting config array during _getArrayOfValues")
                 }
                 
             } else {
                 
-                print("SETTINGS: Error getting app during _getArrayOfValues")
+                print("SETTINGS: Error getting config during _getArrayOfValues")
             }
             
         } else if (level == XvSetConstants.LEVEL_TYPE_TRACK) {
@@ -775,13 +785,42 @@ public class TableVC: UITableViewController {
                     
                 } else {
                     
-                    print("SETTINGS: Error getting curr track value during _getArrayOfValues")
+                    print("SETTINGS: Error getting track array during _getArrayOfValues")
                 }
                 
             } else {
                 
                 print("SETTINGS: Error getting curr track during _getArrayOfValues")
             }
+        
+        } else if (level == XvSetConstants.LEVEL_TYPE_SAMPLE) {
+            
+            // if sample...
+            if let currSampleBank:NSManagedObject = xvcdm.currSampleBank {
+                
+                // get value for key with this sample bank
+                if let existingSampleBankValue:Any = xvcdm.getAny(forKey: key, forObject: currSampleBank) {
+                    
+                    //is this value an array?
+                    if let existingSampleBankValueArray:[Any] = existingSampleBankValue as? [Any] {
+                        
+                        existingValueArray = existingSampleBankValueArray
+                    }
+                    
+                } else {
+                    
+                    print("SETTINGS: Error getting sample bank array during _getArrayOfValues")
+                }
+                
+            } else {
+                
+                print("SETTINGS: Error getting curr sample bank during _getArrayOfValues")
+            }
+            
+        } else {
+            
+            print("SETTINGS: Error recognizing type during _getArrayOfValues")
+            
         }
         
         //2. Is the new value already in the existing array
@@ -881,22 +920,12 @@ public class TableVC: UITableViewController {
                                 multi: false)
                         }*/
                         
-                        //if tempo, post notification for sequencer
-                        if (sliderCellData.key == XvSetConstants.kConfigTempo){
-                            
-                            Utils.postNotification(
-                                name: XvSetConstants.kConfigTempoChanged,
-                                userInfo: nil
-                            )
-                            
-                        } else if (sliderCellData.key == XvSetConstants.kConfigMusicalScaleRootKey){
-                            
-                            //else if musical scale root key, post a notification for Core Data to update the musical scale
-                            Utils.postNotification(
-                                name: XvSetConstants.kConfigMusicalScaleChanged,
-                                userInfo: nil
-                            )
-                        }
+                        //post notification to app can make updates
+                        
+                        Utils.postNotification(
+                            name: XvSetConstants.kSettingsValueChanged,
+                            userInfo: ["type" : sliderCellData.levelType, "key" : sliderCellData.key]
+                        )
                     }
                     
                 } else {
@@ -950,6 +979,12 @@ public class TableVC: UITableViewController {
                 value: sender.isOn,
                 key: toggleCellData.key,
                 multi: false)
+            
+            //post notification to app can make updates
+            Utils.postNotification(
+                name: XvSetConstants.kSettingsValueChanged,
+                userInfo: ["type" : toggleCellData.levelType, "key" : toggleCellData.key]
+            )
             
             
         } else {
@@ -1348,41 +1383,41 @@ public class TableVC: UITableViewController {
             print("SETTINGS: TableVC: Set CoreData", level, value, key)
         //}
         
-        //set core data value based on level (app or track)
+        //set core data value based on level (app, config, track, sample)
+        var targetObject:NSManagedObject?
         
-        if (level == XvSetConstants.LEVEL_TYPE_APP){
-        
-            if let app:NSManagedObject = xvcdm.app {
-                
-                xvcdm.set(value: value, forKey: key, forObject: app)
-                if (!xvcdm.save()){
-                    print("SETTINGS: TableVC: Error saving during _setCoreData")
-                }
-                
-            } else {
-                
-                print("SETTINGS: Error getting app during setCoreData")
-            }
+        switch level {
             
-        } else if (level == XvSetConstants.LEVEL_TYPE_TRACK){
+        case XvSetConstants.LEVEL_TYPE_APP:
+            targetObject = xvcdm.app
             
-            if let currTrack:NSManagedObject = xvcdm.currTrack {
-                
-                xvcdm.set(value: value, forKey: key, forObject: currTrack)
-                if (!xvcdm.save()){
-                    print("SETTINGS: TableVC: Error saving during _setCoreData")
-                }
-                
-                Utils.postNotification(
-                    name: XvSetConstants.kTrackValueChanged,
-                    userInfo: ["trackDataObj" : currTrack]
-                )
+        case XvSetConstants.LEVEL_TYPE_CONFIG:
+            targetObject = xvcdm.currConfigFile
             
-            } else {
-                
-                print("SETTINGS: Error getting current track during setCoreData")
-            }
+        case XvSetConstants.LEVEL_TYPE_TRACK:
+            targetObject = xvcdm.currTrack
+            
+        case XvSetConstants.LEVEL_TYPE_SAMPLE:
+            targetObject = xvcdm.currSampleBank
+            
+        default:
+            targetObject = nil
         }
+        
+        if (targetObject != nil){
+         
+            xvcdm.set(value: value, forKey: key, forObject: targetObject!)
+            
+            if (!xvcdm.save()){
+                print("SETTINGS: TableVC: Error saving during _setCoreData")
+            }
+            
+        } else {
+            
+            print("SETTINGS: TableVC: Error: targetObject is nil during _setCoreData")
+        }
+        
+        
     }
     
     //MARK: - ALERTS

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Jason J. Snell. All rights reserved.
 
 
-
+import CoreData
 
 class MidiSyncData:CheckmarkTableData {
     
@@ -16,7 +16,8 @@ class MidiSyncData:CheckmarkTableData {
         
         let key:String = XvSetConstants.kConfigMidiSync
         
-        if let defaultValue:String = _xvcdm.getString(forKey: key, forObject: _xvcdm.currConfigFile!) {
+        if let currConfigFile:NSManagedObject = _xvcdm.currConfigFile,
+            let defaultValue:String = _xvcdm.getString(forKey: key, forObject: currConfigFile) {
             
             super.init(
                 
@@ -35,7 +36,7 @@ class MidiSyncData:CheckmarkTableData {
                     Labels.MIDI_CLOCK_NONE_LABEL
                 ],
                 
-                levelType: XvSetConstants.LEVEL_TYPE_APP,
+                levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
                 isVisible: true
             )
             

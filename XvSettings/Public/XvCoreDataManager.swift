@@ -671,7 +671,7 @@ open class XvCoreDataManager {
         
         //print all by lifetime tallies (they take up a lot of room in the console)
         if (forKey != XvSetConstants.kTrackLifetimeKeyTallies){
-            print("XVCDM: Set", forKey, "to", value, "for", forObject)
+            print("XVCDM: Set", forKey, "to", value)
         }
         
     }

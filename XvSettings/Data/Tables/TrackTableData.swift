@@ -48,7 +48,7 @@ public class TrackTableData:TableData {
                     key: XvSetConstants.kSampleBankActive,
                     value: sampleActiveBool,
                     textLabel: Labels.SAMPLE_LABEL,
-                    levelType: XvSetConstants.LEVEL_TYPE_TRACK,
+                    levelType: XvSetConstants.LEVEL_TYPE_SAMPLE,
                     isVisible: true
                 )
                 
@@ -74,15 +74,15 @@ public class TrackTableData:TableData {
             //MARK: Composition
             
             if let quantizationData:QuantizationData = QuantizationData(withTrackDataObj: trackDataObj),
-                let loopLengthData:LoopLengthData = LoopLengthData(withTrackDataObj: trackDataObj),
+                let patternLengthData:PatternLengthData = PatternLengthData(withTrackDataObj: trackDataObj),
                 let ampReleaseData:AmpReleaseData = AmpReleaseData(withTrackDataObj: trackDataObj){
                 
                 let quantization:DisclosureCellData = DisclosureCellData(
                     withCheckmarkTableDataSource: quantizationData,
                     isVisible: true)
                 
-                let loopLength:DisclosureCellData = DisclosureCellData(
-                    withCheckmarkTableDataSource: loopLengthData,
+                let patternLength:DisclosureCellData = DisclosureCellData(
+                    withCheckmarkTableDataSource: patternLengthData,
                     isVisible: true)
                 
                 let ampRelease:DisclosureCellData = DisclosureCellData(
@@ -95,7 +95,7 @@ public class TrackTableData:TableData {
                     footerText: nil,
                     footerLink: nil,
                     footerHeight: 10,
-                    cells: [quantization, loopLength, ampRelease],
+                    cells: [quantization, patternLength, ampRelease],
                     isVisible: true
                 )
                 

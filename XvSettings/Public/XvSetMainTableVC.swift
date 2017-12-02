@@ -19,14 +19,12 @@ public class XvSetMainTableVC:TableVC {
     //MARK: - BUILD
     override public func viewWillAppear(_ animated: Bool) {
         
-        //this fires when main settings panel loads, and it returned to from a sub menu
+        //this fires when main settings panel loads, and is returned to from a sub menu
         //if Ableton Link is on, keep midi sync on None, even if user selected something else
-        
-        
-        
-        if let linkEnabled:Bool = xvcdm.getBool(
-            forKey: XvSetConstants.kConfigAbletonLinkEnabled,
-            forObject: xvcdm.currConfigFile!) {
+    
+        if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
+            let linkEnabled:Bool = xvcdm.getBool(
+                forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: currConfigFile) {
             
             if (linkEnabled){
                 
@@ -36,7 +34,7 @@ public class XvSetMainTableVC:TableVC {
             }
             
         } else {
-            print("SETTINGS: Error: Unable to get ABL Link enabled bool from Core Data")
+            print("SETTINGS: Error getting ABL Link vars from Core Data during viewWillAppear in XvSetMainTableVC")
         }
         
         
@@ -65,9 +63,9 @@ public class XvSetMainTableVC:TableVC {
         } else if (key == XvSetConstants.kConfigMidiSync){
             
             //MARK: MIDI sync
-            if let linkEnabled:Bool = xvcdm.getBool(
-                forKey: XvSetConstants.kConfigAbletonLinkEnabled,
-                forObject: xvcdm.currConfigFile!) {
+            if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
+                let linkEnabled:Bool = xvcdm.getBool(
+                    forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: currConfigFile) {
                 
                 if (!linkEnabled){
                     
@@ -77,6 +75,9 @@ public class XvSetMainTableVC:TableVC {
                     
                     _showMidiSyncAblError()
                 }
+            
+            } else {
+                print("SETTINGS: Error getting ABL Link vars from Core Data during disclosureRowSelected in XvSetMainTableVC")
             }
             
         } else if (key == XvSetConstants.kConfigAbletonLinkEnabled){
