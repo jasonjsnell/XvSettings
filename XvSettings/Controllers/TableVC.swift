@@ -561,7 +561,7 @@ public class TableVC: UITableViewController {
             
             let alert = UIAlertController(
                 title: "Restore",
-                message: "Are you sure you want to restore the app to its factory settings?",
+                message: "Are you sure you want to restore the tracks to their factory settings?",
                 preferredStyle: UIAlertControllerStyle.alert)
             
             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {

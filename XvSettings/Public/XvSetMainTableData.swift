@@ -303,7 +303,6 @@ public class XvSetMainTableData:TableData {
         
         //MARK: Factory settings
         
-        //TODO: test the restore button
         let factorySettings:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kTracksFactorySettings,
             textLabel: "Reset Tracks to Default",
