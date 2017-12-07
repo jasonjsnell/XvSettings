@@ -540,7 +540,27 @@ open class XvCoreDataManager {
     fileprivate var _audioBusMidiBypass:Bool = false
     public var audioBusMidiBypass:Bool {
         get { return _audioBusMidiBypass }
-        set { _audioBusMidiBypass = newValue }
+        set {
+            _audioBusMidiBypass = newValue
+            
+            //if true
+            if (_audioBusMidiBypass){
+                
+                if let config:NSManagedObject = currConfigFile {
+                    
+                    if (debug) { print("XVCDM: Audiobus bypass is true, force set ABL Link and bgMode to true") }
+                    
+                    set(value: true, forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: config)
+                    set(value: true, forKey: XvSetConstants.kConfigBackgroundModeEnabled, forObject: config)
+                    
+                } else {
+                    
+                    print("XVCDM: Error accessing currConfigFile when trying to force set variables for audiobus")
+                }
+                
+            }
+            
+        }
     }
     
     //called by root vc when settings panel is launched
