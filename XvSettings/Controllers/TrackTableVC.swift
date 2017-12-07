@@ -14,20 +14,29 @@ class TrackTableVC:TableVC {
 
     override func disclosureRowSelected(cell:DisclosureCell, key:String){
         
+        
         if (
-            key == XvSetConstants.kTrackMidiSendChannel      ||
-            key == XvSetConstants.kTrackMidiReceiveChannel   ||
             key == XvSetConstants.kTrackPatternLength           ||
             key == XvSetConstants.kTrackCompositionRelease ||
             key == XvSetConstants.kTrackQuantization ){
             
+            //default cells
             loadCheckmarkTable(fromCell:cell)
             
-        } else if (key == XvSetConstants.kTrackMidiDestinations){
+        } else if (
+            key == XvSetConstants.kTrackMidiSendChannel      ||
+            key == XvSetConstants.kTrackMidiReceiveChannel   ||
+            key == XvSetConstants.kTrackMidiDestinations){
+            
+            //midi cells
             
             if (!xvcdm.audioBusMidiBypass){
+             
                 loadCheckmarkTable(fromCell:cell)
+            
             } else {
+            
+                //block loading of MIDI tables if audiobus is active
                 _showAudiobusMidiBypassError()
             }
         }

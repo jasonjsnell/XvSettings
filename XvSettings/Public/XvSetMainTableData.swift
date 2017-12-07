@@ -160,99 +160,118 @@ public class XvSetMainTableData:TableData {
         //key (for id purposes in table class)
         //label for visual name
         
-        
-        let abletonLink:DisclosureCellData = DisclosureCellData(
-            key: XvSetConstants.kConfigAbletonLinkEnabled,
-            textLabel: "Ableton Link",
-            isVisible: true
-        )
-        
-        if let midiSyncData:MidiSyncData = MidiSyncData(){
+        //only show if audiobus is off
+        if (!xvcdm.audioBusMidiBypass){
             
-            let midiSync:DisclosureCellData = DisclosureCellData(
-                withCheckmarkTableDataSource: midiSyncData,
+            let abletonLink:DisclosureCellData = DisclosureCellData(
+                key: XvSetConstants.kConfigAbletonLinkEnabled,
+                textLabel: "Ableton Link",
                 isVisible: true
             )
             
-            let syncSection:SectionData = SectionData(
-                header: "Sync",
-                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["MIDI sync cannot be used if Ableton Link is active."],
-                footerLink: nil,
-                footerHeight: 50,
-                cells: [abletonLink, midiSync],
-                isVisible: true
-            )
+            if let midiSyncData:MidiSyncData = MidiSyncData(){
+                
+                let midiSync:DisclosureCellData = DisclosureCellData(
+                    withCheckmarkTableDataSource: midiSyncData,
+                    isVisible: true
+                )
+                
+                let syncSection:SectionData = SectionData(
+                    header: "Sync",
+                    footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                    footerText: ["MIDI sync cannot be used if Ableton Link is active."],
+                    footerLink: nil,
+                    footerHeight: 50,
+                    cells: [abletonLink, midiSync],
+                    isVisible: true
+                )
+                
+                sections.append(syncSection)
+                
+            } else {
+                print("SETTINGS: Error: Unable to get midiSyncData in main table")
+            }
             
-            sections.append(syncSection)
-
-            
-        } else {
-            print("SETTINGS: Error: Unable to get midiSyncData in main table")
         }
+        
+        
         
         
         //MARK: MIDI
-       
-        if let midiDestinationsData:GlobalMidiDestinationsData = GlobalMidiDestinationsData(),
-            let midiSourcesData:GlobalMidiSourcesData = GlobalMidiSourcesData(){
+       //only show if audiobus is off
+        if (!xvcdm.audioBusMidiBypass){
             
-            let midiDestinations:DisclosureCellData = DisclosureCellData(
-                withCheckmarkTableDataSource: midiDestinationsData,
-                isVisible: true
-            )
+            if let midiDestinationsData:GlobalMidiDestinationsData = GlobalMidiDestinationsData(),
+                let midiSourcesData:GlobalMidiSourcesData = GlobalMidiSourcesData(){
+                
+                let midiDestinations:DisclosureCellData = DisclosureCellData(
+                    withCheckmarkTableDataSource: midiDestinationsData,
+                    isVisible: true
+                )
+                
+                let midiSources:DisclosureCellData = DisclosureCellData(
+                    withCheckmarkTableDataSource: midiSourcesData,
+                    isVisible: true
+                )
+                
+                let midiRoutingSection:SectionData = SectionData(
+                    header: "Global MIDI Routing",
+                    footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                    footerText: ["These set the default MIDI destinations and sources."],
+                    footerLink: nil,
+                    footerHeight: 50,
+                    cells: [midiDestinations, midiSources],
+                    isVisible: true
+                )
+                
+                sections.append(midiRoutingSection)
+                
+            } else {
+                
+                print("SETTINGS: Error get midi routing data from core data in main table data")
+            }
             
-            let midiSources:DisclosureCellData = DisclosureCellData(
-                withCheckmarkTableDataSource: midiSourcesData,
-                isVisible: true
-            )
-            
-            let midiRoutingSection:SectionData = SectionData(
-                header: "Global MIDI Routing",
-                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["These set the default MIDI destinations and sources."],
-                footerLink: nil,
-                footerHeight: 50,
-                cells: [midiDestinations, midiSources],
-                isVisible: true
-            )
-            
-            sections.append(midiRoutingSection)
-            
-        } else {
-            
-            print("SETTINGS: Error get midi routing data from core data in main table data")
         }
         
+        
+        
         //MARK: BG Mode
-        if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
-            let bgModeBool:Bool = xvcdm.getBool(
-            forKey: XvSetConstants.kConfigBackgroundModeEnabled,
-            forObject: currConfigFile) {
+        //only show if audiobus is off
+        if (!xvcdm.audioBusMidiBypass){
             
-            let bgMode:ToggleCellData = ToggleCellData(
-                key: XvSetConstants.kConfigBackgroundModeEnabled,
-                value: bgModeBool,
-                textLabel: "Background Mode",
-                levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
-                isVisible: true
-            )
+            if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
+                let bgModeBool:Bool = xvcdm.getBool(
+                    forKey: XvSetConstants.kConfigBackgroundModeEnabled,
+                    forObject: currConfigFile) {
+                
+                let bgMode:ToggleCellData = ToggleCellData(
+                    key: XvSetConstants.kConfigBackgroundModeEnabled,
+                    value: bgModeBool,
+                    textLabel: "Background Mode",
+                    levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
+                    isVisible: true
+                )
+                
+                let modesSection:SectionData = SectionData(
+                    header: "Background Mode",
+                    footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                    footerText: ["Activate this to keep the app running in the background."],
+                    footerLink: nil,
+                    footerHeight: 60,
+                    cells: [bgMode],
+                    isVisible: true
+                )
+                
+               sections.append(modesSection)
+                
+            } else {
+                print("SETTINGS: Error: Unable to get bg mode bool in main table")
+            }
             
-            let modesSection:SectionData = SectionData(
-                header: "Background Mode",
-                footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                footerText: ["Activate this to keep the app running in the background."],
-                footerLink: nil,
-                footerHeight: 60,
-                cells: [bgMode],
-                isVisible: true
-            )
-            
-            sections.append(modesSection)
-            
-        } else {
-            print("SETTINGS: Error: Unable to get bg mode bool in main table")
         }
+        
+        
+        
         
         
         //MARK: Artificial Intelligence

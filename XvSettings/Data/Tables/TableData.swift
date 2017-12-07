@@ -17,6 +17,13 @@ public class TableData {
     public var title:String = ""
     public var sections:[SectionData] = []
     
-    public init() {}
+    public init() {
+        
+        //clear vars
+        title = ""
+        sections = []
+        
+        
+    }
     
 }

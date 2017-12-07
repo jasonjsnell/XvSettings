@@ -273,87 +273,95 @@ public class TrackTableData:TableData {
             
             //MARK: MIDI send
             //make sure midi core data is valid
-            if let midiSendEnabledBool:Bool = xvcdm.getBool(
-                forKey: XvSetConstants.kTrackMidiSendEnabled,
-                forObject: trackDataObj),
+            
+            //show if audiobus is off
+            if (!xvcdm.audioBusMidiBypass){
                 
-                let midiSendChannelData:MidiSendChannelData = MidiSendChannelData(withTrackDataObj: trackDataObj),
+                if let midiSendEnabledBool:Bool = xvcdm.getBool(
+                    forKey: XvSetConstants.kTrackMidiSendEnabled,
+                    forObject: trackDataObj),
+                    
+                    let midiSendChannelData:MidiSendChannelData = MidiSendChannelData(withTrackDataObj: trackDataObj),
+                    
+                    let midiDestinationsData:TrackMidiDestinationsData = TrackMidiDestinationsData(withTrackDataObj: trackDataObj)
+                {
+                    
+                    let midiSendEnabled:ToggleCellData = ToggleCellData(
+                        key: XvSetConstants.kTrackMidiSendEnabled,
+                        value: midiSendEnabledBool,
+                        textLabel: "MIDI Send",
+                        levelType: XvSetConstants.LEVEL_TYPE_TRACK,
+                        isVisible: true
+                    )
+                    
+                    midiSendEnabled.visibilityTargets = [[sections.count,1,2]]
+                    
+                    let midiSendChannel:DisclosureCellData = DisclosureCellData(
+                        withCheckmarkTableDataSource: midiSendChannelData,
+                        isVisible: midiSendEnabledBool
+                    )
+                    
+                    let midiDestinations:DisclosureCellData = DisclosureCellData(
+                        withCheckmarkTableDataSource: midiDestinationsData,
+                        isVisible: midiSendEnabledBool
+                    )
+                    
+                    let midiSendSection:SectionData = SectionData(
+                        header: "MIDI",
+                        footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                        footerText: nil,
+                        footerLink: nil,
+                        footerHeight: 10,
+                        cells: [midiSendEnabled, midiSendChannel, midiDestinations],
+                        isVisible: true
+                    )
+                    
+                    sections.append(midiSendSection)
+                    
+                } else {
+                    print("SETTINGS: Error: Unable to initialize midiSendSection in track table")
+                }
                 
-                let midiDestinationsData:TrackMidiDestinationsData = TrackMidiDestinationsData(withTrackDataObj: trackDataObj)
-            {
+                //MARK: MIDI Receive
+                //make sure core data is valid
+                if let midiReceiveEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kTrackMidiReceiveEnabled, forObject: trackDataObj),
+                    let midiReceiveChannelData:MidiReceiveChannelData = MidiReceiveChannelData(withTrackDataObj: trackDataObj)
+                {
+                    
+                    let midiReceiveEnabled:ToggleCellData = ToggleCellData(
+                        key: XvSetConstants.kTrackMidiReceiveEnabled,
+                        value: midiReceiveEnabledBool,
+                        textLabel: "MIDI Receive",
+                        levelType: XvSetConstants.LEVEL_TYPE_TRACK,
+                        isVisible: true
+                    )
+                    
+                    midiReceiveEnabled.visibilityTargets = [[sections.count,1]]
+                    
+                    let midiReceiveChannel:DisclosureCellData = DisclosureCellData(
+                        withCheckmarkTableDataSource: midiReceiveChannelData,
+                        isVisible: midiReceiveEnabledBool
+                    )
+                    
+                    let midiReceiveSection:SectionData = SectionData(
+                        header: "",
+                        footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                        footerText: nil,
+                        footerLink: nil,
+                        footerHeight: 100,
+                        cells: [midiReceiveEnabled, midiReceiveChannel],
+                        isVisible: true
+                    )
+                    
+                    sections.append(midiReceiveSection)
+                    
+                } else {
+                    print("SETTINGS: Error: Unable to initialize midiReceiveSection in track table")
+                }
                 
-                let midiSendEnabled:ToggleCellData = ToggleCellData(
-                    key: XvSetConstants.kTrackMidiSendEnabled,
-                    value: midiSendEnabledBool,
-                    textLabel: "MIDI Send",
-                    levelType: XvSetConstants.LEVEL_TYPE_TRACK,
-                    isVisible: true
-                )
-                
-                midiSendEnabled.visibilityTargets = [[sections.count,1,2]]
-                
-                let midiSendChannel:DisclosureCellData = DisclosureCellData(
-                    withCheckmarkTableDataSource: midiSendChannelData,
-                    isVisible: midiSendEnabledBool
-                )
-                
-                let midiDestinations:DisclosureCellData = DisclosureCellData(
-                    withCheckmarkTableDataSource: midiDestinationsData,
-                    isVisible: midiSendEnabledBool
-                )
-                
-                let midiSendSection:SectionData = SectionData(
-                    header: "MIDI",
-                    footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                    footerText: nil,
-                    footerLink: nil,
-                    footerHeight: 10,
-                    cells: [midiSendEnabled, midiSendChannel, midiDestinations],
-                    isVisible: true
-                )
-                
-                sections.append(midiSendSection)
-                
-            } else {
-                print("SETTINGS: Error: Unable to initialize midiSendSection in track table")
             }
             
-            //MARK: MIDI Receive
-            //make sure core data is valid
-            if let midiReceiveEnabledBool:Bool = xvcdm.getBool(forKey: XvSetConstants.kTrackMidiReceiveEnabled, forObject: trackDataObj),
-                let midiReceiveChannelData:MidiReceiveChannelData = MidiReceiveChannelData(withTrackDataObj: trackDataObj)
-            {
-                
-                let midiReceiveEnabled:ToggleCellData = ToggleCellData(
-                    key: XvSetConstants.kTrackMidiReceiveEnabled,
-                    value: midiReceiveEnabledBool,
-                    textLabel: "MIDI Receive",
-                    levelType: XvSetConstants.LEVEL_TYPE_TRACK,
-                    isVisible: true
-                )
-                
-                midiReceiveEnabled.visibilityTargets = [[sections.count,1]]
-                
-                let midiReceiveChannel:DisclosureCellData = DisclosureCellData(
-                    withCheckmarkTableDataSource: midiReceiveChannelData,
-                    isVisible: midiReceiveEnabledBool
-                )
-                
-                let midiReceiveSection:SectionData = SectionData(
-                    header: "",
-                    footerType: XvSetConstants.FOOTER_TYPE_NONE,
-                    footerText: nil,
-                    footerLink: nil,
-                    footerHeight: 100,
-                    cells: [midiReceiveEnabled, midiReceiveChannel],
-                    isVisible: true
-                )
-                
-                sections.append(midiReceiveSection)
-                
-            } else {
-                print("SETTINGS: Error: Unable to initialize midiReceiveSection in track table")
-            }
+            
             
         } else {
             print("SETTINGS: Error getting track or sample bank data during init of TrackTableData")
