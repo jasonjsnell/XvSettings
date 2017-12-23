@@ -11,8 +11,6 @@
 import UIKit
 import CoreData
 
-//TODO: if RF is started, I open the Settings Panel, then I go to AB and relaunch it from there, it will crash.
-
 public class TableVC: UITableViewController {
     
     //MARK: - VARIABLES -
