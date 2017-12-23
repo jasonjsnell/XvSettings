@@ -341,6 +341,27 @@ public class XvSetMainTableData:TableData {
         
         sections.append(factorySettingsSection)
         
+        //MARK: Feedback form
+        
+        let feedbackButton:ButtonCellData = ButtonCellData(
+            key: XvSetConstants.kAppFeedback,
+            textLabel: "Feedback",
+            levelType: XvSetConstants.LEVEL_TYPE_NONE,
+            isVisible: true
+        )
+        
+        let feedbackButtonSection:SectionData = SectionData(
+            header: "",
+            footerType: XvSetConstants.FOOTER_TYPE_NONE,
+            footerText: nil,
+            footerLink: nil,
+            footerHeight: 70,
+            cells: [feedbackButton],
+            isVisible: true
+        )
+        
+        sections.append(feedbackButtonSection)
+        
     }
     
 }

@@ -19,6 +19,9 @@ open class XvCoreDataManager {
     // keep ref to managed context
     fileprivate var managedContext:NSManagedObjectContext?
     
+    //used in mail form
+    internal var appID:String = ""
+    
     //these are the vars that need to come in externally (from MIDI framework) when opening the settings panel
     fileprivate var midiDestinationNames:[String] = []
     fileprivate var midiSourceNames:[String] = []
@@ -36,9 +39,10 @@ open class XvCoreDataManager {
     
     //called in first app delegate func
     //ref to managedContext
-    public func setup(withManagedContext:NSManagedObjectContext){
+    public func setup(appID:String, managedContext:NSManagedObjectContext){
         
-        self.managedContext = withManagedContext
+        self.appID = appID
+        self.managedContext = managedContext
         
         if (debug){
             print("XVCDM: Setup", self.managedContext as Any)

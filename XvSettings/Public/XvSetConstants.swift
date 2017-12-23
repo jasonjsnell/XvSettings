@@ -31,6 +31,9 @@ public class XvSetConstants {
     
     //MARK: - BUTTONS -
     
+    //MARK: Buttons: General app
+    public static let kAppFeedback = "kAppFeedback"
+    
     //MARK: Buttons: Config
     public static let kConfigArtificialIntelligence = "artificialIntelligence" // passive
     public static let kConfigRearrange = "kAppRearrange" // passive

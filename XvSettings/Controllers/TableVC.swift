@@ -581,6 +581,18 @@ public class TableVC: UITableViewController {
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
             
+        } else if (key == XvSetConstants.kAppFeedback){
+            
+            let appLowercase:String = xvcdm.appID.lowercased()
+            
+            let sendEmail:String = appLowercase + "@jasonjsnell.com"
+            let subject:String = xvcdm.appID + "%20feedback"
+            //mailto:foo@example.com?cc=bar@example.com&subject=Greetings%20from%20Cupertino!&body=Wish%20you%20were%20here!
+            
+            if let url = URL(string: "mailto:\(sendEmail)?&subject=\(subject)") {
+                UIApplication.shared.open(url)
+            }
+
         }
     }
     
