@@ -128,10 +128,10 @@ public class TrackTableData:TableData {
                 
                 let volumeSection:SectionData = SectionData(
                     header: Labels.VOLUME_HEADER,
-                    footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
-                    footerText: ["Volume of newly created notes."],
+                    footerType: XvSetConstants.FOOTER_TYPE_NONE,
+                    footerText: nil,
                     footerLink: nil,
-                    footerHeight: 30,
+                    footerHeight: 10,
                     cells: [volume],
                     isVisible: true
                 )
@@ -144,7 +144,7 @@ public class TrackTableData:TableData {
                 
             }
             
-            //MARK: Volume
+            //MARK: Volume Lock
             if let volumeLockBool:Bool = xvcdm.getBool(
                     forKey: XvSetConstants.kTrackVolumeLock,
                     forObject: trackDataObj)

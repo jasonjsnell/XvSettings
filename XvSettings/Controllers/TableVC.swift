@@ -1392,9 +1392,9 @@ public class TableVC: UITableViewController {
     //when a value is changed in the settings panel, this func saves it to core data and notifies parent app so it can update the track
     fileprivate func _setCoreData(level:String, value:Any, key:String, multi:Bool){
         
-        //if (debug){
+        if (debug){
             print("SETTINGS: TableVC: Set CoreData", level, value, key)
-        //}
+        }
         
         //set core data value based on level (app, config, track, sample)
         var targetObject:NSManagedObject?
