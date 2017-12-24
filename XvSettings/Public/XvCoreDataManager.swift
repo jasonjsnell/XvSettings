@@ -26,7 +26,7 @@ open class XvCoreDataManager {
     fileprivate var midiDestinationNames:[String] = []
     fileprivate var midiSourceNames:[String] = []
     
-    fileprivate let debug:Bool = true
+    fileprivate let debug:Bool = false
     
     
     //MARK: - INIT - 

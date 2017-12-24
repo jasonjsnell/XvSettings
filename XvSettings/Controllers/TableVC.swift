@@ -585,10 +585,11 @@ public class TableVC: UITableViewController {
             
             let appLowercase:String = xvcdm.appID.lowercased()
             
+            //construct email and subject line
             let sendEmail:String = appLowercase + "@jasonjsnell.com"
             let subject:String = xvcdm.appID + "%20feedback"
-            //mailto:foo@example.com?cc=bar@example.com&subject=Greetings%20from%20Cupertino!&body=Wish%20you%20were%20here!
             
+            //send to mail app
             if let url = URL(string: "mailto:\(sendEmail)?&subject=\(subject)") {
                 UIApplication.shared.open(url)
             }
