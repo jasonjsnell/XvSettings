@@ -341,26 +341,33 @@ public class XvSetMainTableData:TableData {
         
         sections.append(factorySettingsSection)
         
-        //MARK: Feedback form
+        //MARK: Support
         
-        let feedbackButton:ButtonCellData = ButtonCellData(
-            key: XvSetConstants.kAppFeedback,
-            textLabel: "Feedback",
+        let userManualButton:ButtonCellData = ButtonCellData(
+            key: XvSetConstants.kAppUserManual,
+            textLabel: "User Manual",
             levelType: XvSetConstants.LEVEL_TYPE_NONE,
             isVisible: true
         )
         
-        let feedbackButtonSection:SectionData = SectionData(
-            header: "",
+        let emailDeveloperButton:ButtonCellData = ButtonCellData(
+            key: XvSetConstants.kAppEmailDeveloper,
+            textLabel: "Email Developer",
+            levelType: XvSetConstants.LEVEL_TYPE_NONE,
+            isVisible: true
+        )
+        
+        let supportSection:SectionData = SectionData(
+            header: "Support",
             footerType: XvSetConstants.FOOTER_TYPE_NONE,
             footerText: nil,
             footerLink: nil,
             footerHeight: 70,
-            cells: [feedbackButton],
+            cells: [userManualButton, emailDeveloperButton],
             isVisible: true
         )
         
-        sections.append(feedbackButtonSection)
+        sections.append(supportSection)
         
     }
     

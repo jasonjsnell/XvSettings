@@ -32,7 +32,8 @@ public class XvSetConstants {
     //MARK: - BUTTONS -
     
     //MARK: Buttons: General app
-    public static let kAppFeedback = "kAppFeedback"
+    public static let kAppEmailDeveloper = "kAppEmailDeveloper"
+    public static let kAppUserManual = "kAppUserManual"
     
     //MARK: Buttons: Config
     public static let kConfigArtificialIntelligence = "artificialIntelligence" // passive

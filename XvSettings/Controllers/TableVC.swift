@@ -581,7 +581,7 @@ public class TableVC: UITableViewController {
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
             
-        } else if (key == XvSetConstants.kAppFeedback){
+        } else if (key == XvSetConstants.kAppEmailDeveloper){
             
             let appLowercase:String = xvcdm.appID.lowercased()
             
@@ -594,6 +594,18 @@ public class TableVC: UITableViewController {
                 UIApplication.shared.open(url)
             }
 
+        } else if (key == XvSetConstants.kAppUserManual){
+            
+            let appLowercase:String = xvcdm.appID.lowercased()
+            
+            //construct email and subject line
+            let url:String = "http://app.jasonjsnell.com/" + appLowercase + "/manual"
+            
+            //send to mail app
+            if let url = URL(string: url) {
+                UIApplication.shared.open(url)
+            }
+            
         }
     }
     
