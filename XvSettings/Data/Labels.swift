@@ -96,7 +96,7 @@ public class Labels {
     //MARK: - Track: Fade out
     
     public static let AMP_RELEASE_HEADER:String = "Note Duration"
-    public static let AMP_RELEASE_LABEL:String = "Note Duration"
+    public static let AMP_RELEASE_LABEL:String = "Note duration"
     
     public static let AMP_RELEASE_MEASURE_8:String = "8 measures"
     public static let AMP_RELEASE_MEASURE_16:String = "16 measures"
