@@ -37,17 +37,16 @@ class GlobalMidiDestinationsData:CheckmarkTableData {
         
     }
     
-    public func refresh() {
+    public override func refresh() {
+        
+        super.refresh()
         
         if let currConfigFile:NSManagedObject = _xvcdm.currConfigFile,
             let userSelectedDestinations:[String] = _xvcdm.getArray(forKey: key, forObject: currConfigFile) as? [String] {
             
-            //reset sections
-            sections = []
-            
             //grab data from core data manager
             var availableDestinations:[String] = [XvSetConstants.MIDI_DESTINATION_OMNI]
-            availableDestinations.append(contentsOf: _xvcdm.getMidiDestinationNames())
+            availableDestinations.append(contentsOf: _xvcdm.midiDestinationNames)
             
             //update the values that were missing from init
             self.defaultValue = userSelectedDestinations

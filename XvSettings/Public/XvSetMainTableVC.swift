@@ -19,25 +19,33 @@ public class XvSetMainTableVC:TableVC {
     //MARK: - BUILD
     override public func viewWillAppear(_ animated: Bool) {
         
-        //this fires when main settings panel loads, and is returned to from a sub menu
-        //if Ableton Link is on, keep midi sync on None, even if user selected something else
-    
-        if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
-            let linkEnabled:Bool = xvcdm.getBool(
-                forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: currConfigFile) {
+        if (dataSource != nil){
             
-            if (linkEnabled){
+            //main table fires a refresh so the labels are up to date with the data
+            dataSource!.refresh()
+            
+            //this fires when main settings panel loads, and is returned to from a sub menu
+            //if Ableton Link is on, keep midi sync on None, even if user selected something else
+            
+            if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
+                let linkEnabled:Bool = xvcdm.getBool(
+                    forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: currConfigFile) {
                 
-                if let _midiSyncCell:DisclosureCell = _getMidiSyncCell() {
-                    _midiSyncCell.set(label: Labels.MIDI_CLOCK_NONE_LABEL)
+                if (linkEnabled){
+                    
+                    if let _midiSyncCell:DisclosureCell = _getMidiSyncCell() {
+                        _midiSyncCell.set(label: Labels.MIDI_CLOCK_NONE_LABEL)
+                    }
                 }
+                
+            } else {
+                print("SETTINGS: Error getting ABL Link vars from Core Data during viewWillAppear in XvSetMainTableVC")
             }
             
         } else {
-            print("SETTINGS: Error getting ABL Link vars from Core Data during viewWillAppear in XvSetMainTableVC")
+            
+            print("SETTINGS: Error: XvSetMainTableVC has no data source during viewWillAppear")
         }
-        
-        
         
         super.viewWillAppear(animated)
         

@@ -19,10 +19,15 @@ public class TableData {
     
     public init() {
         
+        refresh()
+        
+    }
+    
+    public func refresh(){
+        
         //clear vars
         title = ""
         sections = []
-        
         
     }
     

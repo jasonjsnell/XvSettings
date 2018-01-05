@@ -23,8 +23,19 @@ open class XvCoreDataManager {
     internal var appID:String = ""
     
     //these are the vars that need to come in externally (from MIDI framework) when opening the settings panel
-    fileprivate var midiDestinationNames:[String] = []
-    fileprivate var midiSourceNames:[String] = []
+    fileprivate var _midiDestinationNames:[String] = []
+    fileprivate var _midiSourceNames:[String] = []
+    
+    //called by root vc when settings panel is launched
+    public var midiDestinationNames:[String] {
+        get { return _midiDestinationNames }
+        set { _midiDestinationNames = newValue }
+    }
+    
+    public var midiSourceNames:[String] {
+        get { return _midiSourceNames }
+        set { _midiSourceNames = newValue }
+    }
     
     fileprivate let debug:Bool = false
     
@@ -512,18 +523,6 @@ open class XvCoreDataManager {
         }
     }
     
-    public func getMidiDestinationNames() -> [String] {
-        
-        return midiDestinationNames
-    }
-    
-    public func getMidiSourceNames() -> [String] {
-        
-        return midiSourceNames
-    }
-    
-    
-    
     
     // MARK: - SETTERS -
 
@@ -567,16 +566,7 @@ open class XvCoreDataManager {
         }
     }
     
-    //called by root vc when settings panel is launched
-    public func set(midiDestinationNames:[String]){
-        
-        self.midiDestinationNames = midiDestinationNames
-    }
     
-    public func set(midiSourceNames:[String]){
-        
-        self.midiSourceNames = midiSourceNames
-    }
     
     
     //MARK: - SAVE -

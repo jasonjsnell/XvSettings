@@ -15,26 +15,39 @@ public class TableVC: UITableViewController {
     
     //MARK: - VARIABLES -
     
-    public var dataSource:TableData?
+    fileprivate var _dataSource:TableData?
+    public var dataSource:TableData? {
+        get { return _dataSource }
+        set { _dataSource = newValue}
+    }
+    
     
     internal let xvcdm:XvCoreDataManager = XvCoreDataManager.sharedInstance
     internal var nav:UINavigationController?
     internal var sectionFooterViews:[Footer?]?
     
-    internal let debug:Bool = false
+    internal let debug:Bool = true
     
     //MARK: - BUILD -
     
-    public func load(withDataSource:TableData){
+    public func refreshTableDisplay(){
         
-        if (debug){
-            print("")
-            print("SETTINGS TABLE: Load table with data source", withDataSource)
+        if (_dataSource != nil) {
+            
+            if (debug){
+                print("SETTINGS TABLE: Refresh table display")
+            }
+            
+            title = _dataSource!.title
+            
+        } else {
+            
+            print("SETTINGS TABLE: Error: data source has not been loaded before displaying the table")
         }
         
-        self.dataSource = nil
-        self.dataSource = withDataSource
-        title = withDataSource.title
+        //reload data on tableview
+        tableView.reloadData()
+        
     }
     
     override public func viewDidLoad() {
@@ -55,6 +68,8 @@ public class TableVC: UITableViewController {
     }
     
     override public func viewWillAppear(_ animated: Bool) {
+        
+        refreshTableDisplay()
         
         super.viewWillAppear(animated)
     }
@@ -571,7 +586,19 @@ public class TableVC: UITableViewController {
                     name: XvSetConstants.kTracksRestoreFactorySettingsButtonTapped,
                     userInfo: nil)
                 
+                //reload table a split second later so it shows the results of the factory re-install
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+                    
+                    if (self.dataSource != nil){
+                        self.dataSource!.refresh()
+                        self.refreshTableDisplay()
+                    } else {
+                        print("SETTINGS: Error: No data source when trying to refresh after Factory Settings Restore")
+                    }
+                    
+                }
             }
+            
             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
                 UIAlertAction in
                 //
@@ -640,7 +667,7 @@ public class TableVC: UITableViewController {
                 
                 
                 _value = _getArrayOfValues(level: cellData.levelType, key: cellData.key, value: cellData.value)
-                print("array of values", _value)
+    
                 
             } else {
                 
@@ -1067,7 +1094,7 @@ public class TableVC: UITableViewController {
             
             let data:TrackTableData = TrackTableData(position: position)
             let vc:TrackTableVC = TrackTableVC()
-            vc.load(withDataSource: data)
+            vc.dataSource = data
             vc.setNav(nav: _nav)
             push(viewController: vc)
             
@@ -1085,7 +1112,7 @@ public class TableVC: UITableViewController {
             if let musicalScaleTableData:MusicalScaleData = MusicalScaleData() {
                 
                 let vc:TableVC = TableVC()
-                vc.load(withDataSource: musicalScaleTableData)
+                vc.dataSource = musicalScaleTableData
                 vc.setNav(nav: _nav)
                 push(viewController: vc)
                 

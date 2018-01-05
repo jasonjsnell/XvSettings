@@ -36,17 +36,16 @@ public class GlobalMidiSourcesData:CheckmarkTableData {
         sections.append(_getSection())
     }
     
-    public func refresh() {
+    public override func refresh() {
+        
+        super.refresh()
         
         if let currConfigFile:NSManagedObject = _xvcdm.currConfigFile,
             let userSelectedSources:[String] = _xvcdm.getArray(forKey: key, forObject: currConfigFile) as? [String] {
             
-            //reset sections
-            sections = []
-            
             //grab data from core data manager
             var availableSources:[String] = [XvSetConstants.MIDI_SOURCE_OMNI]
-            availableSources.append(contentsOf: _xvcdm.getMidiSourceNames())
+            availableSources.append(contentsOf: _xvcdm.midiSourceNames)
             
             //update the values that were missing from init
             self.defaultValue = userSelectedSources

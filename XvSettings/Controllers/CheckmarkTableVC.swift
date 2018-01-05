@@ -66,7 +66,7 @@ public class CheckmarkTableVC:TableVC {
             if let checkmarkTableDataSource = parentDisclosureCellData.checkmarkTableDataSource {
                 
                 //load super class
-                self.load(withDataSource: checkmarkTableDataSource)
+                dataSource = checkmarkTableDataSource
                 
             } else {
                 print("SETTINGS: Checkmark table data source invalid during load")
@@ -90,7 +90,10 @@ public class CheckmarkTableVC:TableVC {
                     globalMidiSourcesData.refresh()
                     
                     // reload this table vc with new data
-                    load(withDataSource: globalMidiSourcesData)
+                    dataSource = globalMidiSourcesData
+                    
+                    //refresh the display
+                    refreshTableDisplay()
                     
                 } else {
                     
@@ -105,7 +108,10 @@ public class CheckmarkTableVC:TableVC {
                     globalMidiDestinationsData.refresh()
                     
                     // reload this table vc with new data
-                    load(withDataSource: globalMidiDestinationsData)
+                    dataSource = globalMidiDestinationsData
+                   
+                    //refresh the display
+                    refreshTableDisplay()
                     
                 } else {
                     
@@ -120,16 +126,16 @@ public class CheckmarkTableVC:TableVC {
                     trackMidiDestinationsData.refresh()
                     
                     // reload this table vc with new data
-                    load(withDataSource: trackMidiDestinationsData)
+                    dataSource = trackMidiDestinationsData
+                    
+                    //refresh the display
+                    refreshTableDisplay()
                     
                 } else {
                     
                     print("SETTINGS: Unable to cast checkmark table data as TrackMidiDestinationsData during reloadTableAfterMidiUpdate")
                 }
             }
-            
-            //reload data on tableview
-            tableView.reloadData()
             
         } else {
             

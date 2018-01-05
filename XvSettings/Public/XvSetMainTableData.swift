@@ -27,27 +27,56 @@ public class XvSetMainTableData:TableData {
     //MARK:- INIT -
     //build cells and put them into sections
     
-    override public init() {
+    override public func refresh() {
         
-        super.init()
+        super.refresh()
         
         title = "Settings"
         
         //MARK: Tracks section
         
         //try to get sample bank data array from core data
-        if let sampleBankDataObjs:[NSManagedObject] = xvcdm.sampleBanks as? [NSManagedObject] {
+        if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
+            let sampleBankDataObjs:[NSManagedObject] = xvcdm.sampleBanks as? [NSManagedObject],
+            let trackDataObjs:[NSManagedObject] = xvcdm.tracks as? [NSManagedObject] {
             
             //this builds the tracks disclosure cells, but using the names from the sample banks because they are more user friendly
             var trackDisclosureCellDataArray:[DisclosureCellData] = []
             
             // loop through each sample bank
-            for sampleBankDataObj in sampleBankDataObjs {
+            
+            for i in 0..<sampleBankDataObjs.count {
+                
+                let sampleBankDataObj:NSManagedObject = sampleBankDataObjs[i]
+                let trackDataObj:NSManagedObject = trackDataObjs[i]
                 
                 if let sampleDisplayName:String = xvcdm.getString(
                     forKey: XvSetConstants.kSampleBankDisplayName,
                     forObject: sampleBankDataObj
                     ),
+                    
+                    //is the sample active
+                    let sampleActive:Bool = xvcdm.getBool(
+                        forKey: XvSetConstants.kSampleBankActive,
+                        forObject: sampleBankDataObj
+                    ),
+                    
+                    let midiActive:Bool = xvcdm.getBool(
+                        forKey: XvSetConstants.kTrackMidiSendEnabled,
+                        forObject: trackDataObj
+                    ),
+                    
+                    //get global midi destinations
+                    let globalMidiDestinations:[String] = xvcdm.getArray(
+                        forKey: XvSetConstants.kConfigGlobalMidiDestinations,
+                        forObject: currConfigFile
+                        ) as? [String],
+                    
+                    //get track midi destinations
+                    let trackMidiDestinations:[String] = xvcdm.getArray(
+                        forKey: XvSetConstants.kTrackMidiDestinations,
+                        forObject: trackDataObj
+                        ) as? [String],
             
                     //use position as the key, it is unique
                     let position:Int = xvcdm.getInteger(
@@ -56,8 +85,87 @@ public class XvSetMainTableData:TableData {
                     ) {
                     
                     let key:String = XvSetConstants.kTrackEntity + String(describing: position)
-                    let textLabel:String = "Track " + String(describing: (position+1)) + ": " + sampleDisplayName
                     
+                    //create base of text string ("Track 1")
+                    var textLabel:String = "T" + String(describing: (position+1)) + ": "
+                    
+                    //prep vars
+                    var midiText:String = ""
+                    var isTrackGlobal:Bool = false
+                    var isGlobalOmni:Bool = false
+                    
+                    if (trackMidiDestinations.contains(XvSetConstants.MIDI_DESTINATION_GLOBAL)) {
+                        isTrackGlobal = true
+                    }
+                    
+                    if (globalMidiDestinations.contains(XvSetConstants.MIDI_DESTINATION_OMNI)) {
+                        isGlobalOmni = true
+                    }
+                    
+                    //if midi is active
+                    if (midiActive){
+                        
+                        //determine midi string
+                        midiText = "MIDI: "
+                        
+                        //grab the track destinations no matter what
+                        var selectedDestinations:[String] = trackMidiDestinations
+                        
+                        //if track has global, then grab those
+                        if (isTrackGlobal) {
+                            
+                            selectedDestinations = Array(Set(selectedDestinations + globalMidiDestinations))
+                            
+                            //if global has omni, then include all available
+                            if (isGlobalOmni) {
+                                
+                                selectedDestinations = Array(Set(selectedDestinations + xvcdm.midiDestinationNames))
+                            }
+                        }
+                        
+                        let selectedAndAvailableDestinations:[String] = selectedDestinations.filter(xvcdm.midiDestinationNames.contains)
+                        
+                        if (selectedAndAvailableDestinations.count == 1) {
+                            
+                            midiText += selectedAndAvailableDestinations[0]
+                            
+                        } else if (selectedAndAvailableDestinations.count > 1) {
+                            
+                            if (isTrackGlobal && isGlobalOmni) {
+                                
+                                midiText += "Omni"
+                            } else {
+                                midiText += "Multiple"
+                            }
+                            
+                        } else if (selectedAndAvailableDestinations.count == 0) {
+                            
+                            midiText += "None"
+                        }
+                        
+                    }
+                    
+                    //if the sample is active, put sample name, then midi
+                    var sampleText:String = ""
+                    
+                    if (sampleActive){
+                        
+                        sampleText += sampleDisplayName
+                    
+                    }
+                    
+                    var connector:String = ""
+                    if (sampleText != "" && midiText != "") {
+                        connector = " | "
+                    }
+                    
+                    if (sampleText == "" && midiText == ""){
+                        textLabel += "None"
+                    } else {
+                        textLabel += sampleText + connector + midiText
+                    }
+                   
+                
                     let trackDisclosureCellData:DisclosureCellData = DisclosureCellData(
                         key: key,
                         textLabel: textLabel,
