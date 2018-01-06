@@ -86,27 +86,32 @@ public class XvSetMainTableData:TableData {
                     
                     let key:String = XvSetConstants.kTrackEntity + String(describing: position)
                     
-                    //create base of text string ("Track 1")
+                    //create base of text string ("T1")
                     var textLabel:String = "T" + String(describing: (position+1)) + ": "
                     
-                    //prep vars
+                    //prep midi text
                     var midiText:String = ""
-                    var isTrackGlobal:Bool = false
-                    var isGlobalOmni:Bool = false
-                    
-                    if (trackMidiDestinations.contains(XvSetConstants.MIDI_DESTINATION_GLOBAL)) {
-                        isTrackGlobal = true
-                    }
-                    
-                    if (globalMidiDestinations.contains(XvSetConstants.MIDI_DESTINATION_OMNI)) {
-                        isGlobalOmni = true
-                    }
                     
                     //if midi is active
                     if (midiActive){
                         
+                        //prep midi vars
+                        var isTrackGlobal:Bool = false
+                        var isGlobalOmni:Bool = false
+                        
+                        if (trackMidiDestinations.contains(XvSetConstants.MIDI_DESTINATION_GLOBAL)) {
+                            isTrackGlobal = true
+                        }
+                        
+                        if (globalMidiDestinations.contains(XvSetConstants.MIDI_DESTINATION_OMNI)) {
+                            isGlobalOmni = true
+                        }
+                        
                         //determine midi string
                         midiText = "MIDI: "
+                        
+                        //grab available destinations
+                        let availableDestinations:[String] = xvcdm.midiDestinationNames
                         
                         //grab the track destinations no matter what
                         var selectedDestinations:[String] = trackMidiDestinations
@@ -119,11 +124,11 @@ public class XvSetMainTableData:TableData {
                             //if global has omni, then include all available
                             if (isGlobalOmni) {
                                 
-                                selectedDestinations = Array(Set(selectedDestinations + xvcdm.midiDestinationNames))
+                                selectedDestinations = Array(Set(selectedDestinations + availableDestinations))
                             }
                         }
                         
-                        let selectedAndAvailableDestinations:[String] = selectedDestinations.filter(xvcdm.midiDestinationNames.contains)
+                        let selectedAndAvailableDestinations:[String] = selectedDestinations.filter(availableDestinations.contains)
                         
                         if (selectedAndAvailableDestinations.count == 1) {
                             
@@ -135,7 +140,7 @@ public class XvSetMainTableData:TableData {
                                 
                                 midiText += "Omni"
                             } else {
-                                midiText += "Multiple"
+                                midiText += "Multi"
                             }
                             
                         } else if (selectedAndAvailableDestinations.count == 0) {
