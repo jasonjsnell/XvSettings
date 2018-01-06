@@ -551,15 +551,47 @@ open class XvCoreDataManager {
                 
                 if let config:NSManagedObject = currConfigFile {
                     
-                    if (debug) { print("XVCDM: Audiobus bypass is true, force set ABL Link and bgMode to true") }
-                    
                     set(value: true, forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: config)
                     set(value: true, forKey: XvSetConstants.kConfigBackgroundModeEnabled, forObject: config)
+                    set(
+                        value: [XvSetConstants.MIDI_DESTINATION_OMNI],
+                        forKey: XvSetConstants.kConfigGlobalMidiDestinations,
+                        forObject: config
+                    )
+                    
+                    if (tracks != nil) {
+                        
+                        for track in tracks! {
+                            
+                            if (track != nil) {
+                                
+                                set(
+                                    value: [XvSetConstants.MIDI_DESTINATION_GLOBAL],
+                                    forKey: XvSetConstants.kTrackMidiDestinations,
+                                    forObject: track!
+                                )
+                            } else {
+                                
+                                print("XVCDM: Error accessing individual track when trying to force set variables for audiobus")
+                            }
+                            
+                        }
+                        
+                    } else {
+                        
+                        print("XVCDM: Error accessing tracks when trying to force set variables for audiobus")
+                    }
+                    
+                    if (save()) {
+                        print("XVCDM: Audiobus set to true. Forced set ABL true, bgMode true, global MIDI dest to Omni, track MIDI destiations to Global")
+                    }
                     
                 } else {
                     
                     print("XVCDM: Error accessing currConfigFile when trying to force set variables for audiobus")
                 }
+                
+                
                 
             }
             
