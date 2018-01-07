@@ -590,9 +590,7 @@ open class XvCoreDataManager {
                     
                     print("XVCDM: Error accessing currConfigFile when trying to force set variables for audiobus")
                 }
-                
-                
-                
+            
             }
             
         }
