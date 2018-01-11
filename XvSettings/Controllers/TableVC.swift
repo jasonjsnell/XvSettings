@@ -26,7 +26,7 @@ public class TableVC: UITableViewController {
     internal var nav:UINavigationController?
     internal var sectionFooterViews:[Footer?]?
     
-    internal let debug:Bool = true
+    internal let debug:Bool = false
     
     //MARK: - BUILD -
     

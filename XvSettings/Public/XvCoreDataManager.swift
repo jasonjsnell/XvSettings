@@ -540,64 +540,67 @@ open class XvCoreDataManager {
     }
 
     
+    //MARK: - AUDIOBUS
+    public func audioBusConnected(){
+        
+        if let config:NSManagedObject = currConfigFile {
+            
+            set(value: true, forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: config)
+            set(value: true, forKey: XvSetConstants.kConfigBackgroundModeEnabled, forObject: config)
+            
+            
+            set(
+                value: [XvSetConstants.MIDI_DESTINATION_OMNI],
+                forKey: XvSetConstants.kConfigGlobalMidiDestinations,
+                forObject: config
+            )
+            
+            if (tracks != nil) {
+                
+                for track in tracks! {
+                    
+                    if (track != nil) {
+                        
+                        set(
+                            value: [XvSetConstants.MIDI_DESTINATION_GLOBAL],
+                            forKey: XvSetConstants.kTrackMidiDestinations,
+                            forObject: track!
+                        )
+                    } else {
+                        
+                        print("XVCDM: Error accessing individual track when trying to force set variables for audiobus")
+                    }
+                }
+                
+            } else {
+                
+                print("XVCDM: Error accessing tracks when trying to force set variables for audiobus")
+            }
+            
+            if (save()) {
+                print("XVCDM: ABL Link = true | bgMode = true | Global MIDI dest = Omni | Track MIDI destiations = Global.")
+            }
+            
+        } else {
+            
+            print("XVCDM: Error accessing currConfigFile when trying to force set variables for audiobus")
+        }
+    }
+    
     fileprivate var _audioBusMidiBypass:Bool = false
     public var audioBusMidiBypass:Bool {
         get { return _audioBusMidiBypass }
         set {
             _audioBusMidiBypass = newValue
             
-            //if true
-            if (_audioBusMidiBypass){
+            //if true, fire the above func too
+            if (_audioBusMidiBypass) {
+                audioBusConnected()
                 
-                if let config:NSManagedObject = currConfigFile {
-                    
-                    set(value: true, forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: config)
-                    set(value: true, forKey: XvSetConstants.kConfigBackgroundModeEnabled, forObject: config)
-                    set(
-                        value: [XvSetConstants.MIDI_DESTINATION_OMNI],
-                        forKey: XvSetConstants.kConfigGlobalMidiDestinations,
-                        forObject: config
-                    )
-                    
-                    if (tracks != nil) {
-                        
-                        for track in tracks! {
-                            
-                            if (track != nil) {
-                                
-                                set(
-                                    value: [XvSetConstants.MIDI_DESTINATION_GLOBAL],
-                                    forKey: XvSetConstants.kTrackMidiDestinations,
-                                    forObject: track!
-                                )
-                            } else {
-                                
-                                print("XVCDM: Error accessing individual track when trying to force set variables for audiobus")
-                            }
-                            
-                        }
-                        
-                    } else {
-                        
-                        print("XVCDM: Error accessing tracks when trying to force set variables for audiobus")
-                    }
-                    
-                    if (save()) {
-                        print("XVCDM: Audiobus set to true. Forced set ABL true, bgMode true, global MIDI dest to Omni, track MIDI destiations to Global")
-                    }
-                    
-                } else {
-                    
-                    print("XVCDM: Error accessing currConfigFile when trying to force set variables for audiobus")
-                }
-            
+                print("XVCDM: Audiobus MIDI bypass = true. MIDI settings are hidden")
             }
-            
         }
     }
-    
-    
-    
     
     //MARK: - SAVE -
     public func save() -> Bool {
