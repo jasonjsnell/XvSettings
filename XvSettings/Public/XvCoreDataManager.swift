@@ -548,12 +548,18 @@ open class XvCoreDataManager {
             set(value: true, forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: config)
             set(value: true, forKey: XvSetConstants.kConfigBackgroundModeEnabled, forObject: config)
             
-            
+            //TODO: test
             set(
-                value: [XvSetConstants.MIDI_DESTINATION_OMNI],
+                value: [XvSetConstants.MIDI_DESTINATION_NONE],
                 forKey: XvSetConstants.kConfigGlobalMidiDestinations,
                 forObject: config
             )
+            
+            /*set(
+                value: [XvSetConstants.MIDI_SOURCE_NONE],
+                forKey: XvSetConstants.kConfigGlobalMidiSources,
+                forObject: config
+            )*/
             
             if (tracks != nil) {
                 
