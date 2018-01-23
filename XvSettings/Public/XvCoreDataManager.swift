@@ -555,11 +555,11 @@ open class XvCoreDataManager {
                 forObject: config
             )
             
-            /*set(
+            set(
                 value: [XvSetConstants.MIDI_SOURCE_NONE],
                 forKey: XvSetConstants.kConfigGlobalMidiSources,
                 forObject: config
-            )*/
+            )
             
             if (tracks != nil) {
                 
@@ -584,7 +584,7 @@ open class XvCoreDataManager {
             }
             
             if (save()) {
-                print("XVCDM: ABL Link = true | bgMode = true | Global MIDI dest = Omni | Track MIDI destiations = Global.")
+                print("XVCDM: ABL Link = true | bgMode = true | Global MIDI dest & source = None | Track MIDI destiations = Global")
             }
             
         } else {
