@@ -20,14 +20,14 @@ public class Labels {
     public static let MIDI_CLOCK_SEND_LABEL:String = "Send MIDI clock"
     public static let MIDI_CLOCK_NONE_LABEL:String = "None"
     
-    public static let MIDI_SEND_HEADER:String = "MIDI Outs"
+    public static let MIDI_SEND_HEADER:String = "MIDI Send Channel"
     public static let MIDI_SEND_LABEL:String = "Channel"
     public static let MIDI_DESTINATION_HEADER:String = "MIDI Destinations"
     public static let MIDI_GLOBAL_DESTINATION_HEADER:String = "Global MIDI Destinations"
     public static let MIDI_DESTINATION_LABEL:String = "Destinations"
     public static let MIDI_GLOBAL_DESTINATION_LABEL:String = "MIDI destinations"
     
-    public static let MIDI_RECEIVE_HEADER:String = "MIDI Ins"
+    public static let MIDI_RECEIVE_HEADER:String = "MIDI Receive Channel"
     public static let MIDI_RECEIVE_LABEL:String = "Channel"
     public static let MIDI_SOURCE_HEADER:String = "Global MIDI Sources"
     public static let MIDI_SOURCE_LABEL:String = "MIDI sources"
@@ -125,7 +125,7 @@ public class Labels {
     public static let TUNE_LABEL:String = "Tune"
     public static let RANDOMIZED_PITCH_LABEL:String = "Randomize pitch on loops"
     
-    public static let OCTAVE_CENTER_LABEL:String = "Octave"
+    public static let OCTAVE_CENTER_LABEL:String = "Center Octave"
     public static let OCTAVE_RANGE_LABEL:String = "Octave range"
     
     //MARK: - Track: Quantization
