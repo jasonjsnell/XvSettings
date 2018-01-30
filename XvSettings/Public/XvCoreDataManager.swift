@@ -313,6 +313,7 @@ open class XvCoreDataManager {
         }
     }
     
+    
     //MARK: - Sample banks
     fileprivate var _currSampleBank:NSManagedObject?
     public var currSampleBank:NSManagedObject? {

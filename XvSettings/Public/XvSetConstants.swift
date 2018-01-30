@@ -189,7 +189,7 @@ public class XvSetConstants {
 
     
     //MARK: - Panel size -
-    public static let PANEL_WIDTH:CGFloat = 300
+    public static let PANEL_WIDTH:CGFloat = 320
     public static let PANEL_HEIGHT:CGFloat = 400
     
     //MARK: - Data types -

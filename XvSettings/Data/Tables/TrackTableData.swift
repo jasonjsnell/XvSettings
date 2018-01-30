@@ -35,6 +35,43 @@ public class TrackTableData:TableData {
                 print("SETTINGS: Error getting sample bank display name for track table header")
             }
             
+            var showTrackSections:Bool = false
+            
+            //MARK: Track active
+            if let trackActiveBool:Bool = xvcdm.getBool(
+                forKey: XvSetConstants.kTrackActive,
+                forObject: trackDataObj) {
+                
+                showTrackSections = trackActiveBool
+                
+                let trackEnabled:ToggleCellData = ToggleCellData(
+                    key: XvSetConstants.kTrackActive,
+                    value: trackActiveBool,
+                    textLabel: Labels.TRACK_ACTIVE_LABEL,
+                    levelType: XvSetConstants.LEVEL_TYPE_TRACK,
+                    isVisible: true
+                )
+                
+                trackEnabled.visibilityTargets = [[1], [2], [3], [4], [5], [6], [7]]
+                
+                let sampleSection:SectionData = SectionData(
+                    header: Labels.TRACK_ACTIVE_HEADER,
+                    footerType: XvSetConstants.FOOTER_TYPE_NORMAL,
+                    footerText: ["Enabled or disables track in the sequencer."],
+                    footerLink: nil,
+                    footerHeight: 40,
+                    cells: [trackEnabled],
+                    isVisible: true
+                )
+                
+                sections.append(sampleSection)
+                
+            } else {
+                
+                print("SETTINGS: Data is invalid when creating sample section")
+                
+            }
+            
             //MARK: Sample
             if let sampleActiveBool:Bool = xvcdm.getBool(
                 forKey: XvSetConstants.kSampleBankActive,
@@ -59,7 +96,7 @@ public class TrackTableData:TableData {
                     footerLink: nil,
                     footerHeight: 40,
                     cells: [audioEnabled],
-                    isVisible: true
+                    isVisible: showTrackSections
                 )
                 
                 sections.append(sampleSection)
@@ -96,7 +133,7 @@ public class TrackTableData:TableData {
                     footerLink: nil,
                     footerHeight: 10,
                     cells: [quantization, patternLength, ampRelease],
-                    isVisible: true
+                    isVisible: showTrackSections
                 )
                 
                 sections.append(compositionSection)
@@ -133,7 +170,7 @@ public class TrackTableData:TableData {
                     footerLink: nil,
                     footerHeight: 10,
                     cells: [volume],
-                    isVisible: true
+                    isVisible: showTrackSections
                 )
                 
                 sections.append(volumeSection)
@@ -166,7 +203,7 @@ public class TrackTableData:TableData {
                     footerLink: nil,
                     footerHeight: 30,
                     cells: [volumeLock],
-                    isVisible: true
+                    isVisible: showTrackSections
                 )
                 
                 sections.append(volumeLockSection)
@@ -259,7 +296,7 @@ public class TrackTableData:TableData {
                     footerLink: nil,
                     footerHeight: 10,
                     cells: [tune, pitchEnabled, octaveCenter, octaveRange, randomizedPitch],
-                    isVisible: true
+                    isVisible: showTrackSections
                 )
                 
                 sections.append(pitchSection)
@@ -313,7 +350,7 @@ public class TrackTableData:TableData {
                         footerLink: nil,
                         footerHeight: 10,
                         cells: [midiSendEnabled, midiSendChannel, midiDestinations],
-                        isVisible: true
+                        isVisible: showTrackSections
                     )
                     
                     sections.append(midiSendSection)
@@ -350,7 +387,7 @@ public class TrackTableData:TableData {
                         footerLink: nil,
                         footerHeight: 100,
                         cells: [midiReceiveEnabled, midiReceiveChannel],
-                        isVisible: true
+                        isVisible: showTrackSections
                     )
                     
                     sections.append(midiReceiveSection)

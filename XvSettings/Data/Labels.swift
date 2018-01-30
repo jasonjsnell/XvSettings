@@ -87,6 +87,9 @@ public class Labels {
     
     //MARK: - Track: Sample
     
+    public static let TRACK_ACTIVE_HEADER:String = "Track"
+    public static let TRACK_ACTIVE_LABEL:String = "Track enabled"
+    
     public static let SAMPLE_HEADER:String = "Sample"
     public static let SAMPLE_LABEL:String = "Sample playback"
     
