@@ -32,6 +32,10 @@ public class Labels {
     public static let MIDI_SOURCE_HEADER:String = "Global MIDI Sources"
     public static let MIDI_SOURCE_LABEL:String = "MIDI sources"
     
+    //MARK: - SUPPORT
+    public static let SUPPORT_HEADER:String = "Support"
+    public static let SUPPORT_LABEL:String = "Support"
+    
     
     //MARK: - App: Tempo
     public static let TEMPO_LABEL:String = "Tempo"

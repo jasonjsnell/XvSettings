@@ -115,7 +115,19 @@ public class XvSetMainTableVC:TableVC {
         } else if (key == XvSetConstants.kConfigMusicalScale) {
             
             //MARK: Musical scale
-            loadMusicalScaleTable()
+            if let musicalScaleTableData:MusicalScaleData = MusicalScaleData() {
+                
+                loadTable(withData: musicalScaleTableData)
+                
+            } else {
+                
+                print("SETTINGS: Error when init MusicalScaleData during disclosureRowSelected")
+            }
+            
+        } else if (key == XvSetConstants.kAppSupport) {
+            
+            //MARK: Developer
+            loadTable(withData: SupportData())
             
         } else {
             print("SETTINGS: Core data for", key, "not found during disclosureRowSelected")

@@ -35,6 +35,7 @@
 		9684A8581EF84B3300019AF1 /* TrackMidiDestinationsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9684A8571EF84B3300019AF1 /* TrackMidiDestinationsData.swift */; };
 		96C30CE31EF6C2560058A64D /* MidiSyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE21EF6C2560058A64D /* MidiSyncData.swift */; };
 		96C30CE51EF6C4700058A64D /* MusicalScaleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */; };
+		96C81ECF202ADE200061CADD /* SupportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C81ECE202ADE200061CADD /* SupportData.swift */; };
 		96C8F58F1EFB9CCC0058BDBF /* SliderCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C8F58E1EFB9CCC0058BDBF /* SliderCellData.swift */; };
 		96C8F5911EFB9DD50058BDBF /* SliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C8F5901EFB9DD50058BDBF /* SliderCell.swift */; };
 		96DC444D1EE47F8D0032DC9C /* CheckmarkTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DC444C1EE47F8D0032DC9C /* CheckmarkTableData.swift */; };
@@ -77,6 +78,7 @@
 		9684A8571EF84B3300019AF1 /* TrackMidiDestinationsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TrackMidiDestinationsData.swift; path = XvSettings/Data/Tables/Instances/TrackMidiDestinationsData.swift; sourceTree = "<group>"; };
 		96C30CE21EF6C2560058A64D /* MidiSyncData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MidiSyncData.swift; path = XvSettings/Data/Tables/Instances/MidiSyncData.swift; sourceTree = "<group>"; };
 		96C30CE41EF6C4700058A64D /* MusicalScaleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MusicalScaleData.swift; path = XvSettings/Data/Tables/Instances/MusicalScaleData.swift; sourceTree = "<group>"; };
+		96C81ECE202ADE200061CADD /* SupportData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SupportData.swift; path = XvSettings/Data/Tables/Instances/SupportData.swift; sourceTree = "<group>"; };
 		96C8F58E1EFB9CCC0058BDBF /* SliderCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SliderCellData.swift; path = XvSettings/Data/Rows/SliderCellData.swift; sourceTree = "<group>"; };
 		96C8F5901EFB9DD50058BDBF /* SliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SliderCell.swift; path = XvSettings/Views/Rows/SliderCell.swift; sourceTree = "<group>"; };
 		96DC444C1EE47F8D0032DC9C /* CheckmarkTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckmarkTableData.swift; path = XvSettings/Data/Tables/CheckmarkTableData.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				9684A8551EF83C8700019AF1 /* MidiReceiveChannelData.swift */,
 				96291F9F1F05998D00A9A778 /* QuantizationData.swift */,
 				96F54F9C1F0A7B77005021DB /* PatternLengthData.swift */,
+				96C81ECE202ADE200061CADD /* SupportData.swift */,
 			);
 			name = Instances;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				966F4A5B1E84BE3C00154669 /* ButtonCell.swift in Sources */,
 				966F4A471E84BDE200154669 /* CellData.swift in Sources */,
 				966F4A5D1E84BE3C00154669 /* CheckmarkCell.swift in Sources */,
+				96C81ECF202ADE200061CADD /* SupportData.swift in Sources */,
 				9684A8561EF83C8700019AF1 /* MidiReceiveChannelData.swift in Sources */,
 				960544881F0E220300FD3012 /* GlobalMidiDestinationsData.swift in Sources */,
 				9605448A1F0E29B300FD3012 /* GlobalMidiSourcesData.swift in Sources */,

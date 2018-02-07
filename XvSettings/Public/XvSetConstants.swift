@@ -21,6 +21,10 @@ public class XvSetConstants {
     public static let kSettingsValueChanged:String = "kSettingsValueChanged"
     public static let kConfigTempoChanged:String = "kConfigTempoChanged"
     
+    //general app
+    public static let kAppSupport:String = "kAppSupport"
+    public static let kAppDonation:String = "kAppDonation"
+    
     //midi
     public static let kConfigGlobalMidiDestinationsRequest:String = "kConfigGlobalMidiDestinationsRequest"
     public static let kConfigGlobalMidiDestinationsChanged:String = "kConfigGlobalMidiDestinationsChanged"
@@ -32,12 +36,16 @@ public class XvSetConstants {
     //MARK: - BUTTONS -
     
     //MARK: Buttons: General app
-    public static let kAppEmailDeveloper = "kAppEmailDeveloper"
-    public static let kAppUserManual = "kAppUserManual"
+    
+    public static let kAppEmailDeveloper:String = "kAppEmailDeveloper"
+    public static let kAppFacebookPage:String = "kAppFacebookPage"
+    public static let kAppUserManual:String = "kAppUserManual"
+    public static let kAppDonationButtonTapped:String = "kAppDonationButtonTapped"
+    
     
     //MARK: Buttons: Config
-    public static let kConfigArtificialIntelligence = "artificialIntelligence" // passive
-    public static let kConfigRearrange = "kAppRearrange" // passive
+    public static let kConfigArtificialIntelligence:String = "artificialIntelligence" // passive
+    public static let kConfigRearrange:String = "kAppRearrange" // passive
     
     //MARK: Buttons: Tracks
     public static let kTracksFactorySettings = "kAppFactorySettings" // passive

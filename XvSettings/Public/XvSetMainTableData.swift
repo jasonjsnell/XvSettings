@@ -211,7 +211,7 @@ public class XvSetMainTableData:TableData {
         )
         
         let musicalScaleSection:SectionData = SectionData(
-            header: "Musical Scale",
+            header: Labels.MUSIC_SCALE_HEADER,
             footerType: XvSetConstants.FOOTER_TYPE_NONE,
             footerText: nil,
             footerLink: nil,
@@ -456,27 +456,19 @@ public class XvSetMainTableData:TableData {
         
         //MARK: Support
         
-        let userManualButton:ButtonCellData = ButtonCellData(
-            key: XvSetConstants.kAppUserManual,
-            textLabel: "User Manual",
-            levelType: XvSetConstants.LEVEL_TYPE_NONE,
-            isVisible: true
-        )
-        
-        let emailDeveloperButton:ButtonCellData = ButtonCellData(
-            key: XvSetConstants.kAppEmailDeveloper,
-            textLabel: "Email Developer",
-            levelType: XvSetConstants.LEVEL_TYPE_NONE,
+        let support:DisclosureCellData = DisclosureCellData(
+            key: XvSetConstants.kAppSupport,
+            textLabel: Labels.SUPPORT_LABEL,
             isVisible: true
         )
         
         let supportSection:SectionData = SectionData(
-            header: "Support",
+            header: Labels.SUPPORT_HEADER,
             footerType: XvSetConstants.FOOTER_TYPE_NONE,
             footerText: nil,
             footerLink: nil,
             footerHeight: 70,
-            cells: [userManualButton, emailDeveloperButton],
+            cells: [support],
             isVisible: true
         )
         

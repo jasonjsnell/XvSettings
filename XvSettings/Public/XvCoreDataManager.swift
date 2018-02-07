@@ -19,8 +19,11 @@ open class XvCoreDataManager {
     // keep ref to managed context
     fileprivate var managedContext:NSManagedObjectContext?
     
-    //used in mail form
+    //used in mail form and webpage
     internal var appID:String = ""
+    
+    //used to launch fb page
+    internal var facebookUrl:String = ""
     
     //these are the vars that need to come in externally (from MIDI framework) when opening the settings panel
     fileprivate var _midiDestinationNames:[String] = []
@@ -50,9 +53,10 @@ open class XvCoreDataManager {
     
     //called in first app delegate func
     //ref to managedContext
-    public func setup(appID:String, managedContext:NSManagedObjectContext){
+    public func setup(appID:String, facebookUrl:String, managedContext:NSManagedObjectContext){
         
         self.appID = appID
+        self.facebookUrl = facebookUrl
         self.managedContext = managedContext
         
         if (debug){

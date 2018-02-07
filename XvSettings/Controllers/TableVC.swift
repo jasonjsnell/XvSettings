@@ -633,6 +633,20 @@ public class TableVC: UITableViewController {
                 UIApplication.shared.open(url)
             }
             
+        } else if (key == XvSetConstants.kAppFacebookPage){
+            
+            if let url:URL = URL(string: xvcdm.facebookUrl) {
+                UIApplication.shared.open(url)
+            }
+            
+        } else if (key == XvSetConstants.kAppDonation){
+            
+            //post notification to app can make updates
+            Utils.postNotification(
+                name: XvSetConstants.kAppDonationButtonTapped,
+                userInfo: nil
+            )
+            
         }
     }
     
@@ -1101,6 +1115,22 @@ public class TableVC: UITableViewController {
         } else {
             
             print("SETTINGS: Error: Nav is nil during loadTrackTable. Blocking push")
+        }
+        
+    }
+    
+    internal func loadTable(withData:TableData) {
+        
+        if let _nav:UINavigationController = getNav() {
+            
+            let vc:TableVC = TableVC()
+            vc.dataSource = withData
+            vc.setNav(nav: _nav)
+            push(viewController: vc)
+            
+        } else {
+            
+            print("SETTINGS: Error: Nav is nil during loadTable. Blocking push")
         }
         
     }
