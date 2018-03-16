@@ -23,7 +23,6 @@ import CoreData
 
 public class XvSetMainTableData:TableData {
     
-    
     //MARK:- INIT -
     //build cells and put them into sections
     
@@ -55,12 +54,19 @@ public class XvSetMainTableData:TableData {
                     forObject: sampleBankDataObj
                     ),
                     
+                    //is track enabled
+                    let trackActive:Bool = xvcdm.getBool(
+                        forKey: XvSetConstants.kTrackActive,
+                        forObject: trackDataObj
+                    ),
+                    
                     //is the sample active
                     let sampleActive:Bool = xvcdm.getBool(
                         forKey: XvSetConstants.kSampleBankActive,
                         forObject: sampleBankDataObj
                     ),
                     
+                    //is midi enabled
                     let midiActive:Bool = xvcdm.getBool(
                         forKey: XvSetConstants.kTrackMidiSendEnabled,
                         forObject: trackDataObj
@@ -159,17 +165,24 @@ public class XvSetMainTableData:TableData {
                     
                     }
                     
+                    //insert a bar if both sample and midi are active
                     var connector:String = ""
                     if (sampleText != "" && midiText != "") {
                         connector = " | "
                     }
                     
-                    if (sampleText == "" && midiText == ""){
+                    //if track is inactive, print disabled
+                    if (!trackActive){
+                        textLabel += "Disabled"
+                    } else if (sampleText == "" && midiText == ""){
+                        
+                        //if both sample and midi are disabled, print none
                         textLabel += "None"
                     } else {
+                        
+                        //otherwise default printing the names
                         textLabel += sampleText + connector + midiText
                     }
-                   
                 
                     let trackDisclosureCellData:DisclosureCellData = DisclosureCellData(
                         key: key,
@@ -475,5 +488,7 @@ public class XvSetMainTableData:TableData {
         sections.append(supportSection)
         
     }
+    
+   
     
 }

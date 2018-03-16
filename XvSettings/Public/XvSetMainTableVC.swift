@@ -158,6 +158,5 @@ public class XvSetMainTableVC:TableVC {
         self.present(alert, animated: true, completion: nil)
         
     }
-
     
 }
