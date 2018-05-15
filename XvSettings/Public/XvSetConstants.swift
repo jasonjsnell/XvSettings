@@ -100,6 +100,7 @@ public class XvSetConstants {
     
     public static let kConfigMusicalScale:String = "musicalScale" //updates sequencer
     public static let kConfigMusicalScaleRootKey:String = "musicalScaleRootKey" //updates sequencer
+    public static let kConfigMusicalScaleCustom:String = "musicalScaleCustom" //updates sequencer
     
     public static let MUSIC_SCALE_MAJOR:String = "musicScaleMajor"
     public static let MUSIC_SCALE_MINOR:String = "musicScaleMinor"
@@ -118,6 +119,8 @@ public class XvSetConstants {
     public static let MUSIC_SCALE_HARMONIC_MINOR:String = "musicScaleHarmonicMinor"
     public static let MUSIC_SCALE_WHOLE_TONE:String = "musicScaleWholeTone"
     
+    public static let MUSIC_SCALE_CUSTOM:String = "musicScaleCustom"
+    
     public static func getMusicScaleValues() -> [String] {
         return [
             MUSIC_SCALE_MAJOR,
@@ -135,8 +138,13 @@ public class XvSetConstants {
             MUSIC_SCALE_DIMINISHED,
             MUSIC_SCALE_CHROMATIC,
             MUSIC_SCALE_HARMONIC_MINOR,
-            MUSIC_SCALE_WHOLE_TONE
+            MUSIC_SCALE_WHOLE_TONE,
+            MUSIC_SCALE_CUSTOM
         ]
+    }
+    
+    public static func getMusicScaleNoteValues() -> [Int] {
+        return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     }
     
     //references to other core data objects stored in config

@@ -46,6 +46,7 @@ public class Labels {
     
     public static let MUSIC_SCALE_HEADER:String = "Musical Scale"
     public static let MUSIC_SCALE_LABEL:String = "Musical scale"
+    public static let MUSIC_SCALE_CUSTOM_HEADER:String = "Custom Musical Scale"
     
     public static let MUSIC_SCALE_MAJOR_LABEL:String = "Major"
     public static let MUSIC_SCALE_MINOR_LABEL:String = "Minor"
@@ -63,6 +64,7 @@ public class Labels {
     public static let MUSIC_SCALE_CHROMATIC_LABEL:String = "Chromatic"
     public static let MUSIC_SCALE_HARMONIC_MINOR_LABEL:String = "Harmonic Minor"
     public static let MUSIC_SCALE_WHOLE_TONE_LABEL:String = "Whole Tone"
+    public static let MUSIC_SCALE_CUSTOM_LABEL:String = "Custom"
     
     public static func getMusicScaleLabels() -> [String] {
         return [
@@ -81,8 +83,13 @@ public class Labels {
             MUSIC_SCALE_DIMINISHED_LABEL,
             MUSIC_SCALE_CHROMATIC_LABEL,
             MUSIC_SCALE_HARMONIC_MINOR_LABEL,
-            MUSIC_SCALE_WHOLE_TONE_LABEL
+            MUSIC_SCALE_WHOLE_TONE_LABEL,
+            MUSIC_SCALE_CUSTOM_LABEL
         ]
+    }
+    
+    public static func getMusicScaleNotes() -> [String] {
+        return ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     }
     
     //MARK: - Track: Kit Selection

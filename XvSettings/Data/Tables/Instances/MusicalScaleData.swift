@@ -21,19 +21,17 @@ class MusicalScaleData:CheckmarkTableData {
             forKey: XvSetConstants.kConfigMusicalScaleRootKey,
             forObject: currConfigFile) {
             
-            let rootKeyLabels:[String] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-            
             let rootKey:SliderCellData = SliderCellData(
                 key: XvSetConstants.kConfigMusicalScaleRootKey,
                 value: musicalScaleRootKeyInt,
                 valueMin: 0,
-                valueMax: Float(rootKeyLabels.count-1),
+                valueMax: Float(Labels.getMusicScaleNotes().count-1),
                 textLabel: Labels.MUSICAL_SCALE_ROOT_KEY_LABEL,
                 dataType: XvSetConstants.DATA_TYPE_INTEGER,
                 levelType: XvSetConstants.LEVEL_TYPE_CONFIG,
                 isVisible: true)
             
-            rootKey.set(substituteTextLabels: rootKeyLabels)
+            rootKey.set(substituteTextLabels: Labels.getMusicScaleNotes())
             
             rootKeySection = SectionData(
                 header: Labels.MUSICAL_SCALE_ROOT_KEY_LABEL,
@@ -93,6 +91,26 @@ class MusicalScaleData:CheckmarkTableData {
             return nil
         }
         
+        //custom scale table
+        
+        let musicalScaleCustom:DisclosureCellData = DisclosureCellData(
+            key: XvSetConstants.kConfigMusicalScaleCustom,
+            textLabel: Labels.MUSIC_SCALE_CUSTOM_LABEL,
+            isVisible: true
+        )
+        
+        let musicalScaleCustomSection:SectionData = SectionData(
+            header: Labels.MUSIC_SCALE_CUSTOM_HEADER,
+            footerType: XvSetConstants.FOOTER_TYPE_NONE,
+            footerText: nil,
+            footerLink: nil,
+            footerHeight: 40,
+            cells: [musicalScaleCustom],
+            isVisible: true
+        )
+        
+        
+        
         //append sections
         if (rootKeySection != nil){
             sections.append(rootKeySection!)
@@ -102,6 +120,9 @@ class MusicalScaleData:CheckmarkTableData {
             sections.append(musicalScaleSection!)
         }
         
+        sections.append(musicalScaleCustomSection)
+        
+       
         
     }
 }

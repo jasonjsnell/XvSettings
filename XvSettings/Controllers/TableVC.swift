@@ -919,6 +919,96 @@ public class TableVC: UITableViewController {
     //overriden by track tables
     internal func disclosureRowSelected(cell:DisclosureCell, key:String){
         
+        if (key.range(of:XvSetConstants.kTrackEntity) != nil) {
+            
+            //MARK: Track & Sample
+            let positionString:Substring = key.suffix(1)
+            if let position:Int = Int(positionString){
+                
+                loadTrackTable(position: position)
+                
+            } else {
+                
+                print("SETTINGS: Error getting trackPosition during disclosureRowSelected")
+            }
+            
+        } else if (key == XvSetConstants.kConfigMidiSync){
+            
+            //MARK: MIDI sync
+            if let currConfigFile:NSManagedObject = xvcdm.currConfigFile,
+                let linkEnabled:Bool = xvcdm.getBool(
+                    forKey: XvSetConstants.kConfigAbletonLinkEnabled, forObject: currConfigFile) {
+                
+                if (!linkEnabled){
+                    
+                    loadCheckmarkTable(fromCell:cell)
+                    
+                } else {
+                    
+                    _showMidiSyncAblError()
+                }
+                
+            } else {
+                print("SETTINGS: Error getting ABL Link vars from Core Data during disclosureRowSelected in XvSetMainTableVC")
+            }
+            
+        } else if (key == XvSetConstants.kConfigAbletonLinkEnabled){
+            
+            //MARK: ABL Link
+            //launch controller from helper since it needs to grab the VC from the ABL framework
+            
+            Utils.postNotification(
+                name: XvSetConstants.kConfigAbletonLinkViewControllerRequested,
+                userInfo: ["parentVC" : self])
+            
+            
+        } else if (key == XvSetConstants.kConfigGlobalMidiDestinations ||
+            key == XvSetConstants.kConfigGlobalMidiSources){
+            
+            //MARK: Global MIDI
+            
+            if (!xvcdm.audioBusMidiBypass){
+                
+                loadCheckmarkTable(fromCell:cell)
+                
+            } else {
+                
+                _showAudiobusMidiBypassError()
+            }
+            
+        } else if (key == XvSetConstants.kConfigMusicalScale) {
+            
+            //MARK: Musical scale
+            if let musicalScaleTableData:MusicalScaleData = MusicalScaleData() {
+                
+                loadTable(withData: musicalScaleTableData)
+                
+            } else {
+                
+                print("SETTINGS: Error when init MusicalScaleData during disclosureRowSelected")
+            }
+            
+        } else if (key == XvSetConstants.kConfigMusicalScaleCustom) {
+            
+            //MARK: Musical scale
+            if let musicalScaleCustomTableData:MusicalScaleCustomData = MusicalScaleCustomData() {
+                
+                loadTable(withData: musicalScaleCustomTableData)
+                
+            } else {
+                
+                print("SETTINGS: Error when init MusicalScaleCustomData during disclosureRowSelected")
+            }
+            
+        } else if (key == XvSetConstants.kAppSupport) {
+            
+            //MARK: Developer
+            loadTable(withData: SupportData())
+            
+        } else {
+            print("SETTINGS: Core data for", key, "not found during disclosureRowSelected")
+        }
+        
     }
     
     
@@ -1508,6 +1598,18 @@ public class TableVC: UITableViewController {
         let alert = UIAlertController(
             title: "Alert",
             message: "Internal MIDI routing cannot be used while Audiobus is active.",
+            preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    fileprivate func _showMidiSyncAblError(){
+        
+        let alert = UIAlertController(
+            title: "Alert",
+            message: "MIDI Sync cannot be used while Ableton Link is enabled.",
             preferredStyle: UIAlertControllerStyle.alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
