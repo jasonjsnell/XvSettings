@@ -155,8 +155,6 @@ open class XvCoreDataManager {
                     print("XVCDM: Fatal error: No app array exists. Check core data model for App entity")
                     return nil
                 }
-                    
-                
             }
         }
     }
@@ -533,11 +531,31 @@ open class XvCoreDataManager {
 
     //MARK: Set key value pairs
     
+    //install is for potentially first time setting of a value. It only sets the value if it's empty
+    public func setIfEmpty(value:Any, forKey:String, forObject:NSManagedObject) {
+        
+        //test to see if object is empty
+        if (_getValue(forKey: forKey, forObject: forObject) == nil){
+            
+            if (debug) { print("XVCDM: Install:", forKey, "has no value, creating now") }
+            set(value: value, forKey: forKey, forObject: forObject)
+            
+        } else {
+            //if not, print results
+            if (debug) { print("XVCDM: Install: Value", value, "already exists for key", forKey) }
+            
+        }
+    }
+    
+    //set is to set or change the value any time in the app cycle
     public func set(value:Any, forKey:String, forObject:NSManagedObject) {
         
         if (debug){
             
-            _printChange(value:value, forKey:forKey, forObject: forObject)
+            //print all by lifetime tallies (they take up a lot of room in the console)
+            if (forKey != XvSetConstants.kTrackLifetimeKeyTallies){
+                print("XVCDM: Hard set", forKey, "to", value)
+            }
         }
         
         forObject.setValue(value, forKeyPath: forKey)
@@ -723,16 +741,5 @@ open class XvCoreDataManager {
         }
         
     }
-    
-    fileprivate func _printChange(value:Any, forKey:String, forObject:NSManagedObject){
-        
-        //print all by lifetime tallies (they take up a lot of room in the console)
-        if (forKey != XvSetConstants.kTrackLifetimeKeyTallies){
-            print("XVCDM: Set", forKey, "to", value)
-        }
-        
-    }
-    
-
     
 }
