@@ -16,7 +16,7 @@ public class Cell: UITableViewCell {
     
     internal let debug:Bool = false
     
-    public init(style: UITableViewCellStyle, reuseIdentifier: String?, data:CellData){
+    public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?, data:CellData){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier)
         

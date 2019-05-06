@@ -77,7 +77,8 @@ class SupportData:TableData {
         
         sections.append(emailDeveloperSection)
         
-        
+        /*
+        //not working outside of test enviroment
         let donationButton:ButtonCellData = ButtonCellData(
             key: XvSetConstants.kAppDonation,
             textLabel: "Donate",
@@ -96,7 +97,7 @@ class SupportData:TableData {
         )
         
         sections.append(donationSection)
-        
+        */
         
        
         

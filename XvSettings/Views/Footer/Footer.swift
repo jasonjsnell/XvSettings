@@ -49,16 +49,16 @@ class Footer:UILabel {
         url = link
         
         //set styles
-        let normalStyle:[NSAttributedStringKey:Any] = [
-            NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue) : UIFont.systemFont(ofSize: TEXT_SIZE),
-            NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue) : UIColor.gray
+        let normalStyle:[NSAttributedString.Key:Any] = [
+            NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue) : UIFont.systemFont(ofSize: TEXT_SIZE),
+            NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue) : UIColor.gray
         ]
 
         
-        let underlinedStyle:[NSAttributedStringKey:Any] = [
-            NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue) : UIFont.systemFont(ofSize: TEXT_SIZE),
-            NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue) : UIColor.gray,
-            NSAttributedStringKey(rawValue: NSAttributedStringKey.underlineStyle.rawValue) : 1
+        let underlinedStyle:[NSAttributedString.Key:Any] = [
+            NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue) : UIFont.systemFont(ofSize: TEXT_SIZE),
+            NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue) : UIColor.gray,
+            NSAttributedString.Key(rawValue: NSAttributedString.Key.underlineStyle.rawValue) : 1
         ]
         
         //construct strings
@@ -92,7 +92,7 @@ class Footer:UILabel {
             bottom: 0,
             right: RIGHT_MARGIN)
         
-        super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
+        super.drawText(in: rect.inset(by: insets))
         
     }
     

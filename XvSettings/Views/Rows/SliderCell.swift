@@ -16,7 +16,7 @@ public class SliderCell: Cell {
     internal var baseText:String = ""
     
     init(
-        style: UITableViewCellStyle,
+        style: UITableViewCell.CellStyle,
         reuseIdentifier: String?,
         data:SliderCellData){
         

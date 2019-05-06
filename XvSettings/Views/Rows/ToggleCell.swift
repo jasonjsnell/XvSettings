@@ -15,7 +15,7 @@ class ToggleCell: Cell {
     //create switch, accessible to tableview so listener can be added to detect value changes
     internal let toggleSwitch:UISwitch = UISwitch()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?, data:CellData){
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?, data:CellData){
         
         super.init(style:style, reuseIdentifier:reuseIdentifier, data:data)
         

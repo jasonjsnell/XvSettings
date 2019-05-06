@@ -40,7 +40,7 @@ open class XvCoreDataManager {
         set { _midiSourceNames = newValue }
     }
     
-    fileprivate let debug:Bool = true
+    fileprivate let debug:Bool = false
     
     
     //MARK: - INIT - 

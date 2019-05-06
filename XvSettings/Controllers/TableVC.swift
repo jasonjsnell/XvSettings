@@ -126,7 +126,7 @@ public class TableVC: UITableViewController {
             if (sectionData.isVisible && cellData.isVisible) {
                 
                 //return default
-                return UITableViewAutomaticDimension
+                return UITableView.automaticDimension
                 
             } else {
                 
@@ -171,7 +171,7 @@ public class TableVC: UITableViewController {
                 toggleCell.toggleSwitch.addTarget(
                     self,
                     action: #selector(toggleSwitchChanged),
-                    for: UIControlEvents.valueChanged)
+                    for: UIControl.Event.valueChanged)
                 
                 setVisibility(cell: toggleCell, cellData: cellDataObj)
                 
@@ -196,12 +196,12 @@ public class TableVC: UITableViewController {
                     sliderCell.slider.addTarget(
                         self,
                         action: #selector(sliderChanged),
-                        for: UIControlEvents.valueChanged)
+                        for: UIControl.Event.valueChanged)
                     
                     sliderCell.slider.addTarget(
                         self,
                         action: #selector(sliderEnded),
-                        for: UIControlEvents.touchUpInside)
+                        for: UIControl.Event.touchUpInside)
                     
                     setVisibility(cell: sliderCell, cellData: cellDataObj)
                     
@@ -299,7 +299,7 @@ public class TableVC: UITableViewController {
             if (dataSource!.sections[section].isVisible){
                 
                 //return default
-                return UITableViewAutomaticDimension
+                return UITableView.automaticDimension
                 
             } else {
                 
@@ -552,9 +552,9 @@ public class TableVC: UITableViewController {
             let alert = UIAlertController(
                 title: "Reset",
                 message: "Are you sure you want to reset the AI memory?",
-                preferredStyle: UIAlertControllerStyle.alert)
+                preferredStyle: UIAlertController.Style.alert)
             
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                 UIAlertAction in
                 
                 Utils.postNotification(
@@ -562,7 +562,7 @@ public class TableVC: UITableViewController {
                     userInfo: nil)
                 
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) {
                 UIAlertAction in
                 //
             }
@@ -577,9 +577,9 @@ public class TableVC: UITableViewController {
             let alert = UIAlertController(
                 title: "Restore",
                 message: "Are you sure you want to restore the tracks to their factory settings?",
-                preferredStyle: UIAlertControllerStyle.alert)
+                preferredStyle: UIAlertController.Style.alert)
             
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                 UIAlertAction in
                 
                 Utils.postNotification(
@@ -599,7 +599,7 @@ public class TableVC: UITableViewController {
                 }
             }
             
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) {
                 UIAlertAction in
                 //
             }
@@ -1024,7 +1024,7 @@ public class TableVC: UITableViewController {
             
             let url = URL(string: footer.url)!
             if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
             } else {
                 UIApplication.shared.openURL(url)
             }
@@ -1598,9 +1598,9 @@ public class TableVC: UITableViewController {
         let alert = UIAlertController(
             title: "Alert",
             message: "Internal MIDI routing cannot be used while Audiobus is active.",
-            preferredStyle: UIAlertControllerStyle.alert)
+            preferredStyle: UIAlertController.Style.alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
         
     }
@@ -1610,9 +1610,9 @@ public class TableVC: UITableViewController {
         let alert = UIAlertController(
             title: "Alert",
             message: "MIDI Sync cannot be used while Ableton Link is enabled.",
-            preferredStyle: UIAlertControllerStyle.alert)
+            preferredStyle: UIAlertController.Style.alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
         
     }
@@ -1622,4 +1622,9 @@ public class TableVC: UITableViewController {
         sectionFooterViews = nil
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

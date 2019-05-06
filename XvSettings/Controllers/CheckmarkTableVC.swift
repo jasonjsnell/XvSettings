@@ -161,7 +161,7 @@ public class CheckmarkTableVC:TableVC {
                 
                 // set up the refresh control
                 let refreshControl:UIRefreshControl = UIRefreshControl()
-                refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControlEvents.valueChanged)
+                refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
                 tableView.addSubview(refreshControl)
             }
         }

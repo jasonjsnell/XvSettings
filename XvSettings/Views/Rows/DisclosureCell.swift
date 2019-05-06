@@ -11,7 +11,7 @@ import UIKit
 class DisclosureCell: Cell {
     
     init(
-        style: UITableViewCellStyle,
+        style: UITableViewCell.CellStyle,
         reuseIdentifier: String?,
         data:DisclosureCellData
     ){

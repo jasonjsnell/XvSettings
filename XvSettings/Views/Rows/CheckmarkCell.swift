@@ -11,7 +11,7 @@ import UIKit
 public class CheckmarkCell: Cell {
     
     init(
-        style: UITableViewCellStyle,
+        style: UITableViewCell.CellStyle,
         reuseIdentifier: String?,
         data:CheckmarkCellData
     ){
